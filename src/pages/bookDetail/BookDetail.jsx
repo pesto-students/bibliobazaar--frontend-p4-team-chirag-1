@@ -1,10 +1,18 @@
-import { Grid, Stack } from "@mui/material";
-import { PrimaryText, Wrapper } from "../../shared/styles/globalStyles";
+import { Box, CardHeader, Grid, Stack, Typography } from "@mui/material";
+import {
+  PrimaryButton,
+  PrimaryText,
+  Wrapper,
+} from "../../shared/styles/globalStyles";
 import {
   Author,
+  BuyContainer,
   Description,
   DescriptionPaper,
+  Heading,
+  HeadingDiv,
   Isbn,
+  SubText,
   Title,
 } from "./BookDetail.styles";
 import ImageCard from "./components/ImageCard";
@@ -37,8 +45,31 @@ const BookDetail = () => {
             </Stack>
           </DescriptionPaper>
         </Grid>
-        <Grid item xs={12} sm={4}>
-          Buy
+        <Grid item sm={12} md={4}>
+          <BuyContainer>
+            <Stack
+              direction={"column"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              spacing={4}
+            >
+              <HeadingDiv>
+                <Heading>Buy</Heading>
+              </HeadingDiv>
+              <Stack
+                direction={"row"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                spacing={2}
+                width={"100%"}
+                px={4}
+              >
+                <SubText>Rent Price</SubText>
+                <SubText>Rs. 100</SubText>
+              </Stack>
+              <PrimaryButton>Add to Cart</PrimaryButton>
+            </Stack>
+          </BuyContainer>
         </Grid>
       </Grid>
     </Wrapper>
