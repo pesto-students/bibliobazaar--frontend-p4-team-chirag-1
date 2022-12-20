@@ -35,8 +35,8 @@ const Landing = () => {
               Worry not! because BiblioBazaar is here!
             </SubTitle>
             <ActionItems>
-              <OutlineButton onClick={() => dispatch(setSignupOpen({}))}>Sign Up</OutlineButton>
-              <PrimaryButton onClick={() => dispatch(setLoginOpen({}))}>Login</PrimaryButton>
+              <OutlineButton onClick={() => dispatch(setSignupOpen())}>Sign Up</OutlineButton>
+              <PrimaryButton onClick={() => dispatch(setLoginOpen())}>Login</PrimaryButton>
             </ActionItems>
           </TextContainer>
         </Grid>
@@ -44,8 +44,8 @@ const Landing = () => {
           <img src={LandingImage} alt="" width={450} height={450} />
         </Grid>
       </Grid>
-      <LoginModal open={loginOpen} onClose={useDispatch(setLoginClose())}/>
-      <SignUpModal open={signupOpen} onClose={ useDispatch(setSignuClose())}/>
+      <LoginModal open={loginOpen} onClose={() => dispatch(setLoginClose())}/>
+      <SignUpModal open={signupOpen} onClose={() => dispatch(setSignuClose())}/>
     </LandingContainer>
   );
 };

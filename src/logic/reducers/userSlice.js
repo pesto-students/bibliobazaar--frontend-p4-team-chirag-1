@@ -37,7 +37,7 @@ export const userSlice = createSlice({
     setLoginClose: (state) => {
       return {
         ...state,
-        loginOpen: true
+        loginOpen: false
       }
     },
     setSignupOpen: (state) => {
@@ -49,7 +49,7 @@ export const userSlice = createSlice({
     setSignuClose: (state) => {
       return {
         ...state,
-        signupOpen: true
+        signupOpen: false
       }
     }
   }
