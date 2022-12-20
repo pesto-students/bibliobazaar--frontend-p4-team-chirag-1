@@ -10,6 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { setLoginOpen,setSignupClose } from '../../../logic/reducers/userSlice';
 import { useDispatch } from 'react-redux';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 const style = {
   position: 'absolute',
@@ -23,9 +25,39 @@ const style = {
   borderRadius:'20px'
 };
 
+const validationSchema = yup.object({
+  fname: yup
+  .string('Enter your first name')
+  .required('First Name is required'),
+  email: yup
+    .string('Enter your email')
+    .email('Enter a valid email')
+    .required('Email is required'),
+  password: yup
+    .string('Enter your password')
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+    confirmpassword: yup
+    .string('Re-enter your password')
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+});
+
 export default function SignUpModal(props) {
   const dispatch = useDispatch()
-
+  
+  const formik = useFormik({
+    initialValues: {
+      fname:'',
+      email: '',
+      password: '',
+      confirmpassword:'',
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
   return (
     <div>
       <Modal
@@ -52,37 +84,47 @@ export default function SignUpModal(props) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           Please enter your details
           </Typography>
+          <form onSubmit={formik.handleSubmit}>
           <Typography  id="modal-modal-description" sx={{ mt: 2 }}>
             First Name<DangerText>*</DangerText>
           </Typography>
-          <TxtFld id="outlined-basic" variant="outlined"  />
+          <TxtFld id="fname" variant="outlined"  onChange={formik.handleChange}
+          error={formik.touched.fname && Boolean(formik.errors.fname)}
+          helperText={formik.touched.fname && formik.errors.fname} />
           <Typography  id="modal-modal-description" sx={{ mt: 2 }}>
             Last Name
           </Typography>
           <TxtFld id="outlined-basic" variant="outlined"  />
-          <Typography  id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography  id="modal-modal-description" sx={{ mt: 2 }} >
             Email<DangerText>*</DangerText>
           </Typography>
-          <TxtFld id="outlined-basic" variant="outlined"  />
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <TxtFld id="email" variant="outlined"  onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email} />
+          <Typography  sx={{ mt: 2 }}>
             Password<DangerText>*</DangerText>
           </Typography>
           <TxtFld
-          id="outlined-password-input"
+          id="password"
           type="password"
           autoComplete="current-password"
+          onChange={formik.handleChange}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
           />
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Confirm Password<DangerText>*</DangerText>
           </Typography>
           <TxtFld
-          id="outlined-password-input"
+          id="confirmpassword"
           type="password"
           autoComplete="current-password"
+          onChange={formik.handleChange}
+          error={formik.touched.confirmpassword  && Boolean(formik.errors.confirmpassword)}
+          helperText={formik.touched.confirmpassword && formik.errors.confirmpassword}
           />
-          <ActionItems>
-                <PrimaryButton2>Sign Up</PrimaryButton2>
-           </ActionItems>
+             <PrimaryButton2 type="submit">Sign Up</PrimaryButton2>
+           </form>
            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
            Already have an account? <PrimaryText onClick={() => {
             dispatch(setSignupClose())

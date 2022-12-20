@@ -3,16 +3,12 @@ import Box from '@mui/material/Box';
 import { PrimaryButton2,TxtFld,PrimaryText,DangerText } from "../../../shared/styles/globalStyles";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import {
-    ActionItems
-  } from "../../../pages/landing/Landing.styles";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { setLoginClose, setSignupOpen } from '../../../logic/reducers/userSlice';
 import { useDispatch } from 'react-redux';
-import { Form } from 'react-router-dom';
 
 const style = {
   position: 'absolute',
@@ -77,7 +73,7 @@ export default function LoginModal(props) {
           <Typography  id="modal-modal-description" sx={{ mt: 2 }}>
             Email<DangerText>*</DangerText>
           </Typography>
-          <TxtFld id="email" name="email" variant="outlined"   onChange={formik.handleChange}
+          <TxtFld id="email" variant="outlined"   onChange={formik.handleChange}
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email} />
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
@@ -86,7 +82,6 @@ export default function LoginModal(props) {
           <TxtFld
           id="password"
           type="password"
-          name="password"
           autoComplete="current-password"
           onChange={formik.handleChange}
           error={formik.touched.password && Boolean(formik.errors.password)}
