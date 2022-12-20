@@ -10,6 +10,7 @@ import Profile from "./pages/profile/Profile";
 import { theme } from "./shared/styles/theme";
 import Home from "./pages/home/Home";
 import BookDetail from "./pages/bookDetail/BookDetail";
+import Checkout from "./pages/checkout/Checkout";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<Home />} />
             <Route path="/bookDetail" element={<BookDetail />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
         </Container>
         <Footer />

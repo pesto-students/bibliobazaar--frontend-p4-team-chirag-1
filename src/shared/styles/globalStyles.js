@@ -1,10 +1,16 @@
-import { Modal, styled, TextField } from '@mui/material';
+import { Modal, styled, TextField, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 
 // Container
 export const Wrapper = styled('div')(() => ({
   padding: '32px'
 }))
+
+// Page Title
+export const PageTitle = styled(Typography)((({ theme }) => ({
+  fontSize: theme?.fontSize?.lg,
+  fontWeight: theme?.fontWeight?.xl,
+})))
 
 // Shared Button Styles
 const ButtonStyles = styled(Button)((({ theme }) => ({
@@ -37,13 +43,13 @@ export const PrimaryText = styled('span')((({ theme }) => ({
 })))
 
 export const PrimaryButton2 = styled(PrimaryButton)((({ theme }) => ({
-   marginTop:'20px',
-   width:'100%'
-  
+  marginTop: '20px',
+  width: '100%'
+
 })))
 
 export const TxtFld = styled(TextField)((({ theme }) => ({
-  width:'100%',
+  width: '100%',
   input: {
     height: '1em'
   }
