@@ -54,3 +54,7 @@ export const TxtFld = styled(TextField)((({ theme }) => ({
     height: '1em'
   }
 })))
+
+export const BoldText = styled('span')((({ theme }) => ({
+  fontWeight: 'bold',
+})))

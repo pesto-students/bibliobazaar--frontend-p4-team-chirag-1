@@ -11,3 +11,25 @@ export const CustomTitle = styled(Typography)((({ theme }) => ({
   fontWeight: theme?.fontWeight?.xl,
   fontSize: theme?.fontSize?.md
 })))
+
+export const CustomSubPaper = styled(Paper)((({ theme }) => ({
+  margin: '16px 32px',
+  borderRadius: '10px',
+  padding: '16px 96px',
+})))
+
+export const TextItem = styled(Typography)((({ theme }) => ({
+  
+})))
+
+export const DeliveryAddressWrapper = styled('div')((({ theme }) => ({
+  padding: '16px 8px',
+})))
+
+export const OrderSummaryWrapper = styled('div')((({ theme }) => ({
+  padding: '16px 32px',
+})))
+
+export const TextContent = styled(Typography)((({ theme }) => ({
+  flexGrow: 1
+})))
