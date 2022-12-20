@@ -9,19 +9,13 @@ import {
 } from "./Landing.styles";
 import LandingImage from "../../../src/assets/images/landingImage.svg";
 import { OutlineButton, PrimaryButton } from "../../shared/styles/globalStyles";
-import LoginModal from "../../shared/components/login/login"
-import SignUpModal from "../../shared/components/signup/signup"
-import { useDispatch, useSelector } from "react-redux";
-import { setLoginClose, setLoginOpen, setSignuClose, setSignupOpen } from "../../logic/reducers/userSlice";
+import { useDispatch } from "react-redux";
+import { setLoginOpen, setSignupOpen } from "../../logic/reducers/userSlice";
 
 
 
 const Landing = () => {
-  const {
-    user: { loginOpen, signupOpen }
-  } = useSelector((state) => state);
   const dispatch = useDispatch()
-
   return (
     <LandingContainer>
       <Grid container>
@@ -44,8 +38,6 @@ const Landing = () => {
           <img src={LandingImage} alt="" width={450} height={450} />
         </Grid>
       </Grid>
-      <LoginModal open={loginOpen} onClose={() => dispatch(setLoginClose())}/>
-      <SignUpModal open={signupOpen} onClose={() => dispatch(setSignuClose())}/>
     </LandingContainer>
   );
 };

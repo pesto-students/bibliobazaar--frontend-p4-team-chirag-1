@@ -46,7 +46,7 @@ export const userSlice = createSlice({
         signupOpen: true
       }
     },
-    setSignuClose: (state) => {
+    setSignupClose: (state) => {
       return {
         ...state,
         signupOpen: false
@@ -55,6 +55,6 @@ export const userSlice = createSlice({
   }
 })
 
-export const { login, logout,setLoginOpen ,setLoginClose,setSignupOpen,setSignuClose} = userSlice.actions
+export const { login, logout,setLoginOpen ,setLoginClose,setSignupOpen,setSignupClose} = userSlice.actions
 
 export default userSlice.reducer

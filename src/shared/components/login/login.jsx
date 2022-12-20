@@ -8,7 +8,11 @@ import {
   } from "../../../pages/landing/Landing.styles";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { Link } from '@mui/material';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { setLoginClose, setSignupOpen } from '../../../logic/reducers/userSlice';
+import { useDispatch } from 'react-redux';
+import { Form } from 'react-router-dom';
 
 const style = {
   position: 'absolute',
@@ -22,9 +26,28 @@ const style = {
   borderRadius:'20px'
 };
 
+const validationSchema = yup.object({
+  email: yup
+    .string('Enter your email')
+    .email('Enter a valid email')
+    .required('Email is required'),
+  password: yup
+    .string('Enter your password')
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+});
 export default function LoginModal(props) {
-  
-
+  const dispatch = useDispatch()
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
   return (
       <Modal
         open = {props.open}
@@ -50,23 +73,33 @@ export default function LoginModal(props) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Welcome back! Please enter your details
           </Typography>
+          <form onSubmit={formik.handleSubmit}>
           <Typography  id="modal-modal-description" sx={{ mt: 2 }}>
             Email<DangerText>*</DangerText>
           </Typography>
-          <TxtFld id="outlined-basic" variant="outlined"  />
+          <TxtFld id="email" name="email" variant="outlined"   onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email} />
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Password<DangerText>*</DangerText>
           </Typography>
           <TxtFld
-          id="outlined-password-input"
+          id="password"
           type="password"
+          name="password"
           autoComplete="current-password"
+          onChange={formik.handleChange}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
           />
-          <ActionItems>
-                <PrimaryButton2>Log In</PrimaryButton2>
-           </ActionItems>
+         
+                <PrimaryButton2 type="submit">Log In</PrimaryButton2>
+          </form>
            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Don't have a account? <Link><PrimaryText>Sign Up</PrimaryText></Link> 
+            Don't have a account? <PrimaryText onClick={() => {
+            dispatch(setLoginClose())
+            dispatch(setSignupOpen())
+           }} sx={{textDecoration: 'underline'}} >Sign Up</PrimaryText>
           </Typography>
         </Box>
       </Modal>

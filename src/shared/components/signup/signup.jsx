@@ -8,7 +8,8 @@ import {
   } from "../../../pages/landing/Landing.styles";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { Link } from '@mui/material';
+import { setLoginOpen,setSignupClose } from '../../../logic/reducers/userSlice';
+import { useDispatch } from 'react-redux';
 
 const style = {
   position: 'absolute',
@@ -23,7 +24,7 @@ const style = {
 };
 
 export default function SignUpModal(props) {
-  
+  const dispatch = useDispatch()
 
   return (
     <div>
@@ -83,7 +84,10 @@ export default function SignUpModal(props) {
                 <PrimaryButton2>Sign Up</PrimaryButton2>
            </ActionItems>
            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-           Already have an account? <Link><PrimaryText>Log In</PrimaryText></Link>
+           Already have an account? <PrimaryText onClick={() => {
+            dispatch(setSignupClose())
+            dispatch(setLoginOpen())
+           }} sx={{textDecoration: 'underline'}} >Log In</PrimaryText>
           </Typography>
         </Box>
       </Modal>

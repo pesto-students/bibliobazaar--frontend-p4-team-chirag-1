@@ -10,7 +10,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "@mui/material";
 
 import {
@@ -25,6 +25,7 @@ import {
 } from "./Header.styles";
 import { profileTabs } from "./data";
 import Logo from "../logo/Logo";
+import { setLoginOpen, setSignupOpen } from "../../../logic/reducers/userSlice";
 
 const Header = () => {
   const theme = useTheme();
@@ -32,7 +33,7 @@ const Header = () => {
     user: { isLoggedIn },
   } = useSelector((state) => state);
 
-
+  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -140,10 +141,10 @@ const Header = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <AuthButton>Login</AuthButton>
+        <AuthButton onClick={() => dispatch(setLoginOpen())}>Login</AuthButton>
       </MenuItem>
       <MenuItem>
-        <AuthButton>Sign Up</AuthButton>
+        <AuthButton onClick={() => dispatch(setSignupOpen())}>Sign Up</AuthButton>
       </MenuItem>
     </Menu>
   );
