@@ -11,7 +11,8 @@ export const theme = createTheme({
     white: '#FFFFFF',
     black: '#000000',
     logo: '#9A98F0',
-    grey: '#F7F7F7'
+    grey: '#F7F7F7',
+    danger:'#CC0000'
   },
   fontSize: {
     xxl: '36px',

@@ -36,6 +36,10 @@ export const PrimaryText = styled('span')((({ theme }) => ({
   color: theme?.primary?.main
 })))
 
+export const DangerText = styled('span')((({ theme }) => ({
+  color: theme?.palette?.danger
+})))
+
 export const PrimaryButton2 = styled(PrimaryButton)((({ theme }) => ({
    marginTop:'20px',
    width:'100%'

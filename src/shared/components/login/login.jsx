@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { PrimaryButton2,TxtFld } from "../../../shared/styles/globalStyles";
+import { PrimaryButton2,TxtFld,PrimaryText,DangerText } from "../../../shared/styles/globalStyles";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import {
@@ -8,6 +8,7 @@ import {
   } from "../../../pages/landing/Landing.styles";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { Link } from '@mui/material';
 
 const style = {
   position: 'absolute',
@@ -25,7 +26,6 @@ export default function LoginModal(props) {
   
 
   return (
-    <div>
       <Modal
         open = {props.open}
         aria-labelledby="modal-modal-title"
@@ -51,11 +51,11 @@ export default function LoginModal(props) {
             Welcome back! Please enter your details
           </Typography>
           <Typography  id="modal-modal-description" sx={{ mt: 2 }}>
-            Email*
+            Email<DangerText>*</DangerText>
           </Typography>
           <TxtFld id="outlined-basic" variant="outlined"  />
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Password*
+            Password<DangerText>*</DangerText>
           </Typography>
           <TxtFld
           id="outlined-password-input"
@@ -66,10 +66,9 @@ export default function LoginModal(props) {
                 <PrimaryButton2>Log In</PrimaryButton2>
            </ActionItems>
            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Don't have a account? Sign Up
+            Don't have a account? <Link><PrimaryText>Sign Up</PrimaryText></Link> 
           </Typography>
         </Box>
       </Modal>
-    </div>
   );
 }

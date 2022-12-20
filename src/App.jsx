@@ -11,6 +11,7 @@ import { theme } from "./shared/styles/theme";
 import Home from "./pages/home/Home";
 import BookDetail from "./pages/bookDetail/BookDetail";
 
+
 const App = () => {
   return (
     <BrowserRouter>

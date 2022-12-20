@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { PrimaryButton2,TxtFld } from "../../../shared/styles/globalStyles";
+import { PrimaryButton2,TxtFld,PrimaryText,DangerText } from "../../../shared/styles/globalStyles";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import {
@@ -8,6 +8,7 @@ import {
   } from "../../../pages/landing/Landing.styles";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { Link } from '@mui/material';
 
 const style = {
   position: 'absolute',
@@ -51,7 +52,7 @@ export default function SignUpModal(props) {
           Please enter your details
           </Typography>
           <Typography  id="modal-modal-description" sx={{ mt: 2 }}>
-            First Name*
+            First Name<DangerText>*</DangerText>
           </Typography>
           <TxtFld id="outlined-basic" variant="outlined"  />
           <Typography  id="modal-modal-description" sx={{ mt: 2 }}>
@@ -59,11 +60,11 @@ export default function SignUpModal(props) {
           </Typography>
           <TxtFld id="outlined-basic" variant="outlined"  />
           <Typography  id="modal-modal-description" sx={{ mt: 2 }}>
-            Email*
+            Email<DangerText>*</DangerText>
           </Typography>
           <TxtFld id="outlined-basic" variant="outlined"  />
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Password*
+            Password<DangerText>*</DangerText>
           </Typography>
           <TxtFld
           id="outlined-password-input"
@@ -71,7 +72,7 @@ export default function SignUpModal(props) {
           autoComplete="current-password"
           />
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Confirm Password*
+            Confirm Password<DangerText>*</DangerText>
           </Typography>
           <TxtFld
           id="outlined-password-input"
@@ -79,10 +80,10 @@ export default function SignUpModal(props) {
           autoComplete="current-password"
           />
           <ActionItems>
-                <PrimaryButton2>Log In</PrimaryButton2>
+                <PrimaryButton2>Sign Up</PrimaryButton2>
            </ActionItems>
            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-           Already have an account? Log In
+           Already have an account? <Link><PrimaryText>Log In</PrimaryText></Link>
           </Typography>
         </Box>
       </Modal>

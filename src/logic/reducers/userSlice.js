@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  isLoggedIn: true,
+  isLoggedIn: false,
   userId: '',
-  userName: ''
+  userName: '',
+  loginOpen: false,
+  signupOpen: false
 }
 
 export const userSlice = createSlice({
@@ -25,10 +27,34 @@ export const userSlice = createSlice({
         userId: '',
         userName: ''
       }
+    },
+    setLoginOpen: (state) => {
+      return {
+        ...state,
+        loginOpen: true
+      }
+    },
+    setLoginClose: (state) => {
+      return {
+        ...state,
+        loginOpen: true
+      }
+    },
+    setSignupOpen: (state) => {
+      return {
+        ...state,
+        signupOpen: true
+      }
+    },
+    setSignuClose: (state) => {
+      return {
+        ...state,
+        signupOpen: true
+      }
     }
   }
 })
 
-export const { login, logout } = userSlice.actions
+export const { login, logout,setLoginOpen ,setLoginClose,setSignupOpen,setSignuClose} = userSlice.actions
 
 export default userSlice.reducer
