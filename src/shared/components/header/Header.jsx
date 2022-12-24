@@ -141,7 +141,7 @@ const Header = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <AuthButton onClick={() => dispatch(setLoginOpen())}>Login</AuthButton>
+        <AuthButton onClick={() => console.log("a")}>Login</AuthButton>
       </MenuItem>
       <MenuItem>
         <AuthButton onClick={() => dispatch(setSignupOpen())}>Sign Up</AuthButton>

@@ -48,6 +48,8 @@ export const PrimaryButton2 = styled(PrimaryButton)((({ theme }) => ({
 
 export const TxtFld = styled(TextField)((({ theme }) => ({
   width:'100%',
+  marginTop:'20px',
+   width:'100%',
   input: {
     height: '1em'
   }

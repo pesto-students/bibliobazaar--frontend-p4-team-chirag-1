@@ -40,8 +40,10 @@ export default function LoginModal(props) {
       password: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values,{ resetForm }) => {
       alert(JSON.stringify(values, null, 2));
+      dispatch(setLoginClose());
+      resetForm();
     },
   });
   return (
@@ -54,46 +56,48 @@ export default function LoginModal(props) {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Log In
             <IconButton
-          aria-label="close"
-          onClick={props.onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
+            aria-label="close"
+            onClick={() => {props.onClose();formik.resetForm()}}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+            >
+              <CloseIcon />
+            </IconButton>
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Welcome back! Please enter your details
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-          <Typography  id="modal-modal-description" sx={{ mt: 2 }}>
-            Email<DangerText>*</DangerText>
-          </Typography>
-          <TxtFld id="email" variant="outlined"   onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email} />
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Password<DangerText>*</DangerText>
-          </Typography>
-          <TxtFld
-          id="password"
-          type="password"
-          autoComplete="current-password"
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-          />
-         
-                <PrimaryButton2 type="submit">Log In</PrimaryButton2>
+              <TxtFld 
+              id="email"
+              label="Email" 
+              variant="outlined"
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email} />
+              <TxtFld
+              id="password"
+              type="password"
+              label="Password"
+              autoComplete="current-password"
+              onChange={formik.handleChange}
+               error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}/>
+              <PrimaryButton2 
+              // disabled={!formik.hasChanged || formik.hasErrors || formik.isSubmitting}
+              type="submit">
+                Log In
+              </PrimaryButton2>
           </form>
-           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Don't have a account? <PrimaryText onClick={() => {
-            dispatch(setLoginClose())
-            dispatch(setSignupOpen())
+            dispatch(setLoginClose());
+            dispatch(setSignupOpen());
+            formik.resetForm();
            }} sx={{textDecoration: 'underline'}} >Sign Up</PrimaryText>
           </Typography>
         </Box>

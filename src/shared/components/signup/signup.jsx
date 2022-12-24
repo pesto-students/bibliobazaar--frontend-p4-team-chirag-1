@@ -49,13 +49,16 @@ export default function SignUpModal(props) {
   const formik = useFormik({
     initialValues: {
       fname:'',
+      lname:'',
       email: '',
       password: '',
       confirmpassword:'',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values,{ resetForm }) => {
       alert(JSON.stringify(values, null, 2));
+      dispatch(setSignupClose());
+      resetForm();
     },
   });
   return (
@@ -85,39 +88,26 @@ export default function SignUpModal(props) {
           Please enter your details
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-          <Typography  id="modal-modal-description" sx={{ mt: 2 }}>
-            First Name<DangerText>*</DangerText>
-          </Typography>
-          <TxtFld id="fname" variant="outlined"  onChange={formik.handleChange}
+         <TxtFld id="fname" variant="outlined"  label="First Name" onChange={formik.handleChange}
           error={formik.touched.fname && Boolean(formik.errors.fname)}
           helperText={formik.touched.fname && formik.errors.fname} />
-          <Typography  id="modal-modal-description" sx={{ mt: 2 }}>
-            Last Name
-          </Typography>
-          <TxtFld id="outlined-basic" variant="outlined"  />
-          <Typography  id="modal-modal-description" sx={{ mt: 2 }} >
-            Email<DangerText>*</DangerText>
-          </Typography>
-          <TxtFld id="email" variant="outlined"  onChange={formik.handleChange}
+          <TxtFld id="lname" label="Last Name (optional)" variant="outlined"  />
+          <TxtFld id="email" variant="outlined" label="Email"  onChange={formik.handleChange}
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email} />
-          <Typography  sx={{ mt: 2 }}>
-            Password<DangerText>*</DangerText>
-          </Typography>
           <TxtFld
           id="password"
           type="password"
+          label="Password"
           autoComplete="current-password"
           onChange={formik.handleChange}
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
           />
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Confirm Password<DangerText>*</DangerText>
-          </Typography>
           <TxtFld
           id="confirmpassword"
           type="password"
+          label="Confirm Password"
           autoComplete="current-password"
           onChange={formik.handleChange}
           error={formik.touched.confirmpassword  && Boolean(formik.errors.confirmpassword)}
@@ -129,6 +119,7 @@ export default function SignUpModal(props) {
            Already have an account? <PrimaryText onClick={() => {
             dispatch(setSignupClose())
             dispatch(setLoginOpen())
+            formik.resetForm();
            }} sx={{textDecoration: 'underline'}} >Log In</PrimaryText>
           </Typography>
         </Box>
