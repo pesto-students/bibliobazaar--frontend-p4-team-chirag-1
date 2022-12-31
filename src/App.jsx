@@ -24,6 +24,7 @@ const App = () => {
             <Route path="/dashboard" element={<Home />} />
             <Route path="/bookDetail" element={<BookDetail />} />
             <Route path="/checkout" element={<Checkout />} />
+            {/* Wild Card Route */}
           </Routes>
         </Container>
         <Footer />

@@ -30,7 +30,7 @@ const Landing = () => {
               expensive?
             </Title>
             <SubTitle variant="h6">
-              Worry not! because BiblioBazaar is here!
+              Worry not! BiblioBazaar is here!
             </SubTitle>
             <ActionItems>
               <OutlineButton onClick={handleSignupOpen}>Sign Up</OutlineButton>
