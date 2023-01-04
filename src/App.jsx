@@ -10,8 +10,18 @@ import Profile from "./pages/profile/Profile";
 import { theme } from "./shared/styles/theme";
 import Home from "./pages/home/Home";
 import BookDetail from "./pages/bookDetail/BookDetail";
+import { useDispatch, useSelector } from "react-redux";
+import LoginModal from "./shared/components/login/login"
+import SignUpModal from "./shared/components/signup/signup"
+import { setLoginClose, setSignupClose } from "./logic/reducers/userSlice";
+
+
 
 const App = () => {
+  const {
+    user: { loginOpen, signupOpen }
+  } = useSelector((state) => state);
+  const dispatch = useDispatch();
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
@@ -25,6 +35,8 @@ const App = () => {
           </Routes>
         </Container>
         <Footer />
+        <LoginModal open={loginOpen} onClose={() => dispatch(setLoginClose())}/>
+        <SignUpModal open={signupOpen} onClose={() => dispatch(setSignupClose())}/>
       </ThemeProvider>
     </BrowserRouter>
   );

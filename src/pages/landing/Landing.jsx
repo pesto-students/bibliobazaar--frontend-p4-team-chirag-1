@@ -9,17 +9,13 @@ import {
 } from "./Landing.styles";
 import LandingImage from "../../../src/assets/images/landingImage.svg";
 import { OutlineButton, PrimaryButton } from "../../shared/styles/globalStyles";
-import LoginModal from "../../shared/components/login/login"
-import SignUpModal from "../../shared/components/signup/signup"
+import { useDispatch } from "react-redux";
+import { setLoginOpen, setSignupOpen } from "../../logic/reducers/userSlice";
+
+
 
 const Landing = () => {
-  const [LoginOpen, setLoginOpen] = React.useState(false);
-  const [SignupOpen, setSignupOpen] = React.useState(false);
-  const handleLoginOpen = () => setLoginOpen(true);
-  const handleLoginClose = () => setLoginOpen(false);
-  const handleSignupOpen = () => setSignupOpen(true);
-  const handleSignupClose = () => setSignupOpen(false);
-
+  const dispatch = useDispatch()
   return (
     <LandingContainer>
       <Grid container>
@@ -33,8 +29,8 @@ const Landing = () => {
               Worry not! because BiblioBazaar is here!
             </SubTitle>
             <ActionItems>
-              <OutlineButton onClick={handleSignupOpen}>Sign Up</OutlineButton>
-              <PrimaryButton onClick={handleLoginOpen}>Login</PrimaryButton>
+              <OutlineButton onClick={() => dispatch(setSignupOpen())}>Sign Up</OutlineButton>
+              <PrimaryButton onClick={() => dispatch(setLoginOpen())}>Login</PrimaryButton>
             </ActionItems>
           </TextContainer>
         </Grid>
@@ -42,8 +38,6 @@ const Landing = () => {
           <img src={LandingImage} alt="" width={450} height={450} />
         </Grid>
       </Grid>
-      <LoginModal open={LoginOpen} onClose={handleLoginClose}/>
-      <SignUpModal open={SignupOpen} onClose={handleSignupClose}/>
     </LandingContainer>
   );
 };
