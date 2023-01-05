@@ -4,12 +4,9 @@ const initialState = {
   isLoggedIn: false,
   userId: '',
   userName: '',
-<<<<<<< HEAD
-  token: ''
-=======
+  token: '',
   loginOpen: false,
   signupOpen: false
->>>>>>> 50ce55fe1569d25c6a8669635e6896b8935182a2
 }
 
 export const userSlice = createSlice({
