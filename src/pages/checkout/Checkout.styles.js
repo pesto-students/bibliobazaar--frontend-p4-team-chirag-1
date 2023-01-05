@@ -19,7 +19,7 @@ export const CustomSubPaper = styled(Paper)((({ theme }) => ({
 })))
 
 export const TextItem = styled(Typography)((({ theme }) => ({
-  
+
 })))
 
 export const DeliveryAddressWrapper = styled('div')((({ theme }) => ({
@@ -31,5 +31,21 @@ export const OrderSummaryWrapper = styled('div')((({ theme }) => ({
 })))
 
 export const TextContent = styled(Typography)((({ theme }) => ({
-  flexGrow: 1
+  flexBasis: '25%'
+})))
+
+export const Image = styled('div')((({ theme }) => ({
+  flexBasis: '25%'
+})))
+
+export const Description = styled('div')((({ theme }) => ({
+  flexBasis: '25%'
+})))
+
+export const Quantity = styled('div')((({ theme }) => ({
+  flexBasis: '25%'
+})))
+
+export const Price = styled('div')((({ theme }) => ({
+  flexBasis: '25%'
 })))

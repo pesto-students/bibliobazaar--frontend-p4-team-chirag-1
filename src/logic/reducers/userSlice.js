@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   isLoggedIn: false,
   userId: '',
-  userName: ''
+  userName: '',
+  token: ''
 }
 
 export const userSlice = createSlice({
@@ -25,7 +26,9 @@ export const userSlice = createSlice({
         userId: '',
         userName: ''
       }
-    }
+    },
+    // setToken
+    // Clear Token
   }
 })
 

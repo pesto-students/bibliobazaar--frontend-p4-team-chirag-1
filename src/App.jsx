@@ -11,6 +11,7 @@ import { theme } from "./shared/styles/theme";
 import Home from "./pages/home/Home";
 import BookDetail from "./pages/bookDetail/BookDetail";
 import Checkout from "./pages/checkout/Checkout";
+import RentDetail from "./pages/rentDetail/RentDetail";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/dashboard" element={<Home />} />
             <Route path="/bookDetail" element={<BookDetail />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/rentDetail" element={<RentDetail />} />
             {/* Wild Card Route */}
           </Routes>
         </Container>
