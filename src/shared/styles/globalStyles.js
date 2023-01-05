@@ -42,6 +42,10 @@ export const PrimaryText = styled('span')((({ theme }) => ({
   color: theme?.primary?.main
 })))
 
+export const DangerText = styled('span')((({ theme }) => ({
+  color: theme?.palette?.danger
+})))
+
 export const PrimaryButton2 = styled(PrimaryButton)((({ theme }) => ({
   marginTop: '20px',
   width: '100%'
@@ -49,7 +53,9 @@ export const PrimaryButton2 = styled(PrimaryButton)((({ theme }) => ({
 })))
 
 export const TxtFld = styled(TextField)((({ theme }) => ({
-  width: '100%',
+  width:'100%',
+  marginTop:'20px',
+   width:'100%',
   input: {
     height: '1em'
   }
