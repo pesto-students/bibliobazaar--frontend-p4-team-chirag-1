@@ -1,11 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux'
-
+import axios from 'axios'
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './logic/store';
+
+// axios default code
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.interceptors.request.use(request => {
+  return request;
+},
+  error => {
+     console.log(error);
+    return Promise.reject(error);
+  });
+axios.interceptors.response.use(response => {
+  return { status: response.status, data: response.data.data };
+},
+  error => {
+    console.log(error.response);
+    return Promise.reject(error);
+  });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

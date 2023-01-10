@@ -67,7 +67,7 @@ const BookDetail = () => {
                 <SubText>Rent Price</SubText>
                 <SubText>Rs. 100</SubText>
               </Stack>
-              <PrimaryButton>Add to Cart</PrimaryButton>
+              <PrimaryButton >Add to Cart</PrimaryButton>
             </Stack>
           </BuyContainer>
         </Grid>

@@ -1,5 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Container, ThemeProvider } from "@mui/material";
+import { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
+import axios from 'axios'
 
 import "./index.css";
 import "./App.css";
@@ -10,33 +13,65 @@ import Profile from "./pages/profile/Profile";
 import { theme } from "./shared/styles/theme";
 import Home from "./pages/home/Home";
 import BookDetail from "./pages/bookDetail/BookDetail";
+import Checkout from "./pages/checkout/Checkout";
+import RentDetail from "./pages/rentDetail/RentDetail";
 import { useDispatch, useSelector } from "react-redux";
-import LoginModal from "./shared/components/login/login"
-import SignUpModal from "./shared/components/signup/signup"
+import LoginModal from "./shared/components/login/Login";
+import SignUpModal from "./shared/components/signup/SignUp";
 import { setLoginClose, setSignupClose } from "./logic/reducers/userSlice";
-
-
+import NotFound from "./pages/notFound/NotFound";
+import ProtectedRoute from "./utilities/ProtectedRoute";
 
 const App = () => {
-  const {
-    user: { loginOpen, signupOpen }
-  } = useSelector((state) => state);
+  // const {
+  //   user: { loginOpen, signupOpen },
+  // } = useSelector((state) => state);
+  const { isLoggedIn, user, loginOpen, signupOpen } = useSelector(
+    (state) => state.user
+  );
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${user?.token}`;
+    }
+  }, [isLoggedIn]);
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
+        <Toaster />
         <Header />
-        <Container maxWidth='xl'>
+        <Container maxWidth="xl">
           <Routes>
             <Route path="/" element={<Landing />} />
+            {/* Protected Route Example */}
+            {/* <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            /> */}
             <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<Home />} />
             <Route path="/bookDetail" element={<BookDetail />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/rentDetail" element={<RentDetail />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Container>
         <Footer />
-        <LoginModal open={loginOpen} onClose={() => dispatch(setLoginClose())}/>
-        <SignUpModal open={signupOpen} onClose={() => dispatch(setSignupClose())}/>
+        <LoginModal
+          open={loginOpen}
+          onClose={() => dispatch(setLoginClose())}
+        />
+        <SignUpModal
+          open={signupOpen}
+          onClose={() => dispatch(setSignupClose())}
+        />
       </ThemeProvider>
     </BrowserRouter>
   );

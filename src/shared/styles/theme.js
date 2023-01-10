@@ -13,7 +13,8 @@ export const theme = createTheme({
     logo: '#9A98F0',
     grey: '#F7F7F7',
     danger:'#CC0000',
-    lightGrey: '#F5F5F5'
+    lightGrey: '#F5F5F5',
+    borderGrey: '#C4C4C4'
   },
   fontSize: {
     xxl: '36px',

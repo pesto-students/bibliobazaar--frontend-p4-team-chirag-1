@@ -22,5 +22,6 @@ const CustomCard = styled(Card)(() => ({
 }));
 
 const CardImage = styled(CardMedia)(() => ({
-  objectFit: "cover",
+  objectFit: "contain",
+  maxHeight: "500px"
 }));

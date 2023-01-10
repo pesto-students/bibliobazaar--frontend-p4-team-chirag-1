@@ -1,5 +1,6 @@
 import { Grid } from "@mui/material";
 import * as React from 'react';
+
 import {
   ActionItems,
   LandingContainer,
@@ -12,10 +13,10 @@ import { OutlineButton, PrimaryButton } from "../../shared/styles/globalStyles";
 import { useDispatch } from "react-redux";
 import { setLoginOpen, setSignupOpen } from "../../logic/reducers/userSlice";
 
-
-
 const Landing = () => {
+
   const dispatch = useDispatch()
+
   return (
     <LandingContainer>
       <Grid container>
@@ -26,7 +27,7 @@ const Landing = () => {
               expensive?
             </Title>
             <SubTitle variant="h6">
-              Worry not! because BiblioBazaar is here!
+              Worry not! BiblioBazaar is here!
             </SubTitle>
             <ActionItems>
               <OutlineButton onClick={() => dispatch(setSignupOpen())}>Sign Up</OutlineButton>
