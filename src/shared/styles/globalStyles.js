@@ -18,17 +18,23 @@ const ButtonStyles = styled(Button)((({ theme }) => ({
   borderRadius: '10px',
   '&:hover': {
     transform: 'scale(1.05)'
-  }
+  },
 })))
 
 // Primary Button
-export const PrimaryButton = styled(ButtonStyles)((({ theme }) => ({
+export const PrimaryButton = styled(ButtonStyles)((({ theme, padding }) => ({
   background: theme?.primary?.main,
   color: theme?.palette?.white,
   textTransform: 'none',
   '&:hover': {
     background: theme?.primary?.main
-  }
+  },
+  '&:disabled': {
+    pointerEvents: 'none',
+    color: theme?.palette?.white,
+    opacity: 0.6
+  },
+  padding: padding ? padding: ''
 })))
 
 // Secondary Button

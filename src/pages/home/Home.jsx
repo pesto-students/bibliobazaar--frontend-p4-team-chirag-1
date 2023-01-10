@@ -21,10 +21,10 @@ const Home = () => {
         spacing={2}
       >
         <FilterBtn>
-          <Stack direction="row" spacing={1}>
+          {/* <Stack direction="row" spacing={1}>
             <img src={Filter} alt="" />
             <Typography>Filter</Typography>
-          </Stack>
+          </Stack> */}
         </FilterBtn>
         <Box>
           <Typography>100 Books</Typography>

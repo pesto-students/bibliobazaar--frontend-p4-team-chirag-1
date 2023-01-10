@@ -1,5 +1,6 @@
 import { Grid } from "@mui/material";
 import * as React from 'react';
+
 import {
   ActionItems,
   LandingContainer,
@@ -12,10 +13,10 @@ import { OutlineButton, PrimaryButton } from "../../shared/styles/globalStyles";
 import { useDispatch } from "react-redux";
 import { setLoginOpen, setSignupOpen } from "../../logic/reducers/userSlice";
 
-
-
 const Landing = () => {
+
   const dispatch = useDispatch()
+
   return (
     <LandingContainer>
       <Grid container>

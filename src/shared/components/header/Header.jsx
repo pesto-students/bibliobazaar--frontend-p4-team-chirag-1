@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -25,15 +27,18 @@ import {
 } from "./Header.styles";
 import { profileTabs } from "./data";
 import Logo from "../logo/Logo";
-import { setLoginOpen, setSignupOpen } from "../../../logic/reducers/userSlice";
+import {
+  logoutUser,
+  setLoginOpen,
+  setSignupOpen,
+} from "../../../logic/reducers/userSlice";
 
 const Header = () => {
   const theme = useTheme();
-  const {
-    user: { isLoggedIn },
-  } = useSelector((state) => state);
+  const { isLoggedIn, user } = useSelector((state) => state.user);
 
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -48,9 +53,15 @@ const Header = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
+  const handleMenuClose = (menu) => {
     setAnchorEl(null);
     handleMobileMenuClose();
+    switch (menu.key) {
+      case "logout":
+        dispatch(logoutUser());
+        navigate("/");
+        break;
+    }
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -75,7 +86,13 @@ const Header = () => {
       onClose={handleMenuClose}
     >
       {profileTabs?.map((item, index) => (
-        <MenuItem key={index} onClick={handleMenuClose}>
+        <MenuItem
+          key={index}
+          onClick={() => {
+            navigate("/profile");
+            handleMenuClose(item);
+          }}
+        >
           {item?.icon}&nbsp;{item?.label}
         </MenuItem>
       ))}
@@ -105,7 +122,7 @@ const Header = () => {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={user?.cart?.contents?.length || 0} color="error">
             <ShoppingCartOutlinedIcon />
           </Badge>
         </IconButton>
@@ -141,10 +158,12 @@ const Header = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <AuthButton onClick={() => console.log("a")}>Login</AuthButton>
+        <AuthButton onClick={() => dispatch(setLoginOpen())}>Login</AuthButton>
       </MenuItem>
       <MenuItem>
-        <AuthButton onClick={() => dispatch(setSignupOpen())}>Sign Up</AuthButton>
+        <AuthButton onClick={() => dispatch(setSignupOpen())}>
+          Sign Up
+        </AuthButton>
       </MenuItem>
     </Menu>
   );
@@ -173,16 +192,23 @@ const Header = () => {
                 color="inherit"
                 sx={{ mr: 3, p: 0 }}
               >
-                <StyledBadge badgeContent={17} color="info">
+                <StyledBadge
+                  badgeContent={user?.cart?.contents?.length || 0}
+                  color="info"
+                >
                   <ShoppingCartOutlinedIcon
                     sx={{ fontSize: theme?.fontSize?.xl }}
                   />
                 </StyledBadge>
               </IconButton>
               <Box onClick={handleProfileMenuOpen} sx={{ display: "flex" }}>
-                <CustomAvatar aria-controls={menuId} aria-haspopup="true" />
+                <CustomAvatar
+                  src={user?.profilePicture}
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                />
                 <UserName>
-                  Rahul Tewatia
+                  {user?.firstName}
                   <KeyboardArrowDownOutlinedIcon />
                 </UserName>
               </Box>
@@ -191,8 +217,12 @@ const Header = () => {
             <Box
               sx={{ display: { xs: "none", md: "flex" }, gap: "32px", mr: 8 }}
             >
-              <AuthButton>Login</AuthButton>
-              <AuthButton>Sign Up</AuthButton>
+              <AuthButton onClick={() => dispatch(setLoginOpen())}>
+                Login
+              </AuthButton>
+              <AuthButton onClick={() => dispatch(setSignupOpen())}>
+                Sign Up
+              </AuthButton>
             </Box>
           )}
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
