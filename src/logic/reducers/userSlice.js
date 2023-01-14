@@ -16,7 +16,8 @@ export const userSlice = createSlice({
       return {
         ...state,
         isLoggedIn: true,
-        user: action.payload
+        user: action?.payload,
+        token: action?.payload?.token
       }
     },
     logoutUser: (state) => {
@@ -24,6 +25,12 @@ export const userSlice = createSlice({
         ...state,
         isLoggedIn: false,
         user: null
+      }
+    },
+    updateCart: (state, action) => {
+      return {
+        ...state,
+        user: action?.payload
       }
     },
     // setToken
@@ -55,6 +62,6 @@ export const userSlice = createSlice({
   }
 })
 
-export const { loginUser, logoutUser, setLoginOpen, setLoginClose, setSignupOpen, setSignupClose } = userSlice.actions
+export const { loginUser, logoutUser, updateCart, setLoginOpen, setLoginClose, setSignupOpen, setSignupClose } = userSlice.actions
 
 export default userSlice.reducer

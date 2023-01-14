@@ -1,5 +1,7 @@
 import { Grid, Stack } from "@mui/material";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { checkout, paymentVerify } from "../../config/Config";
 
 import {
@@ -14,6 +16,19 @@ import PriceSummary from "./components/PriceSummary";
 
 const Checkout = () => {
   const razorpayId = process.env.REACT_APP_RAZORPAY_ID;
+  const { user } = useSelector((state) => state.user);
+
+  const [addressSelected, setAddressSelected] = useState(null);
+  const [deliveryFee, setDeliveryFee] = useState(20);
+  const [orderCost, setOrderCost] = useState(0);
+
+  useEffect(() => {
+    const orderTotal = user?.cart?.contents?.reduce(
+      (prev, curr, i) => prev + curr?.rentExpected,
+      0
+    );
+    setOrderCost(orderTotal)
+  }, [user]);
 
   const paymentVerifyFn = async (response) => {
     console.log(response);
@@ -36,11 +51,9 @@ const Checkout = () => {
   const makePayment = async (amount) => {
     console.log("process.env", process.env.REACT_APP_BASE_URL);
 
-    const {
-      data: { message, data },
-    } = await axios.post(checkout, { amount });
+    const { status, data } = await axios.post(checkout, { amount });
 
-    if (message === "Success") {
+    if (status === 200) {
       const options = {
         key: razorpayId,
         amount: data.amount,
@@ -78,17 +91,23 @@ const Checkout = () => {
           <OrderSummary />
         </Grid>
         <Grid item xs={12} md={6}>
-          <DeliveryAddress />
+          <DeliveryAddress
+            addressSelected={addressSelected}
+            setAddressSelected={setAddressSelected}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
-          <DeliveryFee />
+          <DeliveryFee
+            deliveryFee={deliveryFee}
+            setDeliveryFee={setDeliveryFee}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
-          <PriceSummary />
+          <PriceSummary deliveryFee={deliveryFee} orderCost={orderCost} />
         </Grid>
       </Grid>
       <Stack mt={4} justifyContent="center" alignItems="center">
-        <PrimaryButton onClick={() => makePayment(100)}>
+        <PrimaryButton onClick={() => makePayment(orderCost + deliveryFee)}>
           Make Payment
         </PrimaryButton>
       </Stack>

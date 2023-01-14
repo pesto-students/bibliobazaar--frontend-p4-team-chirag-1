@@ -7,15 +7,27 @@ import { useNavigate } from "react-router";
 
 import { PrimaryButton } from "../../styles/globalStyles";
 
-const BookCard = () => {
+const BookCard = (props) => {
+  const {
+    data: {
+      userId,
+      rentExpected,
+      availableBook,
+      bookId,
+      bookName,
+      author,
+      isbn,
+      imageUrl,
+    },
+  } = props;
   const navigate = useNavigate();
 
   return (
-    <CustomCard onClick={() => navigate("/bookDetail")}>
+    <CustomCard onClick={() => navigate(`/bookDetail/${bookId}/${userId}`)}>
       <CardActionArea>
         <CardImage
           component="img"
-          image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTm33lv0W92j2lTEfjP-AkuRKY1z7vPlKfYbQ&usqp=CAU"
+          image={imageUrl}
           alt=""
           width={300}
           height={300}
@@ -27,8 +39,8 @@ const BookCard = () => {
             spacing={0.5}
             mt={0.5}
           >
-            <BookAuthor>L. D. Goffigan</BookAuthor>
-            <BookTitle>Fortress of Blood</BookTitle>
+            <BookAuthor>{author}</BookAuthor>
+            <BookTitle>{bookName}</BookTitle>
             <Stack
               direction="row"
               justifyContent="space-between"
@@ -36,7 +48,7 @@ const BookCard = () => {
               mt={0.5}
             >
               <BookInfo>Price</BookInfo>
-              <BookInfo>Rs. 100</BookInfo>
+              <BookInfo>Rs. {rentExpected}</BookInfo>
             </Stack>
           </Stack>
           <Stack mt={1} justifyContent="center" alignItems="center">
