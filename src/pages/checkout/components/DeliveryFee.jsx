@@ -7,11 +7,12 @@ import {
   TextItem,
 } from "../Checkout.styles";
 
-const DeliveryFee = () => {
-  const [selectedValue, setSelectedValue] = useState("a");
+const DeliveryFee = (props) => {
+
+  const { deliveryFee, setDeliveryFee } = props
 
   const handleChange = (event) => {
-    setSelectedValue(event.target.value);
+    setDeliveryFee(event?.target?.value)
   };
 
   return (
@@ -21,9 +22,9 @@ const DeliveryFee = () => {
         <Stack direction="row" justifyContent="space-between" mb={1}>
           <TextItem>
             <Radio
-              checked={selectedValue === "a"}
+              checked={Number(deliveryFee) === 20}
               onChange={handleChange}
-              value="a"
+              value={20}
               name="radio-buttons"
               inputProps={{ "aria-label": "A" }}
             />
@@ -34,9 +35,9 @@ const DeliveryFee = () => {
         <Stack direction="row" justifyContent="space-between" mb={1}>
           <TextItem>
             <Radio
-              checked={selectedValue === "b"}
+              checked={Number(deliveryFee) === 50}
               onChange={handleChange}
-              value="b"
+              value={50}
               name="radio-buttons"
               inputProps={{ "aria-label": "A" }}
             />
@@ -47,9 +48,9 @@ const DeliveryFee = () => {
         <Stack direction="row" justifyContent="space-between" mb={1}>
           <TextItem>
             <Radio
-              checked={selectedValue === "c"}
+              checked={Number(deliveryFee) === 100}
               onChange={handleChange}
-              value="c"
+              value={100}
               name="radio-buttons"
               inputProps={{ "aria-label": "A" }}
             />

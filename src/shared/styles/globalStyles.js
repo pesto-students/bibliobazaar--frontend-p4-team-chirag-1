@@ -12,6 +12,12 @@ export const PageTitle = styled(Typography)((({ theme }) => ({
   fontWeight: theme?.fontWeight?.xl,
 })))
 
+// Page Sub Title
+export const PageSubTitle = styled(Typography)((({ theme }) => ({
+  fontSize: theme?.fontSize?.md,
+  fontWeight: theme?.fontWeight?.lg,
+})))
+
 // Shared Button Styles
 const ButtonStyles = styled(Button)((({ theme }) => ({
   padding: '8px 48px',
