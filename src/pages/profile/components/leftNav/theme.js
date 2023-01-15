@@ -22,8 +22,7 @@ export const theme = createTheme({
     lg: '24px',
     md: '20px',
     sm: '18px',
-    xs: '16px',
-    vs: '10px',
+    xs: '16px'
   },
   fontWeight: {
     xxl: 800,

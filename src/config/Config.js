@@ -9,6 +9,12 @@ export const accountUrl = `${BASE_URL}/user/account`
 export const updateAccountUrl = `${BASE_URL}/user/updateAccount`
 export const updateProfilePicture = `${BASE_URL}/user/updateProfilePicture`
 
+// Library
+export const collectionUrl = `${BASE_URL}/library/collection`
+
+//search
+export const searchBookURL = `${BASE_URL}/search`
+
 // File Upload
 export const fileUploadUrl = `${BASE_URL}/upload`
 
