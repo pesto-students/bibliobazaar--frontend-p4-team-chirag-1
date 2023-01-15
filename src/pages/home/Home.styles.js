@@ -11,5 +11,5 @@ export const FilterContainer = styled(Paper)((({ theme }) => ({
 })))
 
 export const CardContainer = styled(Box)((({ theme }) => ({
-
+  width: '100%',
 })))

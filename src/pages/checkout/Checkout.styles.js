@@ -31,21 +31,35 @@ export const OrderSummaryWrapper = styled('div')((({ theme }) => ({
 })))
 
 export const TextContent = styled(Typography)((({ theme }) => ({
-  flexBasis: '25%'
+  flexBasis: '20%'
+})))
+
+export const TextContent2 = styled(Typography)((({ theme }) => ({
+  flexBasis: '30%'
+})))
+
+export const TextContent3 = styled(Typography)((({ theme }) => ({
+  flexBasis: '10%'
 })))
 
 export const Image = styled('div')((({ theme }) => ({
-  flexBasis: '25%'
+  flexBasis: '20%'
 })))
 
 export const Description = styled('div')((({ theme }) => ({
-  flexBasis: '25%'
+  flexBasis: '30%'
 })))
 
 export const Quantity = styled('div')((({ theme }) => ({
-  flexBasis: '25%'
+  flexBasis: '20%'
 })))
 
 export const Price = styled('div')((({ theme }) => ({
-  flexBasis: '25%'
+  flexBasis: '20%'
+})))
+
+export const Delete = styled('div')((({ theme }) => ({
+  flexBasis: '10%',
+  color: theme?.palette?.danger,
+  cursor: 'pointer'
 })))

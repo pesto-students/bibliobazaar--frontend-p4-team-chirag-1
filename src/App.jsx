@@ -26,7 +26,7 @@ const App = () => {
   // const {
   //   user: { loginOpen, signupOpen },
   // } = useSelector((state) => state);
-  const { isLoggedIn, user, loginOpen, signupOpen } = useSelector(
+  const { isLoggedIn, user, loginOpen, signupOpen, token } = useSelector(
     (state) => state.user
   );
 
@@ -34,7 +34,7 @@ const App = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${user?.token}`;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
   }, [isLoggedIn]);
 
@@ -57,7 +57,7 @@ const App = () => {
             /> */}
             <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<Home />} />
-            <Route path="/bookDetail" element={<BookDetail />} />
+            <Route path="/bookDetail/:bookId/:userId" element={<BookDetail />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/rentDetail" element={<RentDetail />} />
             <Route path="*" element={<NotFound />} />

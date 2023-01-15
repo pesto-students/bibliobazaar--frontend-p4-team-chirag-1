@@ -1,15 +1,41 @@
 import { Box, Grid, Stack, Typography } from "@mui/material";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+
 import { Wrapper } from "../../shared/styles/globalStyles";
 import Filter from "../../assets/icons/filter.svg";
 import { CardContainer, FilterBtn, FilterContainer } from "./Home.styles";
 import AccordionFilter from "./components/accordionFilter/AccordionFilter";
 import { genreFilter, languageFilter, sortOptions } from "./data";
 import SortFilter from "./components/sortFilter/SortFilter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BookCard from "../../shared/components/bookCard/BookCard";
+import { userSearch } from "../../config/Config";
 
 const Home = () => {
   const [sortOption, setSortOption] = useState(sortOptions[0]?.key);
+  const [loader, setLoader] = useState(false);
+  const [bookList, setBookList] = useState([]);
+
+  const getBooks = () => {
+    axios
+      .post(userSearch)
+      .then((res) => {
+        setLoader(true);
+        if (res?.status === 200) {
+          setBookList(res?.data);
+        }
+      })
+      .catch((err) => {
+        console.log("error", err);
+        setLoader(false);
+        toast.error(err?.message || "Something is wrong");
+      });
+  };
+
+  useEffect(() => {
+    getBooks();
+  }, []);
 
   return (
     <Wrapper>
@@ -27,7 +53,7 @@ const Home = () => {
           </Stack> */}
         </FilterBtn>
         <Box>
-          <Typography>100 Books</Typography>
+          <Typography>{bookList?.length} Books</Typography>
         </Box>
       </Stack>
       {/* Main Body */}
@@ -54,9 +80,14 @@ const Home = () => {
             setSortOption={setSortOption}
           />
           <Grid container spacing={4} mt={2}>
-            {Array?.from({ length: 10 }).map((data, index) => (
+            {/* {Array?.from({ length: 10 }).map((data, index) => (
               <Grid item xs={12} sm={4} key={index}>
                 <BookCard />
+              </Grid>
+            ))} */}
+            {bookList?.map((book, index) => (
+              <Grid item xs={12} sm={4} key={index}>
+                <BookCard data={book} />
               </Grid>
             ))}
           </Grid>
