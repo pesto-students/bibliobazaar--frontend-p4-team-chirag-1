@@ -18,6 +18,13 @@ export const deleteFromCartUrl = `${BASE_URL}/user/deleteFromCart`
 // Book
 export const bookDetailUrl = `${BASE_URL}/library/details`
 
+// Library
+export const collectionUrl = `${BASE_URL}/library/collection`
+export const addBookUrl = `${BASE_URL}/library/add`
+
+//search
+export const searchBookURL = `${BASE_URL}/search`
+
 // File Upload
 export const fileUploadUrl = `${BASE_URL}/upload`
 
