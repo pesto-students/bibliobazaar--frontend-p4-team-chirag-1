@@ -6,9 +6,24 @@ import { Stack, styled, Table, TableBody, TableCell, TableContainer, TableHead, 
 import { useNavigate } from "react-router";
 import Button from '@mui/material/Button';
 import { PrimaryButton } from "../../../../shared/styles/globalStyles";
+import { setSearchBookClose,setAddBookOpen, setAddBookData } from "../../../../logic/reducers/bookSlice";
+import { useDispatch } from "react-redux";
 
-const AddBookCard = (props) => {
+const SearchBookCard = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {
+    bookData: {
+      bookName,
+      author,
+      isbn,
+      imageUrl,
+      description,
+      genre,
+      language
+    },
+  } = props;
+
   
   console.group(props)
   return (
@@ -16,20 +31,26 @@ const AddBookCard = (props) => {
      <CardContent>
             <Stack  direction="row" className="StackTitle" justifyContent="space-between">
             <Stack>
-            <BookTitle>{props.bookData.bookName}</BookTitle>
-            <BookInfo>{props.bookData.author.join(',')}</BookInfo>
-            <BookInfo>ISBN - {props.bookData.isbn}</BookInfo>
+            <BookTitle>{bookName}</BookTitle>
+            <BookInfo>{author.join(',')}</BookInfo>
+            <BookInfo>ISBN - {isbn}</BookInfo>
             </Stack>
             <CardImage
             component="img"
-            image={props.bookData?.imageUrl}
-            alt={props.bookData.bookName}
-            width={140}
-            height={140}
+            image={imageUrl}
+            alt={bookName}
+            width={100}
+            height={100}
            />
            </Stack>
            <Stack mt={1} justifyContent="center" alignItems="center">
-            <PrimaryButton>Select</PrimaryButton>
+            <PrimaryButton onClick={() => {
+              console.log(props)
+              dispatch(setAddBookData(props))
+              dispatch(setAddBookOpen())
+              dispatch(setSearchBookClose())
+              
+            }}>Select</PrimaryButton>
           </Stack>
         </CardContent>
        
@@ -37,7 +58,7 @@ const AddBookCard = (props) => {
   );
 };
 
-export default AddBookCard;
+export default SearchBookCard;
 
 const CustomCard = styled(Card)(() => ({
   borderRadius: "10px",

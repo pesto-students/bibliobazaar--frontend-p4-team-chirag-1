@@ -11,12 +11,18 @@ import LibraryCard from "./LibraryCard";
 import {
   collectionUrl
 } from "../../../../config/Config";
-import AddSearchModal from "./Add_SearchBook";
+import BookSearchModal from "./SearchBook";
+import BookAddModal from "./AddBook";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchBookOpen } from "../../../../logic/reducers/bookSlice";
 
 const Library = () => {
 
   const [books, setBooks] = useState([]);
-  const [AddSearchOpen, setAddSearchOpen] = useState(false);
+  const { searchBook, addBook } = useSelector(
+    (state) => state.book
+  );
+  const dispatch = useDispatch();
   useEffect(() => {
     getBookData();
   }, []);
@@ -42,7 +48,7 @@ const Library = () => {
         <Typography variant="h6" component="h2">
           Your Collection
         </Typography>
-        <PrimaryButton onClick={() => setAddSearchOpen(true)}>
+        <PrimaryButton onClick={() => dispatch(setSearchBookOpen())}>
            + Add Book 
         </PrimaryButton>
       </Stack>
@@ -53,10 +59,13 @@ const Library = () => {
              </Grid>
             ))}
       </Grid>
-      <AddSearchModal
-          open={AddSearchOpen}
-          onClose={() => setAddSearchOpen(false)}
+      <BookSearchModal
+          open={searchBook}
         />
+      <BookAddModal
+          open={addBook}
+      />
+
     </Wrapper>
   );
 }

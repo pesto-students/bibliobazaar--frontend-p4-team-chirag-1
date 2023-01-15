@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { createContext, useState } from "react";
 
 import Box from "@mui/material/Box";
 import {
@@ -15,12 +14,15 @@ import {
   } from "./Library.styles";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
-import AddBookCard from "./AddBookCard";
+import SearchBookCard from "./SearchBookCard";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import {
     searchBookURL
   } from "../../../../config/Config";
+
+import { setSearchBookClose } from "../../../../logic/reducers/bookSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -36,11 +38,11 @@ const style = {
 };
 
 
-export default function AddSearchModal(props) {
+export default function BookSearchModal(props) {
  
-  const [loader, setLoader] = useState(false);
   const [books, setBooks] = useState([]);
- 
+  const dispatch = useDispatch();
+  const BookContext = createContext()
   const searchBook = (key) => {
     axios
       .get(searchBookURL+"?q="+key)
@@ -64,12 +66,15 @@ export default function AddSearchModal(props) {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Add Book
+          Search Book
           <IconButton
             aria-label="close"
-            onClick={() => {
-              props.onClose();
-            }}
+            onClick={
+                () => {
+                    setBooks([]);
+                    dispatch(setSearchBookClose())
+                }
+            }
             sx={{
               position: "absolute",
               right: 8,
@@ -97,7 +102,7 @@ export default function AddSearchModal(props) {
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
            {books.map((data, index) => (
               <Grid item xs={6} key={index} >
-               <AddBookCard  bookData={data}/>
+               <SearchBookCard  bookData={data} />
              </Grid>
             ))}
       </Grid>
