@@ -33,8 +33,6 @@ export const userSlice = createSlice({
         user: action?.payload
       }
     },
-    // setToken
-    // Clear Token
     setLoginOpen: (state) => {
       return {
         ...state,

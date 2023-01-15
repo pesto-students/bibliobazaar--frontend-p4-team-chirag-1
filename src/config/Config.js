@@ -26,3 +26,6 @@ export const checkout = `${BASE_URL}/payment/checkout`
 
 // Payment Verification
 export const paymentVerify = `${BASE_URL}/payment/verify`
+
+// Rent History
+export const completeOrderUrl = `${BASE_URL}/rent/add`

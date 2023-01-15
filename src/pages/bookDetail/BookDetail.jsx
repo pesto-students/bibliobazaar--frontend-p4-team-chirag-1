@@ -62,19 +62,19 @@ const BookDetail = () => {
   useEffect(() => {
     console.log(user?.cart?.contents);
     const bookIds = user?.cart?.contents?.map((item) => item?.bookId);
-    console.log('bookIds', bookIds);
+    console.log("bookIds", bookIds);
     setCartBookIds([...bookIds]);
   }, [user]);
 
   const addToCartFn = () => {
-    const info = { 
-      bookId, 
+    const info = {
+      bookId,
       ownerUserId: userId,
       bookImage: bookInfo?.bookId?.imageUrl,
       bookName: bookInfo?.bookId?.bookName,
       bookAuthor: bookInfo?.bookId?.author?.[0],
       isbn: bookInfo?.bookId?.isbn,
-      rentExpected: bookInfo?.rentExpected
+      rentExpected: bookInfo?.rentExpected,
     };
     axios
       .post(addToCartUrl, info)
@@ -105,16 +105,9 @@ const BookDetail = () => {
               <Title>{bookInfo?.bookId?.bookName}</Title>
               <Author>
                 AUTHOR:{" "}
-                <PrimaryText>{bookInfo?.bookId?.author?.[0]}</PrimaryText>
+                <PrimaryText>{bookInfo?.bookId?.author?.join(',')}</PrimaryText>
               </Author>
-              <Description>
-                April of 2022 marks a 25-year milestone for the personal finance
-                classic Rich Dad Poor Dad that still ranks as the #1 Personal
-                Finance book of all time. And although 25 years have passed
-                since Rich Dad Poor Dad was first published,readers will find
-                that very little in the book itself has changed ― and for good
-                reason.
-              </Description>
+              <Description>{bookInfo?.bookId?.description}</Description>
               <Isbn>
                 ISBN: <PrimaryText>{bookInfo?.bookId?.isbn}</PrimaryText>
               </Isbn>

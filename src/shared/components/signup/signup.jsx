@@ -143,6 +143,7 @@ export default function SignUpModal(props) {
               id="lname"
               label="Last Name (optional)"
               variant="outlined"
+              onChange={formik.handleChange}
             />
             <TxtFld
               id="email"
