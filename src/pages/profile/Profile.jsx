@@ -1,5 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Wrapper } from "../../shared/styles/globalStyles";
 import Account from "./components/account/Account";
 import Addresses from "./components/addresses/Addresses";
@@ -9,10 +10,11 @@ import RentHistory from "./components/rentHistory/RentHistory";
 import { LeftGrid, RightGrid } from "./Profile.styles";
 
 const Profile = () => {
-  const [active, setActive] = useState("account");
+  // const [active, setActive] = useState("account");
+  const { activeTab } = useSelector(state => state.profile)
 
   const renderTab = () => {
-    switch (active) {
+    switch (activeTab) {
       case "account":
         return <Account />;
       case "addresses":
@@ -29,7 +31,7 @@ const Profile = () => {
       <Grid container spacing={5}>
         <Grid item xs={12} sm={2}>
           <LeftGrid>
-            <LeftNav active={active} setActive={setActive} />
+            <LeftNav />
           </LeftGrid>
         </Grid>
         <Grid item xs={12} sm={10}>

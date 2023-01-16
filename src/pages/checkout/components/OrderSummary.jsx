@@ -11,6 +11,7 @@ import {
   Delete,
   Description,
   Image,
+  NoData,
   OrderSummaryWrapper,
   Price,
   Quantity,
@@ -99,6 +100,11 @@ const OrderSummary = () => {
             </Delete>
           </Stack>
         ))}
+        {
+          (user?.cart?.contents?.length === 0) ? 
+          <NoData>Cart is empty</NoData>
+          : null
+        }
       </OrderSummaryWrapper>
     </CustomPaper>
   );

@@ -138,12 +138,14 @@ export default function SignUpModal(props) {
               onChange={formik.handleChange}
               error={formik.touched.fname && Boolean(formik.errors.fname)}
               helperText={formik.touched.fname && formik.errors.fname}
+              value={formik.values.fname}
             />
             <TxtFld
               id="lname"
               label="Last Name (optional)"
               variant="outlined"
               onChange={formik.handleChange}
+              value={formik.values.lname}
             />
             <TxtFld
               id="email"
@@ -152,6 +154,7 @@ export default function SignUpModal(props) {
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
+              value={formik.values.email}
             />
             <TxtFld
               id="password"
@@ -161,6 +164,7 @@ export default function SignUpModal(props) {
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
+              value={formik.values.password}
             />
             <TxtFld
               id="confirmpassword"
@@ -175,6 +179,7 @@ export default function SignUpModal(props) {
               helperText={
                 formik.touched.confirmpassword && formik.errors.confirmpassword
               }
+              value={formik.values.confirmpassword}
             />
             <PrimaryButton2 type="submit">
               {loader ? <Spinner /> : "Sign Up"}

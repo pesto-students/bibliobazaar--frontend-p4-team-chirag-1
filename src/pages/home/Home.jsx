@@ -1,29 +1,59 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Grid, Skeleton, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
 import { Wrapper } from "../../shared/styles/globalStyles";
 import Filter from "../../assets/icons/filter.svg";
-import { CardContainer, FilterBtn, FilterContainer } from "./Home.styles";
+import {
+  CardContainer,
+  FilterBtn,
+  FilterContainer,
+  NoBooksContent,
+} from "./Home.styles";
 import AccordionFilter from "./components/accordionFilter/AccordionFilter";
 import { genreFilter, languageFilter, sortOptions } from "./data";
 import SortFilter from "./components/sortFilter/SortFilter";
 import { useEffect, useState } from "react";
 import BookCard from "../../shared/components/bookCard/BookCard";
 import { userSearch } from "../../config/Config";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+  const { search } = useSelector((state) => state.user);
+
   const [sortOption, setSortOption] = useState(sortOptions[0]?.key);
+  const [languageSelected, setLanguageSelected] = useState([]);
+  const [genreSelected, setGenreSelected] = useState([]);
+  const [getBooksUrl, setGetBooksUrl] = useState(userSearch);
+
   const [loader, setLoader] = useState(false);
   const [bookList, setBookList] = useState([]);
 
+  useEffect(() => {
+    console.log("sortOption", sortOption);
+    console.log("languageFilter", languageSelected);
+    console.log("genreFilter", genreSelected);
+    console.log("search", search);
+    let url = `${userSearch}?q=${search}&lang=${languageSelected.join(
+      ","
+    )}&genre=${genreSelected.join(
+      ","
+    )}&sortBy=rentExpected&order=${sortOption}`;
+    setGetBooksUrl(url);
+  }, [sortOption, languageSelected, genreSelected, search]);
+  
+  useEffect(() => {
+    // getBooks();
+  }, [getBooksUrl])
+
   const getBooks = () => {
+    setLoader(true);
     axios
-      .post(userSearch)
+      .post(getBooksUrl)
       .then((res) => {
-        setLoader(true);
         if (res?.status === 200) {
           setBookList(res?.data);
+          setLoader(false);
         }
       })
       .catch((err) => {
@@ -69,8 +99,16 @@ const Home = () => {
       >
         {/* Left Filter */}
         <FilterContainer>
-          <AccordionFilter data={languageFilter} />
-          <AccordionFilter data={genreFilter} />
+          <AccordionFilter
+            data={languageFilter}
+            value={languageSelected}
+            setInfo={setLanguageSelected}
+          />
+          <AccordionFilter
+            data={genreFilter}
+            value={genreSelected}
+            setInfo={setGenreSelected}
+          />
         </FilterContainer>
         {/* Right Container */}
         <CardContainer>
@@ -80,16 +118,24 @@ const Home = () => {
             setSortOption={setSortOption}
           />
           <Grid container spacing={4} mt={2}>
-            {/* {Array?.from({ length: 10 }).map((data, index) => (
-              <Grid item xs={12} sm={4} key={index}>
-                <BookCard />
-              </Grid>
-            ))} */}
-            {bookList?.map((book, index) => (
-              <Grid item xs={12} sm={4} key={index}>
-                <BookCard data={book} />
-              </Grid>
-            ))}
+            {loader
+              ? Array?.from({ length: 5 }).map((data, index) => (
+                  <Grid item xs={12} sm={4} key={index}>
+                    <Skeleton
+                      variant={"rectangular"}
+                      width={300}
+                      height={300}
+                    />
+                  </Grid>
+                ))
+              : bookList?.map((book, index) => (
+                  <Grid item xs={12} sm={4} key={index}>
+                    <BookCard data={book} />
+                  </Grid>
+                ))}
+            {bookList?.length === 0 && !loader ? (
+              <NoBooksContent>No Books Available</NoBooksContent>
+            ) : null}
           </Grid>
         </CardContainer>
       </Stack>

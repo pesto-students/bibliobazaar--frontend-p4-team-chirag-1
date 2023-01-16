@@ -30,12 +30,14 @@ import Logo from "../logo/Logo";
 import {
   logoutUser,
   setLoginOpen,
+  setSearchValue,
   setSignupOpen,
 } from "../../../logic/reducers/userSlice";
+import { setTab } from "../../../logic/reducers/profileSlice";
 
 const Header = () => {
   const theme = useTheme();
-  const { isLoggedIn, user } = useSelector((state) => state.user);
+  const { isLoggedIn, user, search } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -56,11 +58,12 @@ const Header = () => {
   const handleMenuClose = (menu) => {
     setAnchorEl(null);
     handleMobileMenuClose();
-    switch (menu.key) {
-      case "logout":
-        dispatch(logoutUser());
-        navigate("/");
-        break;
+    if (menu?.key === "logout") {
+      dispatch(logoutUser());
+      navigate("/");
+    } else {
+      navigate("/profile");
+      dispatch(setTab(menu?.key));
     }
   };
 
@@ -89,7 +92,6 @@ const Header = () => {
         <MenuItem
           key={index}
           onClick={() => {
-            navigate("/profile");
             handleMenuClose(item);
           }}
         >
@@ -116,7 +118,13 @@ const Header = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      <MenuItem
+        onClick={() => {
+          user?.cart?.contents?.length > 0
+            ? navigate("/checkout")
+            : navigate("/dashboard");
+        }}
+      >
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
@@ -181,6 +189,8 @@ const Header = () => {
             <StyledInputBase
               placeholder="Books / Author / ISBN"
               inputProps={{ "aria-label": "search" }}
+              value={search}
+              onChange={(e) => dispatch(setSearchValue(e.target.value))}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
@@ -191,6 +201,11 @@ const Header = () => {
                 aria-label="show 17 new notifications"
                 color="inherit"
                 sx={{ mr: 3, p: 0 }}
+                onClick={() => {
+                  user?.cart?.contents?.length > 0
+                    ? navigate("/checkout")
+                    : navigate("/dashboard");
+                }}
               >
                 <StyledBadge
                   badgeContent={user?.cart?.contents?.length || 0}

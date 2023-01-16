@@ -12,24 +12,28 @@ import { useState } from "react";
 const AccordionFilter = (props) => {
   const {
     data: { heading, data },
+    value,
+    setInfo,
   } = props;
 
   return (
-    <Accordion 
-      elevation={0}
-      disablegutters={"true"}
-    >
+    <Accordion elevation={0} disablegutters={"true"}>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
         id="panel1a-header"
         disablegutters={"true"}
       >
-        <Typography sx={{ fontWeight: 'bold'}}>{heading}</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>{heading}</Typography>
       </AccordionSummary>
       <AccordionDetails>
         {data?.map((item, index) => (
-          <CheckBoxFilter info={item} key={item?.key} />
+          <CheckBoxFilter
+            info={item}
+            key={item?.key}
+            value={value}
+            setInfo={setInfo}
+          />
         ))}
       </AccordionDetails>
     </Accordion>
@@ -39,11 +43,23 @@ const AccordionFilter = (props) => {
 const CheckBoxFilter = (props) => {
   const {
     info: { key, label },
+    value,
+    setInfo,
   } = props;
 
   const [checked, setChecked] = useState(false);
   const handleChange = (event) => {
     setChecked(event.target.checked);
+    if (event.target.checked) {
+      setInfo([...value, key]);
+    } else {
+      let temp = [...value]
+      const index = temp.indexOf(key);
+      if (index > -1) {
+        temp.splice(index, 1);
+      }
+      setInfo([...temp])
+    }
   };
 
   return (

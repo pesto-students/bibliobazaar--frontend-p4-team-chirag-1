@@ -9,11 +9,11 @@ import {
   CustomPaper,
   CustomTitle,
   DeliveryAddressWrapper,
+  NoData,
   TextItem,
 } from "../Checkout.styles";
 
 const DeliveryAddress = (props) => {
-
   const { addressSelected, setAddressSelected } = props;
 
   const [selectedValue, setSelectedValue] = useState("a");
@@ -21,7 +21,7 @@ const DeliveryAddress = (props) => {
   const [addressData, setAddressData] = useState([]);
 
   const handleChange = (address) => {
-    setAddressSelected(address)
+    setAddressSelected(address);
   };
 
   useEffect(() => {
@@ -29,8 +29,8 @@ const DeliveryAddress = (props) => {
   }, []);
 
   useEffect(() => {
-    setAddressSelected(addressData?.[0] || null)
-  }, [addressData])
+    setAddressSelected(addressData?.[0] || null);
+  }, [addressData]);
 
   const addressList = () => {
     axios
@@ -52,6 +52,7 @@ const DeliveryAddress = (props) => {
     <CustomPaper>
       <CustomTitle>Delivery Address</CustomTitle>
       <DeliveryAddressWrapper>
+        {addressData?.length === 0 ? <NoData>No Addresses found</NoData> : null}
         <Stack py={4} alignItems="flex-start">
           {addressData?.map((item, index) => (
             <Stack direction="row" mb={2} key={index}>
@@ -63,9 +64,9 @@ const DeliveryAddress = (props) => {
                 inputProps={{ "aria-label": "A" }}
               />
               <TextItem>
-                <BoldText>{item?.fullName}</BoldText> H. No. 17-101,Upstairs, Sector-44
-                Main Street, Kurnool, Andhra Pradesh, 518501, India, Phone
-                number: 9742788996
+                <BoldText>{item?.fullName}</BoldText> H. No. 17-101,Upstairs,
+                Sector-44 Main Street, Kurnool, Andhra Pradesh, 518501, India,
+                Phone number: 9742788996
               </TextItem>
             </Stack>
           ))}

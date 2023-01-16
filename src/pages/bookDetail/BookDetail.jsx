@@ -1,4 +1,4 @@
-import { Box, CardHeader, Grid, Stack, Typography } from "@mui/material";
+import { Box, CardHeader, Grid, Skeleton, Stack, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -17,6 +17,7 @@ import {
   Heading,
   HeadingDiv,
   Isbn,
+  ReadMoreText,
   SubText,
   Title,
 } from "./BookDetail.styles";
@@ -36,16 +37,18 @@ const BookDetail = () => {
   const [bookInfo, setBookInfo] = useState({});
   const [cartLoader, setCartLoader] = useState(false);
   const [cartBookIds, setCartBookIds] = useState([]);
+  const [expanded, setExpanded] = useState(false);
 
   const getBookDetails = () => {
     const info = { bookId, userId };
+    setLoader(true);
     axios
       .post(bookDetailUrl, info)
       .then((res) => {
-        setLoader(true);
         if (res?.status === 200) {
           console.log(res?.data);
           setBookInfo({ ...res?.data?.[0] });
+          setLoader(false);
         }
       })
       .catch((err) => {
@@ -99,58 +102,98 @@ const BookDetail = () => {
   return (
     <Wrapper>
       <Grid container spacing={5}>
-        <Grid item xs={12} sm={4}>
-          <ImageCard url={bookInfo?.bookId?.imageUrl} />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <DescriptionPaper>
-            <Stack direction="column" alignItems="center" spacing={2}>
-              <Title>{bookInfo?.bookId?.bookName}</Title>
-              <Author>
-                AUTHOR:{" "}
-                <PrimaryText>{bookInfo?.bookId?.author?.join(',')}</PrimaryText>
-              </Author>
-              <Description>{bookInfo?.bookId?.description}</Description>
-              <Isbn>
-                ISBN: <PrimaryText>{bookInfo?.bookId?.isbn}</PrimaryText>
-              </Isbn>
-            </Stack>
-          </DescriptionPaper>
-        </Grid>
-        <Grid item sm={12} md={4}>
-          <BuyContainer>
-            <Stack
-              direction={"column"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              spacing={4}
-            >
-              <HeadingDiv>
-                <Heading>Buy</Heading>
-              </HeadingDiv>
-              <Stack
-                direction={"row"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-                spacing={2}
-                width={"100%"}
-                px={4}
-              >
-                <SubText>Rent Price</SubText>
-                <SubText>Rs. {bookInfo?.rentExpected}</SubText>
-              </Stack>
-              {cartBookIds?.includes(bookId) ? (
-                <PrimaryButton onClick={() => navigate(`/checkout`)}>
-                  Go to Cart
-                </PrimaryButton>
-              ) : (
-                <PrimaryButton onClick={() => addToCartFn()}>
-                  {cartLoader ? <Spinner /> : "Add to Cart"}
-                </PrimaryButton>
-              )}
-            </Stack>
-          </BuyContainer>
-        </Grid>
+        {loader ? 
+          Array.from({ length: 3}).map(() => (
+            <Grid item xs={12} sm={4}>
+              <Skeleton variant={"rectangular"} width={400} height={400} />
+            </Grid>
+          ))
+        : (
+          <>
+            <Grid item xs={12} sm={4}>
+              <ImageCard url={bookInfo?.bookId?.imageUrl} />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <DescriptionPaper>
+                <Stack direction="column" alignItems="center" spacing={2}>
+                  <Title>{bookInfo?.bookId?.bookName}</Title>
+                  <Author>
+                    AUTHOR:{" "}
+                    <PrimaryText>
+                      {bookInfo?.bookId?.author?.join(",")}
+                    </PrimaryText>
+                  </Author>
+                  {/* <Description>{bookInfo?.bookId?.description}</Description> */}
+                  {bookInfo?.bookId?.description?.length > 300 ? (
+                    <>
+                      <Description>
+                        {expanded ? (
+                          <>
+                            {bookInfo?.bookId?.description}
+                            <ReadMoreText
+                              onClick={() => setExpanded((prev) => !prev)}
+                            >
+                              Show Less
+                            </ReadMoreText>
+                          </>
+                        ) : (
+                          <>
+                            {bookInfo?.bookId?.description?.substring(0, 300)}
+                            ...
+                            <ReadMoreText
+                              onClick={() => setExpanded((prev) => !prev)}
+                            >
+                              Read More
+                            </ReadMoreText>
+                          </>
+                        )}
+                      </Description>
+                    </>
+                  ) : (
+                    <Description>{bookInfo?.bookId?.description}</Description>
+                  )}
+                  <Isbn>
+                    ISBN: <PrimaryText>{bookInfo?.bookId?.isbn}</PrimaryText>
+                  </Isbn>
+                </Stack>
+              </DescriptionPaper>
+            </Grid>
+            <Grid item sm={12} md={4}>
+              <BuyContainer>
+                <Stack
+                  direction={"column"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                  spacing={4}
+                >
+                  <HeadingDiv>
+                    <Heading>Buy</Heading>
+                  </HeadingDiv>
+                  <Stack
+                    direction={"row"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                    spacing={2}
+                    width={"100%"}
+                    px={4}
+                  >
+                    <SubText>Rent Price</SubText>
+                    <SubText>Rs. {bookInfo?.rentExpected}</SubText>
+                  </Stack>
+                  {cartBookIds?.includes(bookId) ? (
+                    <PrimaryButton onClick={() => navigate(`/checkout`)}>
+                      Go to Cart
+                    </PrimaryButton>
+                  ) : (
+                    <PrimaryButton onClick={() => addToCartFn()}>
+                      {cartLoader ? <Spinner /> : "Add to Cart"}
+                    </PrimaryButton>
+                  )}
+                </Stack>
+              </BuyContainer>
+            </Grid>
+          </>
+        )}
       </Grid>
     </Wrapper>
   );

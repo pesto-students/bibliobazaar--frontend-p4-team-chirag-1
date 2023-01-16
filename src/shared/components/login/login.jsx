@@ -87,7 +87,7 @@ export default function LoginModal(props) {
         console.log("error", err);
         setLoader(false);
         toast.error(err?.message || "Something is wrong");
-        formik.resetForm();
+        formik.resetForm()
         // dispatch(setLoginClose());
       });
   };
@@ -128,6 +128,7 @@ export default function LoginModal(props) {
             onChange={formik.handleChange}
             error={formik.touched.password && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
+            value={formik.values.email}
           />
           <TxtFld
             id="password"
@@ -137,6 +138,7 @@ export default function LoginModal(props) {
             onChange={formik.handleChange}
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
+            value={formik.values.password}
           />
           <PrimaryButton2
             // disabled={!formik.hasChanged || formik.hasErrors || formik.isSubmitting}

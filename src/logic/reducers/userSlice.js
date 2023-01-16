@@ -5,7 +5,8 @@ const initialState = {
   user: null,
   token: '',
   loginOpen: false,
-  signupOpen: false
+  signupOpen: false,
+  search: ''
 }
 
 export const userSlice = createSlice({
@@ -56,10 +57,16 @@ export const userSlice = createSlice({
         ...state,
         signupOpen: false
       }
+    },
+    setSearchValue: (state, action) => {
+      return {
+        ...state,
+        search: action?.payload
+      }
     }
   }
 })
 
-export const { loginUser, logoutUser, updateCart, setLoginOpen, setLoginClose, setSignupOpen, setSignupClose, setSearchBookOpen, setSearchBookClose } = userSlice.actions
+export const { loginUser, logoutUser, updateCart, setLoginOpen, setLoginClose, setSignupOpen, setSignupClose, setSearchBookOpen, setSearchBookClose, setSearchValue } = userSlice.actions
 
 export default userSlice.reducer

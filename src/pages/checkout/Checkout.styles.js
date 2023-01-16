@@ -24,10 +24,14 @@ export const TextItem = styled(Typography)((({ theme }) => ({
 
 export const DeliveryAddressWrapper = styled('div')((({ theme }) => ({
   padding: '16px 8px',
+  height: '400px',
+  overflow: 'auto'
 })))
 
 export const OrderSummaryWrapper = styled('div')((({ theme }) => ({
   padding: '16px 32px',
+  height: '400px',
+  overflow: 'auto'
 })))
 
 export const TextContent = styled(Typography)((({ theme }) => ({
@@ -62,4 +66,9 @@ export const Delete = styled('div')((({ theme }) => ({
   flexBasis: '10%',
   color: theme?.palette?.danger,
   cursor: 'pointer'
+})))
+
+export const NoData = styled(Typography)((({ theme }) => ({
+  textAlign: 'center',
+  paddingTop: '32px'
 })))
