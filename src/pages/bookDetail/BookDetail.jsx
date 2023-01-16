@@ -69,12 +69,15 @@ const BookDetail = () => {
   const addToCartFn = () => {
     const info = {
       bookId,
-      ownerUserId: userId,
+      ownerId: userId,
+      ownerName: "Need to add",
+      rent: bookInfo?.rentExpected,
+      rentStatus: "On Rent",
+      deliveryStatus: "Dispatched",
       bookImage: bookInfo?.bookId?.imageUrl,
       bookName: bookInfo?.bookId?.bookName,
       bookAuthor: bookInfo?.bookId?.author?.[0],
       isbn: bookInfo?.bookId?.isbn,
-      rentExpected: bookInfo?.rentExpected,
     };
     axios
       .post(addToCartUrl, info)

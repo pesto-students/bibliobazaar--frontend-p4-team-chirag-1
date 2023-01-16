@@ -1,5 +1,6 @@
 import { Grid } from "@mui/material";
-import * as React from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from "react-router";
 
 import {
   ActionItems,
@@ -10,12 +11,20 @@ import {
 } from "./Landing.styles";
 import LandingImage from "../../../src/assets/images/landingImage.svg";
 import { OutlineButton, PrimaryButton } from "../../shared/styles/globalStyles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLoginOpen, setSignupOpen } from "../../logic/reducers/userSlice";
 
 const Landing = () => {
 
+  const { isLoggedIn } = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if(isLoggedIn) {
+      navigate("/dashboard")
+    }
+  }, [isLoggedIn, navigate])
 
   return (
     <LandingContainer>

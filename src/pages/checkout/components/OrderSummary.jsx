@@ -92,7 +92,7 @@ const OrderSummary = () => {
               <Typography>1</Typography>
             </Quantity>
             <Price>
-              <Typography>Rs. {item?.rentExpected}</Typography>
+              <Typography>Rs. {item?.rent}</Typography>
             </Price>
             <Delete>
               <DeleteIcon onClick={() => deleteItemFromCart(item)} />

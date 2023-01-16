@@ -54,7 +54,7 @@ const DeliveryAddress = (props) => {
       <DeliveryAddressWrapper>
         <Stack py={4} alignItems="flex-start">
           {addressData?.map((item, index) => (
-            <Stack direction="row" mb={2}>
+            <Stack direction="row" mb={2} key={index}>
               <Radio
                 checked={addressSelected?.addressId === item?.addressId}
                 onChange={() => handleChange(item)}
