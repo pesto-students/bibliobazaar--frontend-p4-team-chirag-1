@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Container, ThemeProvider } from "@mui/material";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
-import axios from 'axios'
+import axios from "axios";
 
 import "./index.css";
 import "./App.css";
@@ -46,20 +46,21 @@ const App = () => {
         <Container maxWidth="xl">
           <Routes>
             <Route path="/" element={<Landing />} />
-            {/* Protected Route Example */}
-            {/* <Route
+            <Route
               path="/profile"
               element={
                 <ProtectedRoute>
                   <Profile />
                 </ProtectedRoute>
               }
-            /> */}
-            <Route path="/profile" element={<Profile />} />
+            />
             <Route path="/dashboard" element={<Home />} />
-            <Route path="/bookDetail/:bookId/:userId" element={<BookDetail />} />
+            <Route
+              path="/bookDetail/:bookId/:userId"
+              element={<BookDetail />}
+            />
             <Route path="/checkout" element={<Checkout />} />
-            <Route path="/rentDetail" element={<RentDetail />} />
+            <Route path="/rentDetail/:rentId" element={<RentDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Container>

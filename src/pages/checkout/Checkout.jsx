@@ -2,8 +2,10 @@ import { Grid, Stack } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useSelector } from "react-redux";
-import { checkout, completeOrderUrl, paymentVerify } from "../../config/Config";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router";
+import { checkout, completeOrderUrl, deleteAllFromCartUrl, paymentVerify } from "../../config/Config";
+import { clearCartContents, updateCart } from "../../logic/reducers/userSlice";
 
 import {
   PageTitle,
@@ -18,19 +20,43 @@ import PriceSummary from "./components/PriceSummary";
 const Checkout = () => {
   const razorpayId = process.env.REACT_APP_RAZORPAY_ID;
   const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [addressSelected, setAddressSelected] = useState(null);
   const [deliveryFee, setDeliveryFee] = useState(20);
   const [orderCost, setOrderCost] = useState(0);
-  const [completeOrderLoader, setCompleteOrderLoader] = useState(false)
+  const [completeOrderLoader, setCompleteOrderLoader] = useState(false);
+  const [deleteAllLoader, setDeleteAllLoader] = useState(false);
+  const [razorpayInfo, setRazorPayInfo] = useState({
+    razorpayOrderId: "fdasf",
+    razorpayPaymentId: "fas",
+  });
 
   useEffect(() => {
     const orderTotal = user?.cart?.contents?.reduce(
-      (prev, curr, i) => prev + curr?.rentExpected,
+      (prev, curr, i) => prev + curr?.rent,
       0
     );
-    setOrderCost(orderTotal)
+    setOrderCost(orderTotal);
   }, [user]);
+
+  const deleteAllItemsFromCart = () => {
+    axios
+      .post(deleteAllFromCartUrl, {})
+      .then((res) => {
+        setDeleteAllLoader(true);
+        if (res?.status === 200) {
+          dispatch(updateCart(res?.data));
+          setDeleteAllLoader(false);
+        }
+      })
+      .catch((err) => {
+        console.log("error", err);
+        setDeleteAllLoader(false);
+        toast.error(err?.message || "Something is wrong");
+      });
+  }
 
   const makePayment = async (amount) => {
     console.log("process.env", process.env.REACT_APP_BASE_URL);
@@ -79,33 +105,53 @@ const Checkout = () => {
         razorpay_payment_id: response.razorpay_payment_id,
         razorpay_signature: response.razorpay_signature,
       };
+      setRazorPayInfo({
+        razorpayOrderId: response.razorpay_order_id,
+        razorpayPaymentId: response.razorpay_payment_id,
+      });
       const result = await axios.post(paymentVerify, info);
       console.log("result", result);
       if (result?.status === 200) {
-        completeOrder()
-        toast.success("payment Completed")
+        completeOrder();
+        toast.success("payment Completed");
       }
     }
   };
 
   const completeOrder = () => {
+    const date = new Date();
     const info = {
+      bookArray: [...user?.cart?.contents],
+      paymentMode: "Online",
+      trackingID: crypto.randomUUID(),
+      address: JSON.stringify(addressSelected),
+      subTotal: orderCost,
+      deliveryCharge: deliveryFee,
+      totalAmount: Number(orderCost) + Number(deliveryFee),
+      rentedOn: new Date(),
+      returnDate: new Date(date.setDate(date.getDate() + 30)),
+      razorpayOrderId: razorpayInfo?.razorpayOrderId,
+      razorpayPaymentId: razorpayInfo?.razorpayPaymentId,
     };
+    console.log("info", info);
     axios
       .post(completeOrderUrl, info)
       .then((res) => {
-        completeOrderLoader(true);
+        setCompleteOrderLoader(true);
+        console.log("complete", res);
         if (res?.status === 200) {
-          completeOrderLoader(false);
-          
+          setCompleteOrderLoader(false);
+          deleteAllItemsFromCart()
+          toast.success('Order placed successfully')
+          navigate(`/rentDetail/${res?.data?._id}`)
         }
       })
       .catch((err) => {
         console.log("error", err);
-        completeOrderLoader(false);
+        setCompleteOrderLoader(false);
         toast.error(err?.message || "Something is wrong");
       });
-  }
+  };
 
   return (
     <Wrapper>
@@ -134,6 +180,9 @@ const Checkout = () => {
         <PrimaryButton onClick={() => makePayment(orderCost + deliveryFee)}>
           Make Payment
         </PrimaryButton>
+        {/* <PrimaryButton onClick={() => completeOrder()}>
+          Make Payment
+        </PrimaryButton> */}
       </Stack>
     </Wrapper>
   );

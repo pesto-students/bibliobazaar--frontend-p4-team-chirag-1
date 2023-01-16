@@ -14,6 +14,7 @@ export const updateProfilePicture = `${BASE_URL}/user/updateProfilePicture`
 export const addressListUrl = `${BASE_URL}/user/addressesList`
 export const addToCartUrl = `${BASE_URL}/user/addToCart`
 export const deleteFromCartUrl = `${BASE_URL}/user/deleteFromCart`
+export const deleteAllFromCartUrl = `${BASE_URL}/user/deleteAllFromCart`
 
 // Book
 export const bookDetailUrl = `${BASE_URL}/library/details`
