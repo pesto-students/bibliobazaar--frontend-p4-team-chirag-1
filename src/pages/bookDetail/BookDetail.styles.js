@@ -41,3 +41,10 @@ export const Heading = styled(Typography)(({ theme }) => ({
 export const SubText = styled(Typography)(({ theme }) => ({
   fontSize: theme.fontSize?.md,
 }));
+
+export const ReadMoreText = styled(Typography)(({ theme }) => ({
+  textDecoration: 'underline',
+  color: theme?.primary?.main,
+  fontSize: theme?.fontSize?.xxs,
+  cursor: 'pointer'
+}));

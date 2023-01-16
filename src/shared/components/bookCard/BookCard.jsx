@@ -23,40 +23,43 @@ const BookCard = (props) => {
   const navigate = useNavigate();
 
   return (
-    <CustomCard onClick={() => navigate(`/bookDetail/${bookId}/${userId}`)}>
-      <CardActionArea>
-        <CardImage
-          component="img"
-          image={imageUrl}
-          alt=""
-          width={300}
-          height={300}
-        />
-        <CardContent>
-          <Stack
-            direction="column"
-            alignItems="flexStart"
-            spacing={0.5}
-            mt={0.5}
-          >
-            <BookAuthor>{author}</BookAuthor>
-            <BookTitle>{bookName}</BookTitle>
+    <>
+      <CustomCard onClick={() => navigate(`/bookDetail/${bookId}/${userId}`)}>
+        <CardActionArea>
+          <CardImage
+            component="img"
+            image={imageUrl}
+            alt=""
+            width={300}
+            height={300}
+          />
+          <CardContent>
             <Stack
-              direction="row"
-              justifyContent="space-between"
+              direction="column"
+              alignItems="flexStart"
               spacing={0.5}
               mt={0.5}
             >
-              <BookInfo>Price</BookInfo>
-              <BookInfo>Rs. {rentExpected}</BookInfo>
+              <BookAuthor>{author.join(",")}</BookAuthor>
+              <BookTitle id={bookName}>{bookName}</BookTitle>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                spacing={0.5}
+                mt={0.5}
+              >
+                <BookInfo>Price</BookInfo>
+                <BookInfo>Rs. {rentExpected}</BookInfo>
+              </Stack>
             </Stack>
-          </Stack>
-          <Stack mt={1} justifyContent="center" alignItems="center">
+            {/* <Stack mt={1} justifyContent="center" alignItems="center">
             <PrimaryButton>Check Out</PrimaryButton>
-          </Stack>
-        </CardContent>
-      </CardActionArea>
-    </CustomCard>
+          </Stack> */}
+            {/* <CircularProgress color="inherit" /> */}
+          </CardContent>
+        </CardActionArea>
+      </CustomCard>
+    </>
   );
 };
 
@@ -76,11 +79,18 @@ const CardImage = styled(CardMedia)(() => ({
   objectFit: "contain",
 }));
 
-const BookAuthor = styled(Typography)(() => ({}));
+const BookAuthor = styled(Typography)(() => ({
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+}));
 
 const BookTitle = styled(Typography)(({ theme }) => ({
   fontSize: theme?.fontSize?.md,
   fontWeight: theme?.fontWeight?.xl,
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
 }));
 
 const BookInfo = styled(Typography)(({ theme }) => ({

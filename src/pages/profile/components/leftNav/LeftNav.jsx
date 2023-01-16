@@ -1,11 +1,15 @@
 import { Box, Stack } from "@mui/material";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setTab } from "../../../../logic/reducers/profileSlice";
 
 import { navProfileTabs } from "./data";
 import { NavItemDiv } from "./LeftNav.styles";
 
 const LeftNav = (props) => {
-  const { active, setActive } = props;
+  // const { active, setActive } = props;
+  const dispatch = useDispatch();
+  const { activeTab } = useSelector((state) => state.profile);
 
   return (
     <Box p={4}>
@@ -14,8 +18,8 @@ const LeftNav = (props) => {
           <NavItem
             data={item}
             key={item?.key}
-            active={active}
-            onClick={() => setActive(item?.key)}
+            active={activeTab}
+            onClick={() => dispatch(setTab(item?.key))}
           />
         ))}
       </Stack>
@@ -27,9 +31,19 @@ export default LeftNav;
 
 const NavItem = (props) => {
   const {
-    data: { label, key },
+    data: { label, key, icon },
     active,
-    onClick
+    onClick,
   } = props;
-  return <NavItemDiv active={active === key} onClick={onClick}>{label}</NavItemDiv>;
+  return (
+    <NavItemDiv active={active === key} onClick={onClick}>
+      <Stack
+        flexDirection={"row"}
+        gap={"4px"}
+      >
+        <img src={icon} alt="" />
+        {label}
+      </Stack>
+    </NavItemDiv>
+  );
 };

@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router";
-import { checkout, completeOrderUrl, deleteAllFromCartUrl, paymentVerify } from "../../config/Config";
+import {
+  checkout,
+  completeOrderUrl,
+  deleteAllFromCartUrl,
+  paymentVerify,
+} from "../../config/Config";
 import { clearCartContents, updateCart } from "../../logic/reducers/userSlice";
 
 import {
@@ -56,7 +61,7 @@ const Checkout = () => {
         setDeleteAllLoader(false);
         toast.error(err?.message || "Something is wrong");
       });
-  }
+  };
 
   const makePayment = async (amount) => {
     console.log("process.env", process.env.REACT_APP_BASE_URL);
@@ -141,9 +146,9 @@ const Checkout = () => {
         console.log("complete", res);
         if (res?.status === 200) {
           setCompleteOrderLoader(false);
-          deleteAllItemsFromCart()
-          toast.success('Order placed successfully')
-          navigate(`/rentDetail/${res?.data?._id}`)
+          deleteAllItemsFromCart();
+          toast.success("Order placed successfully");
+          navigate(`/rentDetail/${res?.data?._id}`);
         }
       })
       .catch((err) => {
@@ -177,7 +182,10 @@ const Checkout = () => {
         </Grid>
       </Grid>
       <Stack mt={4} justifyContent="center" alignItems="center">
-        <PrimaryButton onClick={() => makePayment(orderCost + deliveryFee)}>
+        <PrimaryButton
+          onClick={() => makePayment(orderCost + deliveryFee)}
+          disabled={!addressSelected || user?.cart?.contents.length === 0}
+        >
           Make Payment
         </PrimaryButton>
         {/* <PrimaryButton onClick={() => completeOrder()}>

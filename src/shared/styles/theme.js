@@ -14,7 +14,8 @@ export const theme = createTheme({
     grey: '#F7F7F7',
     danger:'#CC0000',
     lightGrey: '#F5F5F5',
-    borderGrey: '#C4C4C4'
+    borderGrey: '#C4C4C4',
+    bg: '#000000'
   },
   fontSize: {
     xxl: '36px',
@@ -23,6 +24,7 @@ export const theme = createTheme({
     md: '20px',
     sm: '18px',
     xs: '16px',
+    xxs: '12px',
     vs: '10px',
   },
   fontWeight: {
