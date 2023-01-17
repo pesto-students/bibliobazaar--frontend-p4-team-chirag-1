@@ -1,12 +1,4 @@
-import { styled } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import { AppBar, Avatar, Badge, Typography } from '@mui/material';
-
-export const CustomAppBar = styled(AppBar)(({ theme }) => ({
-  color: theme?.palette?.black,
-  backgroundColor: theme?.palette?.white,
-  padding: '0px 24px'
-}));
+import { Button, styled, Paper, Typography,InputBase,CardMedia } from "@mui/material";
 
 export const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -45,33 +37,62 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export const StyledBadge = styled(Badge)(({ theme }) => ({
-  "& .MuiBadge-badge": {
-    backgroundColor: theme?.primary
-  }
+export const LibraryPaper = styled(Paper)(({ theme }) => ({
+  padding: "16px 32px"
 }));
 
-export const CustomAvatar = styled(Avatar)(({ theme }) => ({
-  backgroundColor: 'grey',
-  cursor: 'pointer',
-  width: '35px',
-  height: '35px'
-}))
+export const CardImage = styled(CardMedia)(() => ({
+  objectFit: "contain",
+  borderRadius:"10px"
+}));
 
-export const UserName = styled(Typography)(({ theme }) => ({
+export const BookTitle = styled(Typography)(({ theme }) => ({
+  fontSize: theme?.fontSize?.xs,
+  fontWeight: theme?.fontWeight?.xl,
+}));
+
+export const BookInfo = styled(Typography)(({ theme }) => ({
+  fontSize: theme?.fontSize?.vs,
+}));
+
+export const BookButton = styled(Button)((({ theme, type }) => ({
+  padding: '8px',
+  borderRadius: '10px',
+  textTransform: 'none',
+  background: type === 'remove' ? theme?.palette?.removeBg: theme?.palette?.editBg,
+  color: type === 'remove' ? theme?.palette?.removeColor: theme?.palette?.editColor,
+  '&:hover': {
+    transform: 'scale(1.05)',
+    background: type === 'remove' ? theme?.palette?.removeBg: theme?.palette?.editBg,
+  },
+  '&:disabled': {
+    pointerEvents: 'none',
+    opacity: 0.6
+  },
+})))
+
+export const CancelButton = styled(Button)((({ theme, type }) => ({
+  padding: '8px',
+  borderRadius: '10px',
+  textTransform: 'none',
+  border: `1px solid ${theme?.palette?.borderGrey}`,
+  background: theme?.palette?.white,
+  color: theme?.palette?.black,
+  '&:hover': {
+    transform: 'scale(1.05)',
+    background: theme?.palette?.white,
+  },
+  '&:disabled': {
+    pointerEvents: 'none',
+    opacity: 0.6
+  },
+})))
+
+export const NoBookContent = styled(Typography)((({ theme }) => ({
+  width: '100%',
+  height: '100%',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  paddingLeft: '8px',
-  cursor: 'pointer',
-  fontSize: theme?.fontSize?.xs,
-}))
-
-export const AuthButton = styled(Typography)(({ theme }) => ({
-  cursor: 'pointer',
-  fontSize: theme?.fontSize?.md,
-  fontWeight: theme?.fontWeight?.lg,
-  '&:hover': {
-    color: theme?.primary?.main
-  }
-}))
+  minHeight: '100px'
+})))

@@ -38,7 +38,7 @@ export const bookSlice = createSlice({
       console.log(action)
       return {
         ...state,
-        bookData: action?.payload?.bookData
+        bookData: action?.payload
       }
     },
     closeAddBookData : (state,action) => {
