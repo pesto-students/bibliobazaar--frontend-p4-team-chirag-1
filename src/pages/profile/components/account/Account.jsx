@@ -3,7 +3,7 @@ import { Grid, InputLabel, MenuItem, Skeleton, Stack } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-import { PrimaryButton, Wrapper } from "../../../../shared/styles/globalStyles";
+import { DangerText, PrimaryButton, Wrapper } from "../../../../shared/styles/globalStyles";
 import {
   BootstrapInput,
   CustomDate,
@@ -22,12 +22,11 @@ import {
 } from "../../../../config/Config";
 import Spinner from "../../../../shared/components/spinner/Spinner";
 import ProfileImg from "../../../../assets/images/profile.png";
-import { loginUser } from "../../../../logic/reducers/userSlice";
+import { loginUser, updateCart } from "../../../../logic/reducers/userSlice";
 import { useDispatch } from "react-redux";
 
 const Account = () => {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   let inputRef;
   const [loader, setLoader] = useState(false);
@@ -63,7 +62,7 @@ const Account = () => {
             profilePicture: res?.data?.profilePicture || null,
           });
           setLoader(false);
-          dispatch(loginUser(res?.data));
+          dispatch(updateCart(res?.data));
         }
       })
       .catch((err) => {
@@ -148,7 +147,9 @@ const Account = () => {
 
   return (
     <Wrapper>
-      {loader ? <Skeleton variant={"rectangular"} width={'100%'} height={400} /> : (
+      {loader ? (
+        <Skeleton variant={"rectangular"} width={"100%"} height={400} />
+      ) : (
         <>
           <Grid container spacing={5}>
             <Grid item xs={12} sm={2}>
@@ -186,7 +187,9 @@ const Account = () => {
               <Stack direction="column" alignItems="center" spacing={3}>
                 <InputWrapper variant="standard">
                   <InputLabel shrink htmlFor="firstName">
-                    <InputLabelText>First Name</InputLabelText>
+                    <InputLabelText>
+                      First Name&nbsp;<DangerText>*</DangerText>
+                    </InputLabelText>
                   </InputLabel>
                   <BootstrapInput
                     defaultValue=""

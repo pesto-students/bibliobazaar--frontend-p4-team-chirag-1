@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Container, ThemeProvider } from "@mui/material";
 import { Toaster } from "react-hot-toast";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import axios from "axios";
 
 import "./index.css";
@@ -21,6 +21,8 @@ import SignUpModal from "./shared/components/signup/SignUp";
 import { setLoginClose, setSignupClose } from "./logic/reducers/userSlice";
 import NotFound from "./pages/notFound/NotFound";
 import ProtectedRoute from "./utilities/ProtectedRoute";
+import { setAddressClose } from "./logic/reducers/profileSlice";
+import AddressModal from "./shared/components/addressModal/AddressModal";
 
 const App = () => {
   // const {
@@ -29,10 +31,11 @@ const App = () => {
   const { isLoggedIn, user, loginOpen, signupOpen, token } = useSelector(
     (state) => state.user
   );
+  const { addressOpen } = useSelector(state => state.profile)
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isLoggedIn) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
@@ -72,6 +75,10 @@ const App = () => {
         <SignUpModal
           open={signupOpen}
           onClose={() => dispatch(setSignupClose())}
+        />
+        <AddressModal 
+          open={addressOpen}
+          onClose={() => dispatch(setAddressClose())}
         />
       </ThemeProvider>
     </BrowserRouter>

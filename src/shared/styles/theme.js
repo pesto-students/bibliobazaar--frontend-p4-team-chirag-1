@@ -12,10 +12,15 @@ export const theme = createTheme({
     black: '#000000',
     logo: '#9A98F0',
     grey: '#F7F7F7',
-    danger:'#CC0000',
+    danger: '#CC0000',
     lightGrey: '#F5F5F5',
     borderGrey: '#C4C4C4',
-    bg: '#000000'
+    bg: '#000000',
+    bgGrey: '#D9D9D9',
+    editBg: '#FFF4CD',
+    editColor: '#DD9200',
+    removeBg: '#FFD5D8',
+    removeColor: '#CC0000',
   },
   fontSize: {
     xxl: '36px',
