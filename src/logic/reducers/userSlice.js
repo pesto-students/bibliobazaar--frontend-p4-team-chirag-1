@@ -25,7 +25,8 @@ export const userSlice = createSlice({
       return {
         ...state,
         isLoggedIn: false,
-        user: null
+        user: null,
+        token: ''
       }
     },
     updateCart: (state, action) => {

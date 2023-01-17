@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  activeTab: 'account'
+  activeTab: 'account',
+  addressOpen: false,
+  editAddress: {}
 }
 
 export const userSlice = createSlice({
@@ -13,10 +15,28 @@ export const userSlice = createSlice({
         ...state,
         activeTab: action.payload
       }
+    },
+    setAddressOpen: (state) => {
+      return {
+        ...state,
+        addressOpen: true
+      }
+    },
+    setAddressClose: (state) => {
+      return {
+        ...state,
+        addressOpen: false
+      }
+    },
+    setEditAddress: (state, action) => {
+      return {
+        ...state,
+        editAddress: { ...action.payload }
+      }
     }
   }
 })
 
-export const { setTab } = userSlice.actions
+export const { setTab, setAddressOpen, setAddressClose, setEditAddress } = userSlice.actions
 
 export default userSlice.reducer

@@ -58,6 +58,16 @@ export const CustomSelect = styled(Select)(() => ({
   }
 }))
 
+export const CustomSelectProfile = styled(Select)(() => ({
+  width: '95%',
+  borderRadius: '10px',
+  marginTop: '20px',
+  height: '50px',
+  '.MuiSelect-select': {
+    padding: '8px 14px'
+  }
+}))
+
 export const CustomDate = styled('input')(({ theme }) => ({
   width: '95%',
   height: '36px',
@@ -65,3 +75,4 @@ export const CustomDate = styled('input')(({ theme }) => ({
   border: `1px solid ${theme?.palette?.borderGrey}`,
   borderRadius: '10px'
 }))
+

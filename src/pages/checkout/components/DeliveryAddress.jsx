@@ -12,9 +12,14 @@ import {
   NoData,
   TextItem,
 } from "../Checkout.styles";
+import { setAddressOpen } from "../../../logic/reducers/profileSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const DeliveryAddress = (props) => {
+
   const { addressSelected, setAddressSelected } = props;
+  const { addressOpen } = useSelector((state) => state.profile);
+  const dispatch = useDispatch()
 
   const [selectedValue, setSelectedValue] = useState("a");
   const [addressLoader, setAddressLoader] = useState(false);
@@ -48,6 +53,10 @@ const DeliveryAddress = (props) => {
       });
   };
 
+  useEffect(() => {
+    addressList();
+  }, [addressOpen]);
+
   return (
     <CustomPaper>
       <CustomTitle>Delivery Address</CustomTitle>
@@ -71,7 +80,7 @@ const DeliveryAddress = (props) => {
             </Stack>
           ))}
           <Box mt={2}>
-            <PrimaryButton>+ Add Address</PrimaryButton>
+            <PrimaryButton onClick={() => dispatch(setAddressOpen())}>+ Add Address</PrimaryButton>
           </Box>
         </Stack>
       </DeliveryAddressWrapper>
