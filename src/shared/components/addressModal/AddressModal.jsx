@@ -44,8 +44,14 @@ const validationSchema = yup.object({
   fullName: yup.string("Enter your name").required("Name is required"),
   mobileNumber: yup
     .number("Enter phone number")
+    .min(1000000000, "Enter valid mobile number")
+    .max(9999999999, "Enter valid mobile number")
     .required("Phone number is required"),
-  pincode: yup.number("Enter Pincode").required("Pincode is required"),
+  pincode: yup
+    .number("Enter Pincode")
+    .min(100000, "Enter valid pin code")
+    .max(999999, "Enter valid pin code")
+    .required("Pincode is required"),
   houseNumber: yup
     .string("Enter house number")
     .required("House number is required"),

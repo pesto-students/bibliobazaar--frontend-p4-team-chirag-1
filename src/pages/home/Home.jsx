@@ -19,7 +19,7 @@ import { userSearch } from "../../config/Config";
 import { useSelector } from "react-redux";
 
 const Home = () => {
-  const { search } = useSelector((state) => state.user);
+  const { search, user, searchTrigger } = useSelector((state) => state.user);
 
   const [sortOption, setSortOption] = useState(sortOptions[0]?.key);
   const [languageSelected, setLanguageSelected] = useState([]);
@@ -34,16 +34,17 @@ const Home = () => {
     console.log("languageFilter", languageSelected);
     console.log("genreFilter", genreSelected);
     console.log("search", search);
+    console.log("searchTrigger", searchTrigger);
     let url = `${userSearch}?q=${search}&lang=${languageSelected.join(
       ","
     )}&genre=${genreSelected.join(
       ","
     )}&sortBy=rentExpected&order=${sortOption}`;
     setGetBooksUrl(url);
-  }, [sortOption, languageSelected, genreSelected, search]);
+  }, [sortOption, languageSelected, genreSelected, searchTrigger]);
   
   useEffect(() => {
-    // getBooks();
+    getBooks();
   }, [getBooksUrl])
 
   const getBooks = () => {
@@ -52,7 +53,9 @@ const Home = () => {
       .post(getBooksUrl)
       .then((res) => {
         if (res?.status === 200) {
-          setBookList(res?.data);
+          const filteredArray = res?.data?.filter(item => item?.userId !== user?.userId)
+          // setBookList(res?.data);
+          setBookList([...filteredArray])
           setLoader(false);
         }
       })

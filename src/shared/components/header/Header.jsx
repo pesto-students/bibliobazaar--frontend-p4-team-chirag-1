@@ -21,6 +21,7 @@ import {
   CustomAvatar,
   Search,
   SearchIconWrapper,
+  SearchIconWrapperRight,
   StyledBadge,
   StyledInputBase,
   UserName,
@@ -30,6 +31,7 @@ import Logo from "../logo/Logo";
 import {
   logoutUser,
   setLoginOpen,
+  setSearchTrigger,
   setSearchValue,
   setSignupOpen,
 } from "../../../logic/reducers/userSlice";
@@ -61,7 +63,7 @@ const Header = () => {
     if (menu?.key === "logout") {
       dispatch(logoutUser());
       navigate("/");
-    } else {
+    } else if (menu?.key) {
       navigate("/profile");
       dispatch(setTab(menu?.key));
     }
@@ -70,6 +72,18 @@ const Header = () => {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      navigate("/dashboard");
+      dispatch(setSearchTrigger())
+    }
+  };
+
+  const searchIconClick = () => {
+    navigate("/dashboard");
+    dispatch(setSearchTrigger())
+  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -183,15 +197,22 @@ const Header = () => {
           <Logo />
           <Box sx={{ flexGrow: 1 }} />
           <Search sx={{ display: { xs: "none", sm: "block" } }}>
-            <SearchIconWrapper>
+            {/* <SearchIconWrapper>
               <SearchIcon />
-            </SearchIconWrapper>
+            </SearchIconWrapper> */}
             <StyledInputBase
               placeholder="Books / Author / ISBN"
               inputProps={{ "aria-label": "search" }}
               value={search}
               onChange={(e) => dispatch(setSearchValue(e.target.value))}
+              onKeyDown={handleKeyDown}
             />
+            <SearchIconWrapperRight>
+              <SearchIcon onClick={() => searchIconClick()} />
+            </SearchIconWrapperRight>
+            {/* <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper> */}
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           {isLoggedIn ? (

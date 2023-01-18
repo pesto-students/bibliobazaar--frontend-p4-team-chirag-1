@@ -30,21 +30,25 @@ export const genreFilter = {
     {
       "key": "literature",
       "label": "Literature"
+    },
+    {
+      "key": "fiction",
+      "label": "Fiction"
     }
   ]
 }
 
 export const sortOptions = [
   {
-    "key": "lowToHigh",
+    "key": "asc",
     "label": "Price - Low to High"
   },
   {
-    "key": "highToLow",
+    "key": "desc",
     "label": "Price - High to Low"
   },
   {
-    "key": "newestFirst",
+    "key": "desc",
     "label": "Newest First"
   }
 ]
