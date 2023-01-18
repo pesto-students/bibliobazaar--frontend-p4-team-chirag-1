@@ -6,8 +6,11 @@ import { CardActionArea, Stack, styled } from "@mui/material";
 import { useNavigate } from "react-router";
 
 import { PrimaryButton } from "../../styles/globalStyles";
+import { useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
 
 const BookCard = (props) => {
+  const { isLoggedIn } = useSelector((state) => state.user);
   const {
     data: {
       userId,
@@ -24,7 +27,15 @@ const BookCard = (props) => {
 
   return (
     <>
-      <CustomCard onClick={() => navigate(`/bookDetail/${bookId}/${userId}`)}>
+      <CustomCard
+        onClick={() => {
+          if (isLoggedIn) {
+            navigate(`/bookDetail/${bookId}/${userId}`);
+          } else {
+            toast.error("Please Login to view details");
+          }
+        }}
+      >
         <CardActionArea>
           <CardImage
             component="img"

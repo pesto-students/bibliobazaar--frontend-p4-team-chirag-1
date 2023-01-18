@@ -3,7 +3,11 @@ import { Grid, InputLabel, MenuItem, Skeleton, Stack } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-import { DangerText, PrimaryButton, Wrapper } from "../../../../shared/styles/globalStyles";
+import {
+  DangerText,
+  PrimaryButton,
+  Wrapper,
+} from "../../../../shared/styles/globalStyles";
 import {
   BootstrapInput,
   CustomDate,
@@ -73,6 +77,15 @@ const Account = () => {
   };
 
   const updateAccount = () => {
+    if (
+      accountInfo?.phoneNumber !== null &&
+      accountInfo?.phoneNumber !== "" &&
+      (accountInfo?.phoneNumber > 9999999999 ||
+        accountInfo?.phoneNumber < 1000000000)
+    ) {
+      toast.error("Please enter valid mobile number");
+      return;
+    }
     const info = {
       firstName: accountInfo?.firstName,
       lastName: accountInfo?.lastName,
@@ -278,8 +291,16 @@ const Account = () => {
                   </InputLabel>
                   <CustomDate
                     type="date"
-                    max={new Date()}
                     value={accountInfo?.dob}
+                    max={
+                      new Date().getFullYear() +
+                      "-" +
+                      new Date().getMonth() +
+                      1 +
+                      "-" +
+                      new Date().getDate()
+                    }
+                    // max="2023-05-20"
                     onChange={(e) => {
                       setAccountInfo({
                         ...accountInfo,
