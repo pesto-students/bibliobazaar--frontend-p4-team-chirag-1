@@ -43,7 +43,7 @@ const Home = () => {
   }, [sortOption, languageSelected, genreSelected, search]);
   
   useEffect(() => {
-    // getBooks();
+    getBooks();
   }, [getBooksUrl])
 
   const getBooks = () => {
