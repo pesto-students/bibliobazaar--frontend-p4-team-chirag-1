@@ -183,7 +183,7 @@ const Checkout = () => {
       </Grid>
       <Stack mt={4} justifyContent="center" alignItems="center">
         <PrimaryButton
-          onClick={() => makePayment(orderCost + deliveryFee)}
+          onClick={() => makePayment(Number(orderCost) + Number(deliveryFee))}
           disabled={!addressSelected || user?.cart?.contents.length === 0}
         >
           Make Payment
