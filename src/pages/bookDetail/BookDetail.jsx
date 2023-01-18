@@ -35,6 +35,7 @@ const BookDetail = () => {
   const { bookId, userId } = useParams();
   const [loader, setLoader] = useState(false);
   const [bookInfo, setBookInfo] = useState({});
+  const [ownerName, setOwnerName] = useState(null)
   const [cartLoader, setCartLoader] = useState(false);
   const [cartBookIds, setCartBookIds] = useState([]);
   const [expanded, setExpanded] = useState(false);
@@ -47,7 +48,8 @@ const BookDetail = () => {
       .then((res) => {
         if (res?.status === 200) {
           console.log(res?.data);
-          setBookInfo({ ...res?.data?.[0] });
+          setBookInfo({ ...res?.data?.bookData });
+          setOwnerName(res?.data?.ownerName)
           setLoader(false);
         }
       })
@@ -73,7 +75,7 @@ const BookDetail = () => {
     const info = {
       bookId,
       ownerId: userId,
-      ownerName: "Need to add",
+      ownerName: ownerName,
       rent: bookInfo?.rentExpected,
       rentStatus: "On Rent",
       deliveryStatus: "Dispatched",
