@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import {
-  collectionUrl,
-  deleteBookUrl
+  collectionUrl
 } from "../../../../config/Config";
 import BookSearchModal from "./SearchBook";
 import BookAddModal from "./AddBook";
+import BookDeleteModal from "./deleteBook";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchBookOpen } from "../../../../logic/reducers/bookSlice";
+import { setSearchBookOpen,setDeleteBookOpen,setAddBookData,setEditModeOpen,setAddBookOpen } from "../../../../logic/reducers/bookSlice";
 import { Stack, Grid, Table, TableCell, TableContainer, TableRow , Paper, Skeleton} from "@mui/material";
 import {
   BookButton,
@@ -24,7 +24,7 @@ const Library = () => {
 
   const [books, setBooks] = useState([]);
   const [loader, setLoader] = useState(false);
-  const { searchBook, addBook } = useSelector(
+  const { searchBook, addBook, deleteBook,editMode } = useSelector(
     (state) => state.book
   );
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const Library = () => {
   
   useEffect(() => {
     getBookData();
-  }, [addBook]);
+  }, [addBook,deleteBook,editMode]);
 
 
   const getBookData = () => {
@@ -53,31 +53,23 @@ const Library = () => {
       });
   };
 
-  const deleteBook = (bookData) => {
-    if(!window.confirm("Are you sure wish to delete '"+ bookData.bookId.bookName + "'?"))
-     return;
-    console.log("addressId:", bookData);
-    const info = {
-      bookId: bookData?.bookId._id,
-    };
-    axios
-      .post(deleteBookUrl, info)
-      .then((res) => {
-        if (res?.status === 200) {
-          getBookData();
-          toast.success("Book removed successfully");
-        }
-      })
-      .catch((err) => {
-        console.log("error", err);
-        toast.error(err?.message || "Something went wrong");
-      });
-  };
-  
-  const editBook = (address) => {
-    console.log("editAddress", address);
-    // dispatch(setEditAddress(address));
-    // dispatch(setAddressOpen());
+    
+  const editBook = (bookData) => {
+    var tempData = 
+    {
+      bookId:bookData?.bookId?._id,
+      bookName: bookData?.bookId?.bookName,
+      author:bookData?.bookId?.author,
+      isbn:bookData?.bookId?.isbn,
+      imageUrl:bookData?.bookId?.imageUrl,
+      rentedBook:bookData?.rentedBook,
+      rentExpected:bookData?.rentExpected,
+      availableBook:bookData?.availableBook
+    }
+    console.log(bookData)
+    dispatch(setAddBookData(tempData));
+    dispatch(setEditModeOpen());
+    dispatch(setAddBookOpen())
   };
   return (
     <Wrapper>
@@ -102,7 +94,10 @@ const Library = () => {
               <Grid item xs={6} key={index} >
                <LibraryCard  
                   bookData={data} 
-                  deleteBook={() =>deleteBook(data)}
+                  deleteBook={() =>{
+                    dispatch(setAddBookData(data))
+                    dispatch(setDeleteBookOpen())
+                  }}
                   editBook={() => editBook(data)}/>
              </Grid>
             ))}
@@ -117,6 +112,9 @@ const Library = () => {
         />
       <BookAddModal
           open={addBook}
+      />
+      <BookDeleteModal
+          open={deleteBook}
       />
 
     </Wrapper>
@@ -142,7 +140,7 @@ const LibraryCard = (props) => {
             <BookTitle>{bookId.bookName}</BookTitle>
             <BookInfo>{bookId?.author.join(',')}</BookInfo>
             <BookInfo>ISBN - {bookId.isbn}</BookInfo>
-            <TableContainer component={Paper}>
+            <TableContainer >
             <Table>
               <TableRow>
                   <TableCell variant="head">Rent Expected</TableCell>
@@ -158,6 +156,18 @@ const LibraryCard = (props) => {
               </TableRow>
             </Table>
             </TableContainer>
+            {/* <Stack direction="row">
+              <BookInfo>Rent Expected</BookInfo>
+              <BookInfo>{rentExpected}</BookInfo>
+            </Stack>
+            <Stack direction="row">
+              <BookInfo>On Rent</BookInfo>
+              <BookInfo>{rentedBook}</BookInfo>
+            </Stack>
+            <Stack direction="row">
+              <BookInfo>Available Book(s) </BookInfo>
+              <BookInfo>{availableBook}</BookInfo>
+            </Stack> */}
             </Stack>
             <Stack>
             <CardImage

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import {  useState } from "react";
 
 import Box from "@mui/material/Box";
 import {
@@ -62,7 +62,6 @@ export default function BookSearchModal(props) {
   };
 
   const selectBook = (data) => {
-    console.log(data)
     dispatch(setAddBookData(data))
     dispatch(setAddBookOpen())
     dispatch(setSearchBookClose())

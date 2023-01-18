@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   searchBook:false,
   addBook:false,
+  editMode:false,
+  deleteBook:false,
   bookData:null
 }
 
@@ -22,6 +24,30 @@ export const bookSlice = createSlice({
         addBook: false
       }
     },
+    setEditModeOpen: (state) => {
+      return {
+        ...state,
+        editMode: true
+      }
+    },
+    setEditModeClose: (state) => {
+      return {
+        ...state,
+        editMode: false
+      }
+    },
+    setDeleteBookOpen: (state) => {
+      return {
+        ...state,
+        deleteBook: true
+      }
+    },
+    setDeleteBookClose: (state) => {
+      return {
+        ...state,
+        deleteBook: false
+      }
+    },
     setSearchBookOpen: (state) => {
       return {
         ...state,
@@ -34,11 +60,10 @@ export const bookSlice = createSlice({
         searchBook: false
       }
     },
-    setAddBookData : (state,action) => {
-      console.log(action)
+    setAddBookData : (state,data) => {
       return {
         ...state,
-        bookData: action?.payload
+        bookData: data?.payload
       }
     },
     closeAddBookData : (state,action) => {
@@ -51,6 +76,6 @@ export const bookSlice = createSlice({
   }
 })
 
-export const { setSearchBookOpen, setSearchBookClose, setAddBookOpen, setAddBookClose, setAddBookData, closeAddBookData } = bookSlice.actions
+export const { setSearchBookOpen, setSearchBookClose, setAddBookOpen, setAddBookClose, setAddBookData, closeAddBookData, setDeleteBookOpen, setDeleteBookClose,setEditModeOpen, setEditModeClose } = bookSlice.actions
 
 export default bookSlice.reducer
