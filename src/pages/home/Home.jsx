@@ -19,7 +19,7 @@ import { userSearch } from "../../config/Config";
 import { useSelector } from "react-redux";
 
 const Home = () => {
-  const { search } = useSelector((state) => state.user);
+  const { search, user } = useSelector((state) => state.user);
 
   const [sortOption, setSortOption] = useState(sortOptions[0]?.key);
   const [languageSelected, setLanguageSelected] = useState([]);
@@ -52,7 +52,9 @@ const Home = () => {
       .post(getBooksUrl)
       .then((res) => {
         if (res?.status === 200) {
-          setBookList(res?.data);
+          const filteredArray = res?.data?.filter(item => item?.userId !== user?.userId)
+          // setBookList(res?.data);
+          setBookList([...filteredArray])
           setLoader(false);
         }
       })

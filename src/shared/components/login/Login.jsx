@@ -71,10 +71,10 @@ export default function LoginModal(props) {
       emailId: email,
       password: password,
     };
+    setLoader(true);
     axios
       .post(loginUrl, info)
       .then((res) => {
-        setLoader(true);
         if (res?.status === 200) {
           setLoader(false);
           dispatch(loginUser(res?.data));

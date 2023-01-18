@@ -61,7 +61,7 @@ const Header = () => {
     if (menu?.key === "logout") {
       dispatch(logoutUser());
       navigate("/");
-    } else {
+    } else if(menu?.key) {
       navigate("/profile");
       dispatch(setTab(menu?.key));
     }
