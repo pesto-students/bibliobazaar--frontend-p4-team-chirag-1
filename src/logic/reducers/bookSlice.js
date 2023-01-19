@@ -5,7 +5,7 @@ const initialState = {
   addBook:false,
   editMode:false,
   deleteBook:false,
-  bookData:null
+  bookData:{}
 }
 
 export const bookSlice = createSlice({
@@ -70,7 +70,7 @@ export const bookSlice = createSlice({
       console.log(action)
       return {
         ...state,
-        bookData: null
+        bookData: {}
       }
     }
   }
