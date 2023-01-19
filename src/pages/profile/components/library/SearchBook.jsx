@@ -13,7 +13,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import {
-    searchBookURL
+    searchBookURL,
+    findBookUrl
   } from "../../../../config/Config";
 import { setSearchBookClose,setAddBookOpen, setAddBookData } from "../../../../logic/reducers/bookSlice";
 import { PrimaryButton } from "../../../../shared/styles/globalStyles";
@@ -62,9 +63,42 @@ export default function BookSearchModal(props) {
   };
 
   const selectBook = (data) => {
-    dispatch(setAddBookData(data))
-    dispatch(setAddBookOpen())
-    dispatch(setSearchBookClose())
+    console.log(data);
+    if(data.isbn)
+    {
+      const info = 
+      {
+        isbn:data.isbn
+      }
+      axios
+      .post(findBookUrl,info)
+      .then((res) => {
+        if (res?.status === 200) {
+          console.log(res.data)
+          if(res.data?.bookFound)
+          {
+            toast.error("Book with same ISBN already present in your collection.");
+          }
+          else{
+              dispatch(setAddBookData(data))
+              dispatch(setAddBookOpen())
+              dispatch(setSearchBookClose())
+          }
+        }
+        else
+        {
+          toast.error("Something went wrong");
+        }
+      })
+      .catch((err) => {
+        console.log("error", err);
+        toast.error(err?.message || "Something went wrong");
+      });
+        
+    }
+    else{
+      toast.error("Something went wrong");
+    }
   };
  return (
     <Modal
@@ -133,7 +167,6 @@ const SearchBookCard = (props) => {
   } = props;
 
   
-  console.group(props)
   return (
     <LibraryPaper >
             <Stack  direction="row" className="StackTitle" justifyContent="space-between">
