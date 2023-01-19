@@ -1,24 +1,19 @@
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
-import {
-    Grid,
-    Typography,
-    Modal,
-    IconButton,
-    Stack
-  } from "@mui/material";
+import { Grid, Typography, Modal, IconButton, Stack } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { searchBookURL } from "../../../../config/Config";
 import {
     searchBookURL,
     findBookUrl
   } from "../../../../config/Config";
 import { setSearchBookClose,setAddBookOpen, setAddBookData } from "../../../../logic/reducers/bookSlice";
 import { PrimaryButton } from "../../../../shared/styles/globalStyles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Search,
   SearchIconWrapper,
@@ -26,7 +21,8 @@ import {
   BookTitle,
   BookInfo,
   CardImage,
-  LibraryPaper
+  LibraryPaper,
+  SearchIconWrapperRight,
 } from "./Library.styles";
 
 const style = {
@@ -38,21 +34,28 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
-  borderRadius: "20px",
-  maxHeight:"550px"
+  // borderRadius: "20px",
+  // maxHeight: "550px",
+  height: "auto",
+  maxHeight: "600px",
+  overflow: "auto",
 };
 
-
 export default function BookSearchModal(props) {
- 
+  const { searchBook } = useSelector((state) => state.book);
   const [books, setBooks] = useState([]);
+  const [searchValue, setSearchValue] = useState(null);
   const dispatch = useDispatch();
-  const searchBook = (key) => {
+
+  useEffect(() => {
+    setBooks([]);
+  }, [searchBook]);
+  const searchBookFn = (key) => {
     axios
-      .get(searchBookURL+"?q="+key)
+      .get(searchBookURL + "?q=" + key)
       .then((res) => {
         if (res?.status === 200) {
-          console.log(res.data)
+          console.log(res.data);
           setBooks([...res.data]);
         }
       })
@@ -80,6 +83,7 @@ export default function BookSearchModal(props) {
             toast.error("Book with same ISBN already present in your collection.");
           }
           else{
+            setSearchValue(null)
               dispatch(setAddBookData(data))
               dispatch(setAddBookOpen())
               dispatch(setSearchBookClose())
@@ -100,7 +104,8 @@ export default function BookSearchModal(props) {
       toast.error("Something went wrong");
     }
   };
- return (
+
+  return (
     <Modal
       open={props.open}
       aria-labelledby="modal-modal-title"
@@ -111,12 +116,11 @@ export default function BookSearchModal(props) {
           Search Book
           <IconButton
             aria-label="close"
-            onClick={
-                () => {
-                    setBooks([]);
-                    dispatch(setSearchBookClose())
-                }
-            }
+            onClick={() => {
+              setBooks([]);
+              dispatch(setSearchBookClose());
+              setSearchValue(null)
+            }}
             sx={{
               position: "absolute",
               right: 8,
@@ -128,64 +132,77 @@ export default function BookSearchModal(props) {
           </IconButton>
         </Typography>
         <Search sx={{ display: { xs: "none", sm: "block" } }}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Books / Author / ISBN"
-              inputProps={{ "aria-label": "search" }}
-              onKeyDown={(e)=>{
-                    if(e.key === "Enter")
-                    {
-                        searchBook(e.target.value)
-                    }
-              }}></StyledInputBase>
+          {/* <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper> */}
+          <StyledInputBase
+            placeholder="Books / Author / ISBN"
+            inputProps={{ "aria-label": "search" }}
+            onChange={(e) => setSearchValue(e.target.value)}
+            value={searchValue}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                searchBookFn(searchValue);
+              }
+            }}
+          ></StyledInputBase>
+          <SearchIconWrapperRight>
+            <SearchIcon onClick={() => searchBookFn(searchValue)} />
+          </SearchIconWrapperRight>
         </Search>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
-           {books.map((data, index) => (
-              <Grid item xs={6} key={index} >
-               <SearchBookCard  
-               bookData={data} 
-               selectBook={() => selectBook(data)}/>
-             </Grid>
-            ))}
-      </Grid>
+        <Grid
+          container
+          rowSpacing={2}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          mt={2}
+        >
+          {books.map((data, index) => (
+            <Grid item xs={6} key={index}>
+              <SearchBookCard
+                bookData={data}
+                selectBook={() => selectBook(data)}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </Box>
     </Modal>
   );
 }
 
 const SearchBookCard = (props) => {
-   const {
-    bookData: {
-      bookName,
-      author,
-      isbn,
-      imageUrl
-    },
-    selectBook
+  const {
+    bookData: { bookName, author, isbn, imageUrl },
+    selectBook,
   } = props;
 
-  
+  // console.group(props)
   return (
-    <LibraryPaper >
-            <Stack  direction="row" className="StackTitle" justifyContent="space-between">
-            <Stack>
-            <BookTitle>{bookName}</BookTitle>
-            <BookInfo>{author.join(',')}</BookInfo>
-            <BookInfo>ISBN - {isbn}</BookInfo>
-            </Stack>
-            <CardImage
-            component="img"
-            image={imageUrl}
-            alt={bookName}
-            width={100}
-            height={100}
-           />
-           </Stack>
-           <Stack mt={1} justifyContent="center" alignItems="center">
-            <PrimaryButton onClick={() => selectBook()} >Select</PrimaryButton>
-          </Stack>
+    <LibraryPaper>
+      <Stack
+        direction="row"
+        className="StackTitle"
+        justifyContent="space-between"
+      >
+        <Stack>
+          <BookTitle>{bookName}</BookTitle>
+          <BookInfo>{author.join(",")}</BookInfo>
+          <BookInfo>ISBN - {isbn}</BookInfo>
+        </Stack>
+        {/* <CardImage
+          component="img"
+          image={imageUrl}
+          alt={bookName}
+          width={100}
+          height={100}
+        /> */}
+        <img src={imageUrl} alt={bookName} width={100} height={100} />
+      </Stack>
+      <Stack mt={2} justifyContent="center" alignItems="center">
+        <PrimaryButton onClick={() => selectBook()} padding={"4px 24px"}>
+          Select
+        </PrimaryButton>
+      </Stack>
     </LibraryPaper>
   );
 };

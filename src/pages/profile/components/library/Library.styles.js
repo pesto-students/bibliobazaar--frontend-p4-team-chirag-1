@@ -8,7 +8,8 @@ export const Search = styled('div')(({ theme }) => ({
   marginLeft: 0,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
+    // marginLeft: theme.spacing(3),
+    marginTop: '12px',
     width: 'auto',
   },
 }));
@@ -28,7 +29,7 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingLeft: `calc(1em + ${theme.spacing(0.75)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -38,7 +39,8 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const LibraryPaper = styled(Paper)(({ theme }) => ({
-  padding: "16px 32px"
+  padding: "16px 32px",
+  marginBottom: "16px"
 }));
 
 export const CardImage = styled(CardMedia)(() => ({
@@ -55,8 +57,12 @@ export const BookInfo = styled(Typography)(({ theme }) => ({
   fontSize: theme?.fontSize?.vs,
 }));
 
+export const BookData = styled(Typography)(({ theme }) => ({
+  
+}));
+
 export const BookButton = styled(Button)((({ theme, type }) => ({
-  padding: '8px',
+  padding: '4px 12px',
   borderRadius: '10px',
   textTransform: 'none',
   background: type === 'remove' ? theme?.palette?.removeBg: theme?.palette?.editBg,
@@ -96,3 +102,10 @@ export const NoBookContent = styled(Typography)((({ theme }) => ({
   alignItems: 'center',
   minHeight: '100px'
 })))
+
+export const SearchIconWrapperRight = styled('span')(({ theme }) => ({
+  padding: '8px',
+  position: 'absolute',
+  right: '4px',
+  cursor: 'pointer',
+}));

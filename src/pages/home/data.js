@@ -47,8 +47,8 @@ export const sortOptions = [
     "key": "desc",
     "label": "Price - High to Low"
   },
-  {
-    "key": "desc",
-    "label": "Newest First"
-  }
+  // {
+  //   "key": "desc",
+  //   "label": "Newest First"
+  // }
 ]
