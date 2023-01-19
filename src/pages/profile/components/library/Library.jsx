@@ -54,16 +54,19 @@ const Library = () => {
   }, [addBook, deleteBook, editMode]);
 
   const getBookData = () => {
+    setLoader(true)
     axios
       .get(collectionUrl)
       .then((res) => {
         if (res?.status === 200) {
           console.log(res);
+          setLoader(false);
           if (res.data.length === 0) setBooks([]);
           else setBooks([...res.data[0].books]);
         }
       })
       .catch((err) => {
+        setLoader(false);
         console.log("error", err);
         toast.error(err?.message || "Something is wrong");
       });
