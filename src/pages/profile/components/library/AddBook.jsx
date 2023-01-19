@@ -1,12 +1,10 @@
 import { useState } from "react";
-import CardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
 import {
     Typography,
     Modal,
     Stack,
-    IconButton,
-    styled
+    IconButton
   } from "@mui/material";
 
   import {
@@ -17,19 +15,24 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { setAddBookClose,closeAddBookData, setSearchBookClose } from "../../../../logic/reducers/bookSlice";
+import { setAddBookClose,closeAddBookData,setEditModeClose,setSearchBookOpen } from "../../../../logic/reducers/bookSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../../../../shared/components/spinner/Spinner";
-import { addBookUrl } from "../../../../../src/config/Config";
+import { addBookUrl,editBookUrl } from "../../../../../src/config/Config";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import {
+  BookTitle,
+  BookInfo,
+  CardImage
+} from "./Library.styles";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 750,
+  width: 600,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
@@ -51,19 +54,51 @@ const validationSchema = yup.object({
 export default function BookAddModal(props) {
  
   const dispatch = useDispatch(); 
-  const { bookData } = useSelector(
+  const { bookData,editMode } = useSelector(
     (state) => state.book
   );
 
   const [loader, setLoader] = useState(false);
 
   const formik = useFormik({
+    
     initialValues: {
       availableBook: "",
       rentExpected: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
+    if(editMode)
+    {
+      const info = {
+        availableBook: values.availableBook,
+        rentExpected: values.rentExpected,
+        bookId:bookData.bookId
+      };
+      console.log(info)
+      axios
+        .post(editBookUrl, info)
+        .then((res) => {
+          setLoader(true);
+          if (res?.status === 200) {
+            formik.resetForm();
+            setLoader(false);
+            dispatch(closeAddBookData());
+            dispatch(setAddBookClose());
+            dispatch(setEditModeClose());
+            toast.success("Book data saved successfully!!");
+          }
+        })
+        .catch((err) => {
+          console.log("error", err);
+          setLoader(false);
+          toast.error(err?.message || "Something is wrong");
+          formik.resetForm();
+          // dispatch(setLoginClose());
+        });
+    }
+    else
+    {
       const info = {
         availableBook: values.availableBook,
         rentExpected: values.rentExpected,
@@ -80,11 +115,12 @@ export default function BookAddModal(props) {
         .then((res) => {
           setLoader(true);
           if (res?.status === 200) {
-             setLoader(false);
-            dispatch(closeAddBookData());
-            dispatch(setSearchBookClose());
-            // navigate("/dashboard");
             formik.resetForm();
+            setLoader(false);
+            dispatch(closeAddBookData());
+            dispatch(setAddBookClose());
+            dispatch(setEditModeClose());
+            toast.success("Book was added to your collection");
           }
         })
         .catch((err) => {
@@ -94,6 +130,7 @@ export default function BookAddModal(props) {
           formik.resetForm();
           // dispatch(setLoginClose());
         });
+      }
     },
   });
  return (
@@ -104,13 +141,14 @@ export default function BookAddModal(props) {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Add Book
+        {editMode?"Edit":"Add"} Book
           <IconButton
             aria-label="close"
             onClick={
                 () => {
-
+                    
                     dispatch(setAddBookClose())
+                    dispatch(setEditModeClose());
                 }
             }
             sx={{
@@ -129,6 +167,7 @@ export default function BookAddModal(props) {
             <BookTitle>{bookData.bookName}</BookTitle>
             <BookInfo>{bookData?.author?.join(',')}</BookInfo>
             <BookInfo>ISBN - {bookData.isbn}</BookInfo>
+            {editMode?<BookInfo>On Rent - {bookData.rentedBook}</BookInfo>:""}
             </Stack>
             <CardImage
             component="img"
@@ -138,14 +177,14 @@ export default function BookAddModal(props) {
             height={100}
            />
         </Stack>
-         <form onSubmit={formik.handleSubmit}>
+         <form onSubmit={formik.handleSubmit} >
          <Stack direction="row">
          <TxtFld
            id="availableBook"
            label="Available Book(s)"
            variant="outlined"
            onChange={formik.handleChange}
-           error={formik.touched.rentExpected && Boolean(formik.errors.availableBook)}
+           error={formik.touched.availableBook && Boolean(formik.errors.availableBook)}
            helperText={formik.touched.availableBook && formik.errors.availableBook}
          />
          <TxtFld
@@ -156,8 +195,17 @@ export default function BookAddModal(props) {
            helperText={formik.touched.rentExpected && formik.errors.rentExpected}
          />
           </Stack>
-          <Stack direction="row">
-          <OutlineButton>Back</OutlineButton>
+          <Stack mt={2} flexDirection="row" gap="8px" justifyContent={"center"}>
+          <OutlineButton onClick={
+                () => {
+                    
+                    dispatch(setAddBookClose())
+                    dispatch(setEditModeClose());
+                    dispatch(closeAddBookData());
+                    if(!editMode)
+                      dispatch(setSearchBookOpen())
+                }
+            }>{editMode?"Cancel":"Back"}</OutlineButton>
          <PrimaryButton
            type="submit"
          >
@@ -170,17 +218,3 @@ export default function BookAddModal(props) {
     </Modal>
   );
 }
-
-const BookTitle = styled(Typography)(({ theme }) => ({
-  fontSize: theme?.fontSize?.vs,
-  fontWeight: theme?.fontWeight?.xl,
-}));
-
-const BookInfo = styled(Typography)(({ theme }) => ({
-  fontSize: theme?.fontSize?.vs,
-}));
-
-const CardImage = styled(CardMedia)(() => ({
-  objectFit: "contain",
-  borderRadius:"10px"
-}));

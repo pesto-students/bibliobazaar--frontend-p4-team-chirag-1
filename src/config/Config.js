@@ -25,6 +25,8 @@ export const bookDetailUrl = `${BASE_URL}/library/details`
 // Library
 export const collectionUrl = `${BASE_URL}/library/collection`
 export const addBookUrl = `${BASE_URL}/library/add`
+export const editBookUrl = `${BASE_URL}/library/edit`
+export const deleteBookUrl = `${BASE_URL}/library/remove`
 
 //search
 export const searchBookURL = `${BASE_URL}/search`
@@ -41,3 +43,5 @@ export const paymentVerify = `${BASE_URL}/payment/verify`
 // Rent History
 export const completeOrderUrl = `${BASE_URL}/rent/add`
 export const rentDetailsUrl = `${BASE_URL}/rent/details`
+export const OfferedBooksUrl = `${BASE_URL}/rent/offered`
+export const IssuedBooksUrl = `${BASE_URL}/rent/issued`

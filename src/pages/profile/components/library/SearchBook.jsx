@@ -1,28 +1,32 @@
-import { createContext, useState } from "react";
+import {  useState } from "react";
 
 import Box from "@mui/material/Box";
 import {
     Grid,
     Typography,
     Modal,
-    IconButton
+    IconButton,
+    Stack
   } from "@mui/material";
-import {
-    Search,
-    SearchIconWrapper,
-    StyledInputBase
-  } from "./Library.styles";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
-import SearchBookCard from "./SearchBookCard";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import {
     searchBookURL
   } from "../../../../config/Config";
-
-import { setSearchBookClose } from "../../../../logic/reducers/bookSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { setSearchBookClose,setAddBookOpen, setAddBookData } from "../../../../logic/reducers/bookSlice";
+import { PrimaryButton } from "../../../../shared/styles/globalStyles";
+import { useDispatch } from "react-redux";
+import {
+  Search,
+  SearchIconWrapper,
+  StyledInputBase,
+  BookTitle,
+  BookInfo,
+  CardImage,
+  LibraryPaper
+} from "./Library.styles";
 
 const style = {
   position: "absolute",
@@ -42,7 +46,6 @@ export default function BookSearchModal(props) {
  
   const [books, setBooks] = useState([]);
   const dispatch = useDispatch();
-  const BookContext = createContext()
   const searchBook = (key) => {
     axios
       .get(searchBookURL+"?q="+key)
@@ -58,6 +61,11 @@ export default function BookSearchModal(props) {
       });
   };
 
+  const selectBook = (data) => {
+    dispatch(setAddBookData(data))
+    dispatch(setAddBookOpen())
+    dispatch(setSearchBookClose())
+  };
  return (
     <Modal
       open={props.open}
@@ -99,10 +107,12 @@ export default function BookSearchModal(props) {
                     }
               }}></StyledInputBase>
         </Search>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
            {books.map((data, index) => (
               <Grid item xs={6} key={index} >
-               <SearchBookCard  bookData={data} />
+               <SearchBookCard  
+               bookData={data} 
+               selectBook={() => selectBook(data)}/>
              </Grid>
             ))}
       </Grid>
@@ -110,3 +120,39 @@ export default function BookSearchModal(props) {
     </Modal>
   );
 }
+
+const SearchBookCard = (props) => {
+   const {
+    bookData: {
+      bookName,
+      author,
+      isbn,
+      imageUrl
+    },
+    selectBook
+  } = props;
+
+  
+  console.group(props)
+  return (
+    <LibraryPaper >
+            <Stack  direction="row" className="StackTitle" justifyContent="space-between">
+            <Stack>
+            <BookTitle>{bookName}</BookTitle>
+            <BookInfo>{author.join(',')}</BookInfo>
+            <BookInfo>ISBN - {isbn}</BookInfo>
+            </Stack>
+            <CardImage
+            component="img"
+            image={imageUrl}
+            alt={bookName}
+            width={100}
+            height={100}
+           />
+           </Stack>
+           <Stack mt={1} justifyContent="center" alignItems="center">
+            <PrimaryButton onClick={() => selectBook()} >Select</PrimaryButton>
+          </Stack>
+    </LibraryPaper>
+  );
+};
