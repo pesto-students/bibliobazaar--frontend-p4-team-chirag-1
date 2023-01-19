@@ -8,26 +8,24 @@ import {
   TableHead,
   TableBody,
   Paper,
-  Typography,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import {
   NoRecordContent,
-  LibraryPaper,
   BookTitle,
   BookInfo,
-  CardImage,
   NavItemDiv,
 } from "./rentHistory.styles";
 import { IssuedBooksUrl, OfferedBooksUrl } from "../../../../config/Config";
+import { useNavigate } from "react-router";
 
 const RentHistory = () => {
   const [books, setBooks] = useState([]);
-  const [isOffered, setIsOffered] = useState(true);
+  const [isOffered, setIsOffered] = useState(false);
   const [loader, setLoader] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     getBookData();
   }, []);
@@ -54,13 +52,13 @@ const RentHistory = () => {
   return (
     <Wrapper>
       <Stack direction="row" pt={4} pr={2}>
+      <NavItemDiv active={!isOffered} onClick={() => setIsOffered(false)}>
+          Issued
+        </NavItemDiv>
         <NavItemDiv active={isOffered} onClick={() => setIsOffered(true)}>
           Offered
         </NavItemDiv>
-        <NavItemDiv active={!isOffered} onClick={() => setIsOffered(false)}>
-          Issued
-        </NavItemDiv>
-      </Stack>
+        </Stack>
       {books?.length === 0 && !loader ? (
         <NoRecordContent>No records found.</NoRecordContent>
       ) : (
@@ -82,9 +80,10 @@ const RentHistory = () => {
                     <TableCell>Owned By</TableCell>
                     <TableCell>Delivery Status</TableCell>
                     <TableCell>Tracking ID</TableCell>
+                    <TableCell></TableCell>
                   </>
                 )}
-                <TableCell></TableCell>
+                
               </TableRow>
             </TableHead>
             <TableBody>
@@ -101,13 +100,6 @@ const RentHistory = () => {
                         gap="16px"
                         alignItems="center"
                       >
-                        {/* <CardImage
-                          component="img"
-                          image={row?.imageUrl}
-                          alt={row.bookName}
-                          width={100}
-                          height={60}
-                        /> */}
                         <img
                           src={row?.imageUrl}
                           alt={row.bookName}
@@ -134,12 +126,16 @@ const RentHistory = () => {
                     <>
                       <TableCell align="left">{row.ownerName}</TableCell>
                       <TableCell align="left">
-                        Rs. {row.deliveryStatus}
+                        {row.deliveryStatus}
                       </TableCell>
                       <TableCell align="left">{row.trackingID}</TableCell>
+                      <TableCell align="left" style={{cursor:"pointer",padding:"4px 12px"}} onClick={()=>{
+                           navigate(`/rentDetail/${row?.rentId}`);
+                      }}>View Details                   
+                 </TableCell>
                     </>
                   )}
-                  <TableCell align="left">...</TableCell>
+                  
                 </TableRow>
               ))}
             </TableBody>

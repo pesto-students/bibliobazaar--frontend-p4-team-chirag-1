@@ -23,6 +23,7 @@ import {
   LibraryPaper,
   SearchIconWrapperRight,
 } from "./Library.styles";
+import Spinner from "../../../../shared/components/spinner/Spinner";
 
 const style = {
   position: "absolute",
@@ -45,20 +46,23 @@ export default function BookSearchModal(props) {
   const [books, setBooks] = useState([]);
   const [searchValue, setSearchValue] = useState(null);
   const dispatch = useDispatch();
-
+  const [loader, setLoader] = useState(false);
   useEffect(() => {
     setBooks([]);
   }, [searchBook]);
   const searchBookFn = (key) => {
+    setLoader(true);
     axios
       .get(searchBookURL + "?q=" + key)
       .then((res) => {
         if (res?.status === 200) {
+          setLoader(false);
           console.log(res.data);
           setBooks([...res.data]);
         }
       })
       .catch((err) => {
+        setLoader(false);
         console.log("error", err);
         toast.error(err?.message || "Something is wrong");
       });
@@ -155,14 +159,16 @@ export default function BookSearchModal(props) {
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           mt={2}
         >
-          {books.map((data, index) => (
+         {  loader ? <Spinner align="center" /> :
+          books.map((data, index) => (
             <Grid item xs={6} key={index}>
               <SearchBookCard
                 bookData={data}
                 selectBook={() => selectBook(data)}
               />
             </Grid>
-          ))}
+          ))
+          }
         </Grid>
       </Box>
     </Modal>
