@@ -43,8 +43,11 @@ const Library = () => {
       .get(collectionUrl)
       .then((res) => {
         if (res?.status === 200) {
-          console.log(res.data[0].books)
-          setBooks([...res.data[0].books]);
+          console.log(res)
+          if(res.data.length === 0)
+            setBooks([]);
+          else
+            setBooks([...res.data[0].books]);
         }
       })
       .catch((err) => {

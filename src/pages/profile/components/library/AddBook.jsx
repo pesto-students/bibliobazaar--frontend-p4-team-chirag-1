@@ -15,7 +15,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { setAddBookClose,closeAddBookData,setEditModeClose } from "../../../../logic/reducers/bookSlice";
+import { setAddBookClose,closeAddBookData,setEditModeClose,setSearchBookOpen } from "../../../../logic/reducers/bookSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../../../../shared/components/spinner/Spinner";
 import { addBookUrl,editBookUrl } from "../../../../../src/config/Config";
@@ -201,6 +201,9 @@ export default function BookAddModal(props) {
                     
                     dispatch(setAddBookClose())
                     dispatch(setEditModeClose());
+                    dispatch(closeAddBookData());
+                    if(!editMode)
+                      dispatch(setSearchBookOpen())
                 }
             }>{editMode?"Cancel":"Back"}</OutlineButton>
          <PrimaryButton
