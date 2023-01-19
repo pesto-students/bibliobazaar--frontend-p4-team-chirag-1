@@ -43,3 +43,5 @@ export const paymentVerify = `${BASE_URL}/payment/verify`
 // Rent History
 export const completeOrderUrl = `${BASE_URL}/rent/add`
 export const rentDetailsUrl = `${BASE_URL}/rent/details`
+export const OfferedBooksUrl = `${BASE_URL}/rent/offered`
+export const IssuedBooksUrl = `${BASE_URL}/rent/issued`
