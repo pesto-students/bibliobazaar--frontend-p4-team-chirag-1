@@ -11,6 +11,7 @@ import {
   paymentVerify,
 } from "../../config/Config";
 import { clearCartContents, updateCart } from "../../logic/reducers/userSlice";
+import Spinner from "../../shared/components/spinner/Spinner";
 
 import {
   PageTitle,
@@ -33,6 +34,7 @@ const Checkout = () => {
   const [orderCost, setOrderCost] = useState(0);
   const [completeOrderLoader, setCompleteOrderLoader] = useState(false);
   const [deleteAllLoader, setDeleteAllLoader] = useState(false);
+  const [paymentLoader, setPaymentLoader] = useState(false);
   const [razorpayInfo, setRazorPayInfo] = useState({
     razorpayOrderId: "fdasf",
     razorpayPaymentId: "fas",
@@ -47,10 +49,10 @@ const Checkout = () => {
   }, [user]);
 
   const deleteAllItemsFromCart = () => {
+    setDeleteAllLoader(true);
     axios
       .post(deleteAllFromCartUrl, {})
       .then((res) => {
-        setDeleteAllLoader(true);
         if (res?.status === 200) {
           dispatch(updateCart(res?.data));
           setDeleteAllLoader(false);
@@ -66,7 +68,9 @@ const Checkout = () => {
   const makePayment = async (amount) => {
     console.log("process.env", process.env.REACT_APP_BASE_URL);
 
+    setPaymentLoader(true);
     const { status, data } = await axios.post(checkout, { amount });
+    setPaymentLoader(false);
 
     if (status === 200) {
       const options = {
@@ -118,7 +122,7 @@ const Checkout = () => {
       console.log("result", result);
       if (result?.status === 200) {
         completeOrder();
-        toast.success("payment Completed");
+        toast.success("Payment Completed");
       }
     }
   };
@@ -139,10 +143,10 @@ const Checkout = () => {
       razorpayPaymentId: razorpayInfo?.razorpayPaymentId,
     };
     console.log("info", info);
+    setCompleteOrderLoader(true);
     axios
       .post(completeOrderUrl, info)
       .then((res) => {
-        setCompleteOrderLoader(true);
         console.log("complete", res);
         if (res?.status === 200) {
           setCompleteOrderLoader(false);
@@ -186,7 +190,11 @@ const Checkout = () => {
           onClick={() => makePayment(Number(orderCost) + Number(deliveryFee))}
           disabled={!addressSelected || user?.cart?.contents.length === 0}
         >
-          Make Payment
+          {paymentLoader || completeOrderLoader || deleteAllLoader ? (
+            <Spinner />
+          ) : (
+            "Make Payment"
+          )}
         </PrimaryButton>
         {/* <PrimaryButton onClick={() => completeOrder()}>
           Make Payment
