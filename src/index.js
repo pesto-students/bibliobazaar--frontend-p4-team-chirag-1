@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux'
 import axios from 'axios'
 import { PersistGate } from 'redux-persist/integration/react';
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
 
 import './index.css';
 import App from './App';
@@ -25,6 +27,17 @@ axios.interceptors.response.use(response => {
     console.log(error.response);
     return Promise.reject(error);
   });
+
+// Sentry Code
+Sentry.init({
+  dsn: "https://43cf675a897c424b8f998abba914f669@o4504537223659520.ingest.sentry.io/4504537280020480",
+  integrations: [new BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
