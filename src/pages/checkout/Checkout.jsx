@@ -62,68 +62,79 @@ const Checkout = () => {
         console.log("error", err);
         setDeleteAllLoader(false);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Deleting all items from cart after checkout failed`);
       });
   };
 
   const makePayment = async (amount) => {
-    console.log("process.env", process.env.REACT_APP_BASE_URL);
+    try {
+      console.log("process.env", process.env.REACT_APP_BASE_URL);
 
-    setPaymentLoader(true);
-    const { status, data } = await axios.post(checkout, { amount });
-    setPaymentLoader(false);
+      setPaymentLoader(true);
+      const { status, data } = await axios.post(checkout, { amount });
+      setPaymentLoader(false);
 
-    if (status === 200) {
-      const options = {
-        key: razorpayId,
-        amount: data.amount,
-        currency: "INR",
-        name: "RazorPay Test",
-        description: "Bibliobazar payment description",
-        image: "https://avatars.githubusercontent.com/u/25058652?v=4",
-        order_id: data.id,
-        // callback_url: "http://localhost:8080/payment/verify",
-        handler: function (response) {
-          paymentVerifyFn(response);
-        },
-        prefill: {
-          name: "Yathendra",
-          email: "yathendra@example.com",
-          contact: "9742788996",
-        },
-        notes: {
-          address: "BiblioBazaar Corporate Office",
-        },
-        theme: {
-          color: "#9A98F0",
-        },
-      };
-      const razor = new window.Razorpay(options);
-      razor.open();
+      if (status === 200) {
+        const options = {
+          key: razorpayId,
+          amount: data.amount,
+          currency: "INR",
+          name: "RazorPay Test",
+          description: "Bibliobazar payment description",
+          image: "https://avatars.githubusercontent.com/u/25058652?v=4",
+          order_id: data.id,
+          // callback_url: "http://localhost:8080/payment/verify",
+          handler: function (response) {
+            paymentVerifyFn(response);
+          },
+          prefill: {
+            name: "Yathendra",
+            email: "yathendra@example.com",
+            contact: "9742788996",
+          },
+          notes: {
+            address: "BiblioBazaar Corporate Office",
+          },
+          theme: {
+            color: "#9A98F0",
+          },
+        };
+        const razor = new window.Razorpay(options);
+        razor.open();
+      }
+    } catch (e) {
+      console.log(e);
+      throw Error(`Payment Failed`);
     }
   };
 
   const paymentVerifyFn = async (response) => {
-    console.log(response);
-    if (
-      response.razorpay_payment_id &&
-      response.razorpay_order_id &&
-      response.razorpay_signature
-    ) {
-      const info = {
-        razorpay_order_id: response.razorpay_order_id,
-        razorpay_payment_id: response.razorpay_payment_id,
-        razorpay_signature: response.razorpay_signature,
-      };
-      setRazorPayInfo({
-        razorpayOrderId: response.razorpay_order_id,
-        razorpayPaymentId: response.razorpay_payment_id,
-      });
-      const result = await axios.post(paymentVerify, info);
-      console.log("result", result);
-      if (result?.status === 200) {
-        completeOrder();
-        toast.success("Payment Completed");
+    try {
+      console.log(response);
+      if (
+        response.razorpay_payment_id &&
+        response.razorpay_order_id &&
+        response.razorpay_signature
+      ) {
+        const info = {
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+        };
+        setRazorPayInfo({
+          razorpayOrderId: response.razorpay_order_id,
+          razorpayPaymentId: response.razorpay_payment_id,
+        });
+        const result = await axios.post(paymentVerify, info);
+        console.log("result", result);
+        if (result?.status === 200) {
+          completeOrder();
+          toast.success("Payment Completed");
+        }
       }
+    } catch (e) {
+      console.log(e);
+      throw Error(`Payment Verification failed`);
     }
   };
 
@@ -159,6 +170,7 @@ const Checkout = () => {
         console.log("error", err);
         setCompleteOrderLoader(false);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Updation of order details failed after payment`);
       });
   };
 

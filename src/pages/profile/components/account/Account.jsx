@@ -73,6 +73,7 @@ const Account = () => {
         console.log("error", err);
         setLoader(false);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Fetching of account details failed`);
       });
   };
 
@@ -107,6 +108,7 @@ const Account = () => {
         console.log("error", err);
         setUpdateLoader(false);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Updation of account details failed`);
       });
   };
 
@@ -128,6 +130,7 @@ const Account = () => {
           updateProfilePic(res?.data?.url);
           // accountData();
           toast.success(res?.message || "File Uploaded");
+          throw Error(`Upload of profile picture failed`);
         }
       })
       .catch((err) => {
@@ -155,6 +158,7 @@ const Account = () => {
         console.log("error", err);
         setFileUploadLoader(false);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Updation of profile pic url failed`);
       });
   };
 

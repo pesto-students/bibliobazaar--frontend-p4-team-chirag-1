@@ -56,6 +56,7 @@ export default function BookDeleteModal(props) {
         setLoader(false)
         console.log("error", err);
         toast.error(err?.message || "Something went wrong");
+        throw Error(`Deleting a book from collection failed`);
       });
   };
 

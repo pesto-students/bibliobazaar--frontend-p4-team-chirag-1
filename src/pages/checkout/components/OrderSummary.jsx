@@ -48,6 +48,7 @@ const OrderSummary = () => {
         console.log("error", err);
         setDeleteLoader(false);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Deleting item from cart failed`);
       });
   }
 

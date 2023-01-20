@@ -69,6 +69,7 @@ const Library = () => {
         setLoader(false);
         console.log("error", err);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Fetch of my collection books failed`);
       });
   };
 

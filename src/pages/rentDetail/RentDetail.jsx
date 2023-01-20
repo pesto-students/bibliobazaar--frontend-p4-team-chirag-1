@@ -52,6 +52,7 @@ const RentDetail = () => {
         console.log("error", err);
         setLoader(false);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Fetching of rent details failed with rentId: ${info?.rentId}`);
       });
   };
 

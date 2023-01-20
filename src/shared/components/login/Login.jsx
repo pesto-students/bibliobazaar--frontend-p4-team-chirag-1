@@ -88,7 +88,7 @@ export default function LoginModal(props) {
         setLoader(false);
         toast.error(err?.message || "Something is wrong");
         formik.resetForm()
-        throw Error("Login failed");
+        throw Error(`Login failed with email id: ${info?.emailId}`);
       });
   };
 

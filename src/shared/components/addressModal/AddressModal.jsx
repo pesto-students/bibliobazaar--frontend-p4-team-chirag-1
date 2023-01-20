@@ -142,6 +142,7 @@ export default function AddressModal(props) {
         toast.error(err?.message || "Something is wrong");
         formik.resetForm();
         resetFormManually();
+        throw Error(`Add / Edit of address failed`);
       });
   };
 

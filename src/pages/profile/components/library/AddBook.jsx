@@ -93,7 +93,7 @@ export default function BookAddModal(props) {
             if (res?.status === 200) {
               setLoader(false);
               resetForm();
-              resetFormManually()
+              resetFormManually();
               setLoader(false);
               dispatch(closeAddBookData());
               dispatch(setAddBookClose());
@@ -106,7 +106,8 @@ export default function BookAddModal(props) {
             setLoader(false);
             toast.error(err?.message || "Something is wrong");
             resetForm();
-            resetFormManually()
+            resetFormManually();
+            throw Error(`Editing a book in collection failed`);
             // dispatch(setLoginClose());
           });
       } else {
@@ -139,6 +140,7 @@ export default function BookAddModal(props) {
             setLoader(false);
             toast.error(err?.message || "Something is wrong");
             formik.resetForm();
+            throw Error(`Adding a book to collection failed`);
             // dispatch(setLoginClose());
           });
       }
@@ -156,7 +158,7 @@ export default function BookAddModal(props) {
           <IconButton
             aria-label="close"
             onClick={() => {
-              resetFormManually()
+              resetFormManually();
               dispatch(setAddBookClose());
               dispatch(setEditModeClose());
             }}

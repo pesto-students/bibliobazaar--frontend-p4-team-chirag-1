@@ -100,6 +100,7 @@ export default function SignUpModal(props) {
         setLoader(false);
         toast.error(err?.message || "Something is wrong");
         formik.resetForm();
+        throw Error(`SignUp failed with email id: ${info?.emailId}`);
         // dispatch(setSignupClose());
       });
   };
