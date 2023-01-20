@@ -46,6 +46,7 @@ const RentHistory = () => {
       .catch((err) => {
         console.log("error", err);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Fetching offered/issued books list failed`);
       });
   };
 

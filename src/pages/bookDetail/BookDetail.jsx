@@ -1,4 +1,11 @@
-import { Box, CardHeader, Grid, Skeleton, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  CardHeader,
+  Grid,
+  Skeleton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -35,7 +42,7 @@ const BookDetail = () => {
   const { bookId, userId } = useParams();
   const [loader, setLoader] = useState(false);
   const [bookInfo, setBookInfo] = useState({});
-  const [ownerName, setOwnerName] = useState(null)
+  const [ownerName, setOwnerName] = useState(null);
   const [cartLoader, setCartLoader] = useState(false);
   const [cartBookIds, setCartBookIds] = useState([]);
   const [expanded, setExpanded] = useState(false);
@@ -49,7 +56,7 @@ const BookDetail = () => {
         if (res?.status === 200) {
           console.log(res?.data);
           setBookInfo({ ...res?.data?.bookData });
-          setOwnerName(res?.data?.ownerName)
+          setOwnerName(res?.data?.ownerName);
           setLoader(false);
         }
       })
@@ -57,6 +64,9 @@ const BookDetail = () => {
         console.log("error", err);
         setLoader(false);
         toast.error(err?.message || "Something is wrong");
+        throw Error(
+          `Fetching of book details failed with bookId:${info?.bookId}, userId: ${info?.userId}`
+        );
       });
   };
 
@@ -104,13 +114,13 @@ const BookDetail = () => {
   return (
     <Wrapper>
       <Grid container spacing={5}>
-        {loader ? 
-          Array.from({ length: 3}).map(() => (
+        {loader ? (
+          Array.from({ length: 3 }).map(() => (
             <Grid item xs={12} sm={4}>
               <Skeleton variant={"rectangular"} width={400} height={400} />
             </Grid>
           ))
-        : (
+        ) : (
           <>
             <Grid item xs={12} sm={4}>
               <ImageCard url={bookInfo?.bookId?.imageUrl} />

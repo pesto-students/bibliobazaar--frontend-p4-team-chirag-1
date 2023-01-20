@@ -54,6 +54,7 @@ const Addresses = () => {
         console.log("error", err);
         setLoader(false);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Fetching of address list failed`);
       });
   };
 
@@ -80,6 +81,7 @@ const Addresses = () => {
         console.log("error", err);
         setDeleteLoader(false);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Deletion of address failed`);
       });
   };
 

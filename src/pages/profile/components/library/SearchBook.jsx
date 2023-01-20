@@ -65,6 +65,7 @@ export default function BookSearchModal(props) {
         setLoader(false);
         console.log("error", err);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Searching a book from Google Books failed`);
       });
   };
 
@@ -100,6 +101,7 @@ export default function BookSearchModal(props) {
       .catch((err) => {
         console.log("error", err);
         toast.error(err?.message || "Something went wrong");
+        throw Error(`Adding a book to db from Google Books API failed`);
       });
         
     }

@@ -50,6 +50,7 @@ const DeliveryAddress = (props) => {
         console.log("error", err);
         setAddressLoader(false);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Fetching of addresses failed`);
       });
   };
 

@@ -63,6 +63,7 @@ const Home = () => {
         console.log("error", err);
         setLoader(false);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Fetching of books failed for this url: ${getBooksUrl}`);
       });
   };
 
