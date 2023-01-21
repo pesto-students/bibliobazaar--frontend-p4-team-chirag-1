@@ -89,10 +89,12 @@ const Account = () => {
     }
     const info = {
       firstName: accountInfo?.firstName,
-      lastName: accountInfo.lastName?accountInfo.lastName:undefined,
-      phoneNumber: accountInfo.phoneNumber?accountInfo.phoneNumber:undefined,
-      gender: accountInfo.gender !== "select"?accountInfo.gender:undefined,
-      dob: accountInfo.dob?accountInfo.dob:undefined,
+      lastName: accountInfo.lastName ? accountInfo.lastName : undefined,
+      phoneNumber: accountInfo.phoneNumber
+        ? accountInfo.phoneNumber
+        : undefined,
+      gender: accountInfo.gender !== "select" ? accountInfo.gender : undefined,
+      dob: accountInfo.dob ? accountInfo.dob : undefined,
     };
     // if(accountInfo.gender !== "select")
     // {

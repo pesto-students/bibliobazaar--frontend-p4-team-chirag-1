@@ -6,11 +6,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { searchBookURL, findBookUrl } from "../../../../config/Config";
 import {
-    searchBookURL,
-    findBookUrl
-  } from "../../../../config/Config";
-import { setSearchBookClose,setAddBookOpen, setAddBookData } from "../../../../logic/reducers/bookSlice";
+  setSearchBookClose,
+  setAddBookOpen,
+  setAddBookData,
+} from "../../../../logic/reducers/bookSlice";
 import { PrimaryButton } from "../../../../shared/styles/globalStyles";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -71,41 +72,35 @@ export default function BookSearchModal(props) {
 
   const selectBook = (data) => {
     console.log(data);
-    if(data.isbn)
-    {
-      const info = 
-      {
-        isbn:data.isbn
-      }
+    if (data.isbn) {
+      const info = {
+        isbn: data.isbn,
+      };
       axios
-      .post(findBookUrl,info)
-      .then((res) => {
-        if (res?.status === 200) {
-          console.log(res.data)
-          if(res.data?.bookFound)
-          {
-            toast.error("Book with same ISBN already present in your collection.");
+        .post(findBookUrl, info)
+        .then((res) => {
+          if (res?.status === 200) {
+            console.log(res.data);
+            if (res.data?.bookFound) {
+              toast.error(
+                "Book with same ISBN already present in your collection."
+              );
+            } else {
+              setSearchValue(null);
+              dispatch(setAddBookData(data));
+              dispatch(setAddBookOpen());
+              dispatch(setSearchBookClose());
+            }
+          } else {
+            toast.error("Something went wrong");
           }
-          else{
-            setSearchValue(null)
-              dispatch(setAddBookData(data))
-              dispatch(setAddBookOpen())
-              dispatch(setSearchBookClose())
-          }
-        }
-        else
-        {
-          toast.error("Something went wrong");
-        }
-      })
-      .catch((err) => {
-        console.log("error", err);
-        toast.error(err?.message || "Something went wrong");
-        throw Error(`Adding a book to db from Google Books API failed`);
-      });
-        
-    }
-    else{
+        })
+        .catch((err) => {
+          console.log("error", err);
+          toast.error(err?.message || "Something went wrong");
+          throw Error(`Adding a book to db from Google Books API failed`);
+        });
+    } else {
       toast.error("Something went wrong");
     }
   };
@@ -124,7 +119,7 @@ export default function BookSearchModal(props) {
             onClick={() => {
               setBooks([]);
               dispatch(setSearchBookClose());
-              setSearchValue(null)
+              setSearchValue(null);
             }}
             sx={{
               position: "absolute",
@@ -161,16 +156,18 @@ export default function BookSearchModal(props) {
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           mt={2}
         >
-         {  loader ? <Spinner align="center" /> :
-          books.map((data, index) => (
-            <Grid item xs={6} key={index}>
-              <SearchBookCard
-                bookData={data}
-                selectBook={() => selectBook(data)}
-              />
-            </Grid>
-          ))
-          }
+          {loader ? (
+            <Spinner align="center" />
+          ) : (
+            books.map((data, index) => (
+              <Grid item xs={6} key={index}>
+                <SearchBookCard
+                  bookData={data}
+                  selectBook={() => selectBook(data)}
+                />
+              </Grid>
+            ))
+          )}
         </Grid>
       </Box>
     </Modal>

@@ -8,11 +8,10 @@ import {
 } from "../Checkout.styles";
 
 const DeliveryFee = (props) => {
-
-  const { deliveryFee, setDeliveryFee } = props
+  const { deliveryFee, setDeliveryFee } = props;
 
   const handleChange = (event) => {
-    setDeliveryFee(event?.target?.value)
+    setDeliveryFee(event?.target?.value);
   };
 
   return (

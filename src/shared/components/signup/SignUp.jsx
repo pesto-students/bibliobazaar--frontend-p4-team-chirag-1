@@ -52,7 +52,7 @@ const validationSchema = yup.object({
     .string("Re-enter your password")
     .min(8, "Password should be of minimum 8 characters length")
     .required("Password is required")
-    .oneOf([yup.ref('password')], 'Password & Confirm Passwords do not match.'),
+    .oneOf([yup.ref("password")], "Password & Confirm Passwords do not match."),
 });
 
 export default function SignUpModal(props) {
@@ -119,9 +119,10 @@ export default function SignUpModal(props) {
             Sign Up
             <IconButton
               aria-label="close"
-              onClick={() => { formik.resetForm();
-                props.onClose()
-               }}
+              onClick={() => {
+                formik.resetForm();
+                props.onClose();
+              }}
               sx={{
                 position: "absolute",
                 right: 8,

@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import {
@@ -15,16 +15,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoginOpen, setSignupOpen } from "../../logic/reducers/userSlice";
 
 const Landing = () => {
-
   const { isLoggedIn } = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if(isLoggedIn) {
-      navigate("/dashboard")
+    if (isLoggedIn) {
+      navigate("/dashboard");
     }
-  }, [isLoggedIn, navigate])
+  }, [isLoggedIn, navigate]);
 
   return (
     <LandingContainer>
@@ -35,12 +34,14 @@ const Landing = () => {
               Ever wanted to read a book but could not because it was too
               expensive?
             </Title>
-            <SubTitle variant="h6">
-              Worry not! BiblioBazaar is here!
-            </SubTitle>
+            <SubTitle variant="h6">Worry not! BiblioBazaar is here!</SubTitle>
             <ActionItems>
-              <OutlineButton onClick={() => dispatch(setSignupOpen())}>Sign Up</OutlineButton>
-              <PrimaryButton onClick={() => dispatch(setLoginOpen())}>Login</PrimaryButton>
+              <OutlineButton onClick={() => dispatch(setSignupOpen())}>
+                Sign Up
+              </OutlineButton>
+              <PrimaryButton onClick={() => dispatch(setLoginOpen())}>
+                Login
+              </PrimaryButton>
             </ActionItems>
           </TextContainer>
         </Grid>

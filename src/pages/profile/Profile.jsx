@@ -11,7 +11,7 @@ import { LeftGrid, RightGrid } from "./Profile.styles";
 
 const Profile = () => {
   // const [active, setActive] = useState("account");
-  const { activeTab } = useSelector(state => state.profile)
+  const { activeTab } = useSelector((state) => state.profile);
 
   const renderTab = () => {
     switch (activeTab) {
@@ -35,9 +35,7 @@ const Profile = () => {
           </LeftGrid>
         </Grid>
         <Grid item xs={12} sm={10}>
-          <RightGrid>
-            {renderTab()}
-          </RightGrid>
+          <RightGrid>{renderTab()}</RightGrid>
         </Grid>
       </Grid>
     </Wrapper>

@@ -310,14 +310,13 @@ export default function AddressModal(props) {
               Cancel
             </CancelButton>
             <PrimaryButton sx={{ width: "40%" }} type="submit">
-              {addressLoader ? (
-                <Spinner />
-              ) : "Save" 
-              // Object.keys(editAddress).length > 0 ? (
-              //   "Edit Address"
-              // ) : (
-              //   "Add Address"
-              // )
+              {
+                addressLoader ? <Spinner /> : "Save"
+                // Object.keys(editAddress).length > 0 ? (
+                //   "Edit Address"
+                // ) : (
+                //   "Add Address"
+                // )
               }
             </PrimaryButton>
           </Stack>

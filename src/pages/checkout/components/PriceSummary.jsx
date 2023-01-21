@@ -8,8 +8,7 @@ import {
 } from "../Checkout.styles";
 
 const PriceSummary = (props) => {
-
-  const { deliveryFee, orderCost } = props
+  const { deliveryFee, orderCost } = props;
 
   return (
     <CustomPaper>
@@ -25,7 +24,9 @@ const PriceSummary = (props) => {
         </Stack>
         <Stack direction="row" justifyContent="space-between" mb={3}>
           <TextItem>Total</TextItem>
-          <TextItem><BoldText>Rs. {Number(orderCost) + Number(deliveryFee)}</BoldText></TextItem>
+          <TextItem>
+            <BoldText>Rs. {Number(orderCost) + Number(deliveryFee)}</BoldText>
+          </TextItem>
         </Stack>
       </CustomSubPaper>
     </CustomPaper>

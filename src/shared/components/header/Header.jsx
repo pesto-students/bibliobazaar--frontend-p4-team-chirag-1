@@ -76,14 +76,14 @@ const Header = () => {
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       navigate("/dashboard");
-      dispatch(setSearchTrigger())
+      dispatch(setSearchTrigger());
     }
   };
 
   const searchIconClick = () => {
     navigate("/dashboard");
-    dispatch(setSearchTrigger())
-  }
+    dispatch(setSearchTrigger());
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (

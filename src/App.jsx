@@ -31,7 +31,7 @@ const App = () => {
   const { isLoggedIn, user, loginOpen, signupOpen, token } = useSelector(
     (state) => state.user
   );
-  const { addressOpen } = useSelector(state => state.profile)
+  const { addressOpen } = useSelector((state) => state.profile);
 
   const dispatch = useDispatch();
 
@@ -76,7 +76,7 @@ const App = () => {
           open={signupOpen}
           onClose={() => dispatch(setSignupClose())}
         />
-        <AddressModal 
+        <AddressModal
           open={addressOpen}
           onClose={() => dispatch(setAddressClose())}
         />
