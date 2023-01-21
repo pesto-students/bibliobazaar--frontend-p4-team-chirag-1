@@ -312,11 +312,13 @@ export default function AddressModal(props) {
             <PrimaryButton sx={{ width: "40%" }} type="submit">
               {addressLoader ? (
                 <Spinner />
-              ) : Object.keys(editAddress).length > 0 ? (
-                "Edit Address"
-              ) : (
-                "Add Address"
-              )}
+              ) : "Save" 
+              // Object.keys(editAddress).length > 0 ? (
+              //   "Edit Address"
+              // ) : (
+              //   "Add Address"
+              // )
+              }
             </PrimaryButton>
           </Stack>
           {/* <input type="submit" /> */}

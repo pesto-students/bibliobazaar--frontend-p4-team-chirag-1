@@ -39,7 +39,7 @@ const Account = () => {
     lastName: null,
     emailId: null,
     phoneNumber: null,
-    gender: "male",
+    gender: "select",
     dob: null,
     profilePicture: null,
   });
@@ -61,7 +61,7 @@ const Account = () => {
             lastName: res?.data?.lastName || null,
             emailId: res?.data?.emailId || null,
             phoneNumber: res?.data?.phoneNumber || null,
-            gender: res?.data?.gender || "male",
+            gender: res?.data?.gender || "select",
             dob: res?.data?.dob || null,
             profilePicture: res?.data?.profilePicture || null,
           });
@@ -89,11 +89,20 @@ const Account = () => {
     }
     const info = {
       firstName: accountInfo?.firstName,
-      lastName: accountInfo?.lastName,
-      phoneNumber: accountInfo?.phoneNumber,
-      gender: accountInfo?.gender,
-      dob: accountInfo?.dob,
+      lastName: accountInfo.lastName?accountInfo.lastName:undefined,
+      phoneNumber: accountInfo.phoneNumber?accountInfo.phoneNumber:undefined,
+      gender: accountInfo.gender !== "select"?accountInfo.gender:undefined,
+      dob: accountInfo.dob?accountInfo.dob:undefined,
     };
+    // if(accountInfo.gender !== "select")
+    // {
+    //    info.gender = accountInfo.gender
+    // }
+    // else
+    // {
+    //   info.gender = undefined
+    // }
+    console.log(info);
     axios
       .post(updateAccountUrl, info)
       .then((res) => {
@@ -245,6 +254,7 @@ const Account = () => {
                       });
                     }}
                   >
+                    <MenuItem value="select">--Select--</MenuItem>
                     <MenuItem value="male">Male</MenuItem>
                     <MenuItem value="female">Female</MenuItem>
                   </CustomSelect>

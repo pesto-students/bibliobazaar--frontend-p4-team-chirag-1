@@ -17,8 +17,8 @@ const Footer = () => {
         <Grid item xs={12} sm={4}>
           <SocialContainer>
             <Box>
-              <img src={facebook} alt="" />
-              <img src={twitter} alt="" />
+             <a href="https://www.facebook.com" target="_blank" ><img src={facebook} alt="" /></a>
+             <a href="https://www.twitter.com" target="_blank" ><img src={twitter} alt="" /></a>
             </Box>
             <Box>
               <Typography>About Us</Typography>
