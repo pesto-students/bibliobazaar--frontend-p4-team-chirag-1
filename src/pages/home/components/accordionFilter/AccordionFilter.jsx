@@ -53,12 +53,12 @@ const CheckBoxFilter = (props) => {
     if (event.target.checked) {
       setInfo([...value, key]);
     } else {
-      let temp = [...value]
+      let temp = [...value];
       const index = temp.indexOf(key);
       if (index > -1) {
         temp.splice(index, 1);
       }
-      setInfo([...temp])
+      setInfo([...temp]);
     }
   };
 

@@ -88,7 +88,8 @@ export default function LoginModal(props) {
         setLoader(false);
         //toast.error(err?.message || "Something is wrong");
         toast.error(err?.response?.data?.message || "Something is wrong", {
-          duration: 4000});
+          duration: 4000,
+        });
         //formik.resetForm()
         throw Error(`Login failed with email id: ${info?.emailId}`);
       });

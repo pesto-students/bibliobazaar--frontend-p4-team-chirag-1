@@ -41,19 +41,19 @@ export default function BookDeleteModal(props) {
     const info = {
       bookId: bookData?.bookId._id,
     };
-    setLoader(true)
+    setLoader(true);
     axios
       .post(deleteBookUrl, info)
       .then((res) => {
         if (res?.status === 200) {
-          setLoader(false)
+          setLoader(false);
           dispatch(closeAddBookData());
           dispatch(setDeleteBookClose());
           toast.success("Book removed successfully");
         }
       })
       .catch((err) => {
-        setLoader(false)
+        setLoader(false);
         console.log("error", err);
         toast.error(err?.message || "Something went wrong");
         throw Error(`Deleting a book from collection failed`);
@@ -68,7 +68,12 @@ export default function BookDeleteModal(props) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Stack flexDirection="row" justifyContent={"flex-start"} alignItems={"center"} gap={"12px"}>
+        <Stack
+          flexDirection="row"
+          justifyContent={"flex-start"}
+          alignItems={"center"}
+          gap={"12px"}
+        >
           <img src={DeleteIcon} alt="" />
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Confirm Deletion
@@ -90,11 +95,12 @@ export default function BookDeleteModal(props) {
           </Typography>
         </Stack>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          Are you sure wish to remove <BoldText>{bookData?.bookId?.bookName}?</BoldText>
+          Are you sure wish to remove{" "}
+          <BoldText>{bookData?.bookId?.bookName}?</BoldText>
         </Typography>
         <Stack mt={2} flexDirection="row" gap="8px" justifyContent="flex-end">
           <OutlineButton
-            style={{ padding: "4px 24px"}}
+            style={{ padding: "4px 24px" }}
             onClick={() => {
               dispatch(closeAddBookData());
               dispatch(setDeleteBookClose());
@@ -103,7 +109,7 @@ export default function BookDeleteModal(props) {
             Cancel
           </OutlineButton>
           <PrimaryButton type="submit" onClick={() => delBook()}>
-            { loader ? <Spinner />: 'Delete'} 
+            {loader ? <Spinner /> : "Delete"}
           </PrimaryButton>
         </Stack>
       </Box>

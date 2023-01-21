@@ -53,13 +53,13 @@ const RentHistory = () => {
   return (
     <Wrapper>
       <Stack direction="row" pt={4} pr={2}>
-      <NavItemDiv active={!isOffered} onClick={() => setIsOffered(false)}>
+        <NavItemDiv active={!isOffered} onClick={() => setIsOffered(false)}>
           Issued
         </NavItemDiv>
         <NavItemDiv active={isOffered} onClick={() => setIsOffered(true)}>
           Offered
         </NavItemDiv>
-        </Stack>
+      </Stack>
       {books?.length === 0 && !loader ? (
         <NoRecordContent>No records found.</NoRecordContent>
       ) : (
@@ -84,7 +84,6 @@ const RentHistory = () => {
                     <TableCell></TableCell>
                   </>
                 )}
-                
               </TableRow>
             </TableHead>
             <TableBody>
@@ -94,25 +93,25 @@ const RentHistory = () => {
                 >
                   <TableCell component="th" scope="row">
                     {/* <LibraryPaper> */}
-                      <Stack
-                        flexDirection="row"
-                        className="StackTitle"
-                        justifyContent="flex-start"
-                        gap="16px"
-                        alignItems="center"
-                      >
-                        <img
-                          src={row?.imageUrl}
-                          alt={row.bookName}
-                          width={60}
-                          height={60}
-                        />
-                        <Stack>
-                          <BookTitle>{row.bookName}</BookTitle>
-                          <BookInfo>{row?.author.join(",")}</BookInfo>
-                          <BookInfo>ISBN - {row.isbn}</BookInfo>
-                        </Stack>
+                    <Stack
+                      flexDirection="row"
+                      className="StackTitle"
+                      justifyContent="flex-start"
+                      gap="16px"
+                      alignItems="center"
+                    >
+                      <img
+                        src={row?.imageUrl}
+                        alt={row.bookName}
+                        width={60}
+                        height={60}
+                      />
+                      <Stack>
+                        <BookTitle>{row.bookName}</BookTitle>
+                        <BookInfo>{row?.author.join(",")}</BookInfo>
+                        <BookInfo>ISBN - {row.isbn}</BookInfo>
                       </Stack>
+                    </Stack>
                     {/* </LibraryPaper> */}
                   </TableCell>
                   <TableCell align="left">{row.rentedOn}</TableCell>
@@ -126,17 +125,19 @@ const RentHistory = () => {
                   ) : (
                     <>
                       <TableCell align="left">{row.ownerName}</TableCell>
-                      <TableCell align="left">
-                        {row.deliveryStatus}
-                      </TableCell>
+                      <TableCell align="left">{row.deliveryStatus}</TableCell>
                       <TableCell align="left">{row.trackingID}</TableCell>
-                      <TableCell align="left" style={{cursor:"pointer",padding:"4px 12px"}} onClick={()=>{
-                           navigate(`/rentDetail/${row?.rentId}`);
-                      }}>View Details                   
-                 </TableCell>
+                      <TableCell
+                        align="left"
+                        style={{ cursor: "pointer", padding: "4px 12px" }}
+                        onClick={() => {
+                          navigate(`/rentDetail/${row?.rentId}`);
+                        }}
+                      >
+                        View Details
+                      </TableCell>
                     </>
                   )}
-                  
                 </TableRow>
               ))}
             </TableBody>

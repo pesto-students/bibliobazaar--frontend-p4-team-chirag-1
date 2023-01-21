@@ -42,10 +42,10 @@ const Home = () => {
     )}&sortBy=rentExpected&order=${sortOption}`;
     setGetBooksUrl(url);
   }, [sortOption, languageSelected, genreSelected, searchTrigger]);
-  
+
   useEffect(() => {
     getBooks();
-  }, [getBooksUrl,isLoggedIn])
+  }, [getBooksUrl, isLoggedIn]);
 
   const getBooks = () => {
     setLoader(true);
@@ -53,9 +53,11 @@ const Home = () => {
       .post(getBooksUrl)
       .then((res) => {
         if (res?.status === 200) {
-          const filteredArray = res?.data?.filter(item => item?.userId !== user?.userId)
+          const filteredArray = res?.data?.filter(
+            (item) => item?.userId !== user?.userId
+          );
           // setBookList(res?.data);
-          setBookList([...filteredArray])
+          setBookList([...filteredArray]);
           setLoader(false);
         }
       })

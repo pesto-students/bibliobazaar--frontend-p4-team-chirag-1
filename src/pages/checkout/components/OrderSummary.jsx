@@ -1,9 +1,9 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-hot-toast";
-import axios from 'axios'
+import axios from "axios";
 
 import {
   CustomPaper,
@@ -24,16 +24,15 @@ import { deleteFromCartUrl } from "../../../config/Config";
 import { updateCart } from "../../../logic/reducers/userSlice";
 
 const OrderSummary = () => {
-
-  const { user } = useSelector(state => state.user)
-  const dispatch = useDispatch()
-  const [deleteLoader, setDeleteLoader] = useState(false)
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const [deleteLoader, setDeleteLoader] = useState(false);
 
   const deleteItemFromCart = (item) => {
-    console.log('item', item)
+    console.log("item", item);
     const info = {
-      id: item?._id
-    }
+      id: item?._id,
+    };
     axios
       .post(deleteFromCartUrl, info)
       .then((res) => {
@@ -50,7 +49,7 @@ const OrderSummary = () => {
         toast.error(err?.message || "Something is wrong");
         throw Error(`Deleting item from cart failed`);
       });
-  }
+  };
 
   return (
     <CustomPaper>
@@ -76,12 +75,7 @@ const OrderSummary = () => {
             key={index}
           >
             <Image>
-              <img
-                src={item?.bookImage}
-                alt=""
-                width={50}
-                height={50}
-              />
+              <img src={item?.bookImage} alt="" width={50} height={50} />
             </Image>
             <Description>
               <Stack direction="column">
@@ -101,11 +95,9 @@ const OrderSummary = () => {
             </Delete>
           </Stack>
         ))}
-        {
-          (user?.cart?.contents?.length === 0) ? 
+        {user?.cart?.contents?.length === 0 ? (
           <NoData>Cart is empty</NoData>
-          : null
-        }
+        ) : null}
       </OrderSummaryWrapper>
     </CustomPaper>
   );

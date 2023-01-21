@@ -37,10 +37,7 @@ const NavItem = (props) => {
   } = props;
   return (
     <NavItemDiv active={active === key} onClick={onClick}>
-      <Stack
-        flexDirection={"row"}
-        gap={"4px"}
-      >
+      <Stack flexDirection={"row"} gap={"4px"}>
         <img src={icon} alt="" />
         {label}
       </Stack>

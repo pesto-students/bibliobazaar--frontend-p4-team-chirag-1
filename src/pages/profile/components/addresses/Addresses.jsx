@@ -103,7 +103,7 @@ const Addresses = () => {
         {loader ? (
           Array?.from({ length: 5 }).map((data, index) => (
             <Grid item xs={12} sm={4} key={index}>
-              <Skeleton variant={"rectangular"} width={'100%'} height={150} />
+              <Skeleton variant={"rectangular"} width={"100%"} height={150} />
             </Grid>
           ))
         ) : (

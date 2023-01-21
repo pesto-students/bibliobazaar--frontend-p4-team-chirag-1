@@ -54,7 +54,7 @@ const Library = () => {
   }, [addBook, deleteBook, editMode]);
 
   const getBookData = () => {
-    setLoader(true)
+    setLoader(true);
     axios
       .get(collectionUrl)
       .then((res) => {
@@ -168,24 +168,33 @@ const LibraryCard = (props) => {
             </Table>
           </TableContainer> */}
           <Stack direction="column" mt={2} gap={"12px"}>
-            <Stack direction="row" justifyContent={"space-between"} gap={"16px"}>
+            <Stack
+              direction="row"
+              justifyContent={"space-between"}
+              gap={"16px"}
+            >
               <BookData>Rent Expected&nbsp;&nbsp;</BookData>
               <BookData>Rs.{rentExpected}</BookData>
             </Stack>
-            <Stack direction="row" justifyContent={"space-between"} gap={"16px"}>
+            <Stack
+              direction="row"
+              justifyContent={"space-between"}
+              gap={"16px"}
+            >
               <BookData>On Rent</BookData>
               <BookData>{rentedBook}</BookData>
             </Stack>
-            <Stack direction="row" justifyContent={"space-between"} gap={"16px"}>
+            <Stack
+              direction="row"
+              justifyContent={"space-between"}
+              gap={"16px"}
+            >
               <BookData>Available Book(s) </BookData>
               <BookData>{availableBook}</BookData>
             </Stack>
           </Stack>
         </Stack>
-        <Stack
-          flexDirection={"column"}
-          gap={"24px"}
-        >
+        <Stack flexDirection={"column"} gap={"24px"}>
           <CardImage
             component="img"
             image={bookId?.imageUrl}
