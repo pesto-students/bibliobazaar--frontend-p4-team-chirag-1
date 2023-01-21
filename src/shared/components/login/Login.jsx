@@ -86,8 +86,10 @@ export default function LoginModal(props) {
       .catch((err) => {
         console.log("error", err);
         setLoader(false);
-        toast.error(err?.message || "Something is wrong");
-        formik.resetForm()
+        //toast.error(err?.message || "Something is wrong");
+        toast.error(err?.response?.data?.message || "Something is wrong", {
+          duration: 4000});
+        //formik.resetForm()
         throw Error(`Login failed with email id: ${info?.emailId}`);
       });
   };

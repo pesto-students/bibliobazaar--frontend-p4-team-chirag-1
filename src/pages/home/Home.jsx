@@ -25,7 +25,7 @@ const Home = () => {
   const [languageSelected, setLanguageSelected] = useState([]);
   const [genreSelected, setGenreSelected] = useState([]);
   const [getBooksUrl, setGetBooksUrl] = useState(userSearch);
-
+  const { isLoggedIn } = useSelector((state) => state.user);
   const [loader, setLoader] = useState(false);
   const [bookList, setBookList] = useState([]);
 
@@ -45,7 +45,7 @@ const Home = () => {
   
   useEffect(() => {
     getBooks();
-  }, [getBooksUrl])
+  }, [getBooksUrl,isLoggedIn])
 
   const getBooks = () => {
     setLoader(true);

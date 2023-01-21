@@ -4,22 +4,20 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Stack, styled } from "@mui/material";
 import { useNavigate } from "react-router";
-
-import { PrimaryButton } from "../../styles/globalStyles";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { toast } from "react-hot-toast";
+import { setLoginOpen } from "../../../logic/reducers/userSlice";
 
 const BookCard = (props) => {
+  const dispatch = useDispatch()
   const { isLoggedIn } = useSelector((state) => state.user);
   const {
     data: {
       userId,
       rentExpected,
-      availableBook,
       bookId,
       bookName,
       author,
-      isbn,
       imageUrl,
     },
   } = props;
@@ -33,6 +31,7 @@ const BookCard = (props) => {
             navigate(`/bookDetail/${bookId}/${userId}`);
           } else {
             toast.error("Please Login to view details");
+            dispatch(setLoginOpen());
           }
         }}
       >

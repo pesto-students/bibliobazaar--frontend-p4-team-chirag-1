@@ -51,7 +51,8 @@ const validationSchema = yup.object({
   confirmpassword: yup
     .string("Re-enter your password")
     .min(8, "Password should be of minimum 8 characters length")
-    .required("Password is required"),
+    .required("Password is required")
+    .oneOf([yup.ref('password')], 'Password & Confirm Passwords do not match.'),
 });
 
 export default function SignUpModal(props) {
@@ -98,7 +99,8 @@ export default function SignUpModal(props) {
       .catch((err) => {
         console.log("error", err);
         setLoader(false);
-        toast.error(err?.message || "Something is wrong");
+        //toast.error(err?.message || "Something is wrong");
+        toast.error(err?.response?.data?.message || "Something is wrong");
         formik.resetForm();
         throw Error(`SignUp failed with email id: ${info?.emailId}`);
         // dispatch(setSignupClose());
@@ -117,7 +119,9 @@ export default function SignUpModal(props) {
             Sign Up
             <IconButton
               aria-label="close"
-              onClick={props.onClose}
+              onClick={() => { formik.resetForm();
+                props.onClose()
+               }}
               sx={{
                 position: "absolute",
                 right: 8,
