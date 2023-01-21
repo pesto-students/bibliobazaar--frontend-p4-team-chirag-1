@@ -141,13 +141,13 @@ const Account = () => {
           updateProfilePic(res?.data?.url);
           // accountData();
           toast.success(res?.message || "File Uploaded");
-          throw Error(`Upload of profile picture failed`);
         }
       })
       .catch((err) => {
         console.log("error", err);
         setFileUploadLoader(false);
         toast.error(err?.message || "Something is wrong");
+        throw Error(`Upload of profile picture failed`);
       });
   };
 

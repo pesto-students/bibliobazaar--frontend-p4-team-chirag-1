@@ -94,10 +94,10 @@ const BookDetail = () => {
       bookAuthor: bookInfo?.bookId?.author?.[0],
       isbn: bookInfo?.bookId?.isbn,
     };
+    setCartLoader(true);
     axios
       .post(addToCartUrl, info)
       .then((res) => {
-        setCartLoader(true);
         if (res?.status === 200) {
           dispatch(updateCart(res?.data));
           setCartLoader(false);
