@@ -1,70 +1,96 @@
-# Getting Started with Create React App
+# BiblioBazaar
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Bibliobazaar is a platform for rental and issue of books online
 
-## Available Scripts
+<br/>
 
-In the project directory, you can run:
+  
 
-### `npm start`
+# Table of Contents
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+  
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. [Demo](#demo)
 
-### `npm test`
+2. [Installation](#installation)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. [Technology Stack](#technology-stack)
 
-### `npm run build`
+4. [Authors](#authors)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+5. [License](#license)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br/>
 
-### `npm run eject`
+  
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Demo
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+[Live FE Demo](https://bibliobazaar.netlify.app/)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+[Live BE Demo](https://bibliobazaar-backend.onrender.com)
 
-## Learn More
+<br/>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Test Credentials for User:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Email: project@pesto.com
 
-### Code Splitting
+- Password: 11111111
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+ 
+<br/>
 
-### Analyzing the Bundle Size
+  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Installation
 
-### Making a Progressive Web App
+  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Fork or directly clone this repository to your local machine
 
-### Advanced Configuration
+- Use the `npm install` command to install dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Once the dependencies are finished installing, use the `npm run dev` command inside the root directory to open the app in your local browser of choice
 
-### Deployment
+  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+<br/>
 
-### `npm run build` fails to minify
+  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Technology Stack
+
+
+- [ReactJS](https://reactjs.org/)
+
+- [Axios](https://axios-http.com/docs/intro)
+
+- [Razorpay](https://www.npmjs.com/package/razorpay)
+
+  
+
+<br/>
+
+  
+
+# Authors
+
+  
+
+- [Yathendra](https://github.com/YATHENDRA1995)
+- [Niraj Mourya](https://github.com/NirajMourya)
+
+<br/>
+
+  
+
+# License
+
+  
+
+[MIT](https://opensource.org/licenses/MIT)
