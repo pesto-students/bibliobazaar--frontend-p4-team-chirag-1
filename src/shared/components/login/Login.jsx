@@ -55,8 +55,8 @@ export default function LoginModal(props) {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: "project@pesto.com",
+      password: "11111111",
     },
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
