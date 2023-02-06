@@ -1,4 +1,3 @@
-# BiblioBazaar
 
 ![BiblioBazaar](https://user-images.githubusercontent.com/25593090/216880021-35044b2f-03d1-4ef9-ae07-f601691d3705.svg)
 
