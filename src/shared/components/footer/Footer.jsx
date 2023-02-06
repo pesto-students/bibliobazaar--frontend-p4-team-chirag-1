@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 
 import Logo from "../logo/Logo";
 import {
@@ -16,10 +16,14 @@ const Footer = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
           <SocialContainer>
-            <Box>
-              <img src={facebook} alt="" />
-              <img src={twitter} alt="" />
-            </Box>
+            <Stack flexDirection="row" gap="20px" alignItems={"center"}>
+              <a href="https://www.facebook.com" target="_blank">
+                <img src={facebook} alt="" />
+              </a>
+              <a href="https://www.twitter.com" target="_blank">
+                <img src={twitter} alt="" />
+              </a>
+            </Stack>
             <Box>
               <Typography>About Us</Typography>
               <Typography>Terms & Conditions</Typography>
@@ -41,6 +45,5 @@ const Footer = () => {
     </CustomFooter>
   );
 };
-
 
 export default Footer;

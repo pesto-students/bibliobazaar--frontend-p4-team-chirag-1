@@ -4,47 +4,65 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Stack, styled } from "@mui/material";
 import { useNavigate } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-hot-toast";
+import { setLoginOpen } from "../../../logic/reducers/userSlice";
 
-import { PrimaryButton } from "../../styles/globalStyles";
-
-const BookCard = () => {
+const BookCard = (props) => {
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.user);
+  const {
+    data: { userId, rentExpected, bookId, bookName, author, imageUrl },
+  } = props;
   const navigate = useNavigate();
 
   return (
-    <CustomCard onClick={() => navigate("/bookDetail")}>
-      <CardActionArea>
-        <CardImage
-          component="img"
-          image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTm33lv0W92j2lTEfjP-AkuRKY1z7vPlKfYbQ&usqp=CAU"
-          alt=""
-          width={300}
-          height={300}
-        />
-        <CardContent>
-          <Stack
-            direction="column"
-            alignItems="flexStart"
-            spacing={0.5}
-            mt={0.5}
-          >
-            <BookAuthor>L. D. Goffigan</BookAuthor>
-            <BookTitle>Fortress of Blood</BookTitle>
+    <>
+      <CustomCard
+        onClick={() => {
+          if (isLoggedIn) {
+            navigate(`/bookDetail/${bookId}/${userId}`);
+          } else {
+            toast.error("Please Login to view details");
+            dispatch(setLoginOpen());
+          }
+        }}
+      >
+        <CardActionArea>
+          <CardImage
+            component="img"
+            image={imageUrl}
+            alt=""
+            width={300}
+            height={300}
+          />
+          <CardContent>
             <Stack
-              direction="row"
-              justifyContent="space-between"
+              direction="column"
+              alignItems="flexStart"
               spacing={0.5}
               mt={0.5}
             >
-              <BookInfo>Price</BookInfo>
-              <BookInfo>Rs. 100</BookInfo>
+              <BookAuthor>{author.join(",")}</BookAuthor>
+              <BookTitle id={bookName}>{bookName}</BookTitle>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                spacing={0.5}
+                mt={0.5}
+              >
+                <BookInfo>Price</BookInfo>
+                <BookInfo>Rs. {rentExpected}</BookInfo>
+              </Stack>
             </Stack>
-          </Stack>
-          <Stack mt={1} justifyContent="center" alignItems="center">
+            {/* <Stack mt={1} justifyContent="center" alignItems="center">
             <PrimaryButton>Check Out</PrimaryButton>
-          </Stack>
-        </CardContent>
-      </CardActionArea>
-    </CustomCard>
+          </Stack> */}
+            {/* <CircularProgress color="inherit" /> */}
+          </CardContent>
+        </CardActionArea>
+      </CustomCard>
+    </>
   );
 };
 
@@ -64,11 +82,18 @@ const CardImage = styled(CardMedia)(() => ({
   objectFit: "contain",
 }));
 
-const BookAuthor = styled(Typography)(() => ({}));
+const BookAuthor = styled(Typography)(() => ({
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+}));
 
 const BookTitle = styled(Typography)(({ theme }) => ({
   fontSize: theme?.fontSize?.md,
   fontWeight: theme?.fontWeight?.xl,
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
 }));
 
 const BookInfo = styled(Typography)(({ theme }) => ({

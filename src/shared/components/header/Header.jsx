@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -10,7 +12,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "@mui/material";
 
 import {
@@ -19,19 +21,28 @@ import {
   CustomAvatar,
   Search,
   SearchIconWrapper,
+  SearchIconWrapperRight,
   StyledBadge,
   StyledInputBase,
   UserName,
 } from "./Header.styles";
 import { profileTabs } from "./data";
 import Logo from "../logo/Logo";
+import {
+  logoutUser,
+  setLoginOpen,
+  setSearchTrigger,
+  setSearchValue,
+  setSignupOpen,
+} from "../../../logic/reducers/userSlice";
+import { setTab } from "../../../logic/reducers/profileSlice";
 
 const Header = () => {
   const theme = useTheme();
-  const {
-    user: { isLoggedIn },
-  } = useSelector((state) => state);
+  const { isLoggedIn, user, search } = useSelector((state) => state.user);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -46,13 +57,32 @@ const Header = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
+  const handleMenuClose = (menu) => {
     setAnchorEl(null);
     handleMobileMenuClose();
+    if (menu?.key === "logout") {
+      dispatch(logoutUser());
+      navigate("/");
+    } else if (menu?.key) {
+      navigate("/profile");
+      dispatch(setTab(menu?.key));
+    }
   };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      navigate("/dashboard");
+      dispatch(setSearchTrigger());
+    }
+  };
+
+  const searchIconClick = () => {
+    navigate("/dashboard");
+    dispatch(setSearchTrigger());
   };
 
   const menuId = "primary-search-account-menu";
@@ -73,7 +103,12 @@ const Header = () => {
       onClose={handleMenuClose}
     >
       {profileTabs?.map((item, index) => (
-        <MenuItem key={index} onClick={handleMenuClose}>
+        <MenuItem
+          key={index}
+          onClick={() => {
+            handleMenuClose(item);
+          }}
+        >
           {item?.icon}&nbsp;{item?.label}
         </MenuItem>
       ))}
@@ -97,13 +132,19 @@ const Header = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      <MenuItem
+        onClick={() => {
+          user?.cart?.contents?.length > 0
+            ? navigate("/checkout")
+            : navigate("/dashboard");
+        }}
+      >
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={user?.cart?.contents?.length || 0} color="error">
             <ShoppingCartOutlinedIcon />
           </Badge>
         </IconButton>
@@ -139,10 +180,12 @@ const Header = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <AuthButton>Login</AuthButton>
+        <AuthButton onClick={() => dispatch(setLoginOpen())}>Login</AuthButton>
       </MenuItem>
       <MenuItem>
-        <AuthButton>Sign Up</AuthButton>
+        <AuthButton onClick={() => dispatch(setSignupOpen())}>
+          Sign Up
+        </AuthButton>
       </MenuItem>
     </Menu>
   );
@@ -154,13 +197,22 @@ const Header = () => {
           <Logo />
           <Box sx={{ flexGrow: 1 }} />
           <Search sx={{ display: { xs: "none", sm: "block" } }}>
-            <SearchIconWrapper>
+            {/* <SearchIconWrapper>
               <SearchIcon />
-            </SearchIconWrapper>
+            </SearchIconWrapper> */}
             <StyledInputBase
               placeholder="Books / Author / ISBN"
               inputProps={{ "aria-label": "search" }}
+              value={search}
+              onChange={(e) => dispatch(setSearchValue(e.target.value))}
+              onKeyDown={handleKeyDown}
             />
+            <SearchIconWrapperRight>
+              <SearchIcon onClick={() => searchIconClick()} />
+            </SearchIconWrapperRight>
+            {/* <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper> */}
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           {isLoggedIn ? (
@@ -170,17 +222,29 @@ const Header = () => {
                 aria-label="show 17 new notifications"
                 color="inherit"
                 sx={{ mr: 3, p: 0 }}
+                onClick={() => {
+                  user?.cart?.contents?.length > 0
+                    ? navigate("/checkout")
+                    : navigate("/dashboard");
+                }}
               >
-                <StyledBadge badgeContent={17} color="info">
+                <StyledBadge
+                  badgeContent={user?.cart?.contents?.length || 0}
+                  color="info"
+                >
                   <ShoppingCartOutlinedIcon
                     sx={{ fontSize: theme?.fontSize?.xl }}
                   />
                 </StyledBadge>
               </IconButton>
               <Box onClick={handleProfileMenuOpen} sx={{ display: "flex" }}>
-                <CustomAvatar aria-controls={menuId} aria-haspopup="true" />
+                <CustomAvatar
+                  src={user?.profilePicture}
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                />
                 <UserName>
-                  Rahul Tewatia
+                  {user?.firstName}
                   <KeyboardArrowDownOutlinedIcon />
                 </UserName>
               </Box>
@@ -189,8 +253,12 @@ const Header = () => {
             <Box
               sx={{ display: { xs: "none", md: "flex" }, gap: "32px", mr: 8 }}
             >
-              <AuthButton>Login</AuthButton>
-              <AuthButton>Sign Up</AuthButton>
+              <AuthButton onClick={() => dispatch(setLoginOpen())}>
+                Login
+              </AuthButton>
+              <AuthButton onClick={() => dispatch(setSignupOpen())}>
+                Sign Up
+              </AuthButton>
             </Box>
           )}
           <Box sx={{ display: { xs: "flex", md: "none" } }}>

@@ -1,70 +1,99 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![BiblioBazaar](https://user-images.githubusercontent.com/25593090/216880021-35044b2f-03d1-4ef9-ae07-f601691d3705.svg)
 
-## Available Scripts
+BiblioBazaar is a Consumer to Consumer(C2C) platform where an end user can have books on rent with prices suitable to their need instead of buying expensive 
+books. As well as, BiblioBazaar also provides a platform for consumers to earn money by renting out the books they own.
 
-In the project directory, you can run:
 
-### `npm start`
+<br/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+  
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Table of Contents
 
-### `npm test`
+  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. [Demo](#demo)
 
-### `npm run build`
+2. [Installation](#installation)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. [Technology Stack](#technology-stack)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. [Authors](#authors)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5. [License](#license)
 
-### `npm run eject`
+  
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<br/>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# Demo
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+  
 
-## Learn More
+[Live FE Demo](https://bibliobazaar.netlify.app/)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+[Live BE Demo](https://bibliobazaar-backend.onrender.com)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<br/>
 
-### Code Splitting
+Test Credentials for User:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Email: project@pesto.com
 
-### Analyzing the Bundle Size
+- Password: 11111111
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+ 
+<br/>
 
-### Making a Progressive Web App
+  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+# Installation
 
-### Advanced Configuration
+  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Fork or directly clone this repository to your local machine
 
-### Deployment
+- Use the `npm install` command to install dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Once the dependencies are finished installing, use the `npm run dev` command inside the root directory to open the app in your local browser of choice
 
-### `npm run build` fails to minify
+  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<br/>
+
+  
+
+# Technology Stack
+
+
+- [ReactJS](https://reactjs.org/)
+
+- [Axios](https://axios-http.com/docs/intro)
+
+- [Razorpay](https://www.npmjs.com/package/razorpay)
+
+  
+
+<br/>
+
+  
+
+# Authors
+
+  
+
+- [Yathendra](https://github.com/YATHENDRA1995)
+- [Niraj Mourya](https://github.com/NirajMourya)
+
+<br/>
+
+  
+
+# License
+
+  
+
+[MIT](https://opensource.org/licenses/MIT)

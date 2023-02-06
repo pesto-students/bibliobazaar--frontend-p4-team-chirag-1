@@ -36,13 +36,20 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingLeft: `calc(1em + ${theme.spacing(0.75)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
       width: '450px',
     },
   },
+}));
+
+export const SearchIconWrapperRight = styled('span')(({ theme }) => ({
+  padding: '8px',
+  position: 'absolute',
+  right: '4px',
+  cursor: 'pointer',
 }));
 
 export const StyledBadge = styled(Badge)(({ theme }) => ({

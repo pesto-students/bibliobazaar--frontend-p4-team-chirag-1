@@ -1,34 +1,81 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  isLoggedIn: true,
-  userId: '',
-  userName: ''
+  isLoggedIn: false,
+  user: null,
+  token: '',
+  loginOpen: false,
+  signupOpen: false,
+  search: '',
+  searchTrigger: false
 }
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (state, payload) => {
+    loginUser: (state, action) => {
       return {
         ...state,
         isLoggedIn: true,
-        userId: 'test',
-        userName: 'yathendra'
+        user: action?.payload,
+        token: action?.payload?.token
       }
     },
-    logout: (state) => {
+    logoutUser: (state) => {
       return {
         ...state,
-        isLoggedIn: true,
-        userId: '',
-        userName: ''
+        isLoggedIn: false,
+        user: null,
+        token: ''
+      }
+    },
+    updateCart: (state, action) => {
+      return {
+        ...state,
+        user: action?.payload
+      }
+    },
+    setLoginOpen: (state) => {
+      return {
+        ...state,
+        loginOpen: true
+      }
+    },
+    setLoginClose: (state) => {
+      return {
+        ...state,
+        loginOpen: false
+      }
+    },
+    setSignupOpen: (state) => {
+      return {
+        ...state,
+        signupOpen: true
+      }
+    },
+    setSignupClose: (state) => {
+      return {
+        ...state,
+        signupOpen: false
+      }
+    },
+    setSearchValue: (state, action) => {
+      return {
+        ...state,
+        search: action?.payload
+      }
+    },
+    setSearchTrigger: (state) => {
+      let temp = state.searchTrigger
+      return {
+        ...state,
+        searchTrigger: !temp
       }
     }
   }
 })
 
-export const { login, logout } = userSlice.actions
+export const { loginUser, logoutUser, updateCart, setLoginOpen, setLoginClose, setSignupOpen, setSignupClose, setSearchBookOpen, setSearchBookClose, setSearchValue, setSearchTrigger } = userSlice.actions
 
 export default userSlice.reducer
